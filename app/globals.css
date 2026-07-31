@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+:root {
+  --accent-red:   #e11d48;
+  --accent-pink:  #f472b6;
+  --accent-green: #10b981;
+
+  --ink:      #0e0e10;
+  --paper:    #ffffff;
+}
+
+body {
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  transition: background 0.3s, color 0.3s;
+}
+
+.font-display {
+  font-family: var(--font-poppins), -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+@keyframes swirl-drift {
+  0%   { transform: scale(1.15) rotate(0deg) translate(0, 0); }
+  25%  { transform: scale(1.18) rotate(2deg) translate(1%, -1%); }
+  50%  { transform: scale(1.15) rotate(0deg) translate(-1%, 1%); }
+  75%  { transform: scale(1.18) rotate(-2deg) translate(1%, 1%); }
+  100% { transform: scale(1.15) rotate(0deg) translate(0, 0); }
+}
+
+.swirl-animate {
+  animation: swirl-drift 18s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes orb-drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(-3%, 2%) scale(1.05); }
+}
+
+.orb-animate {
+  animation: orb-drift 16s ease-in-out infinite;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade-up {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50%       { background-position: 100% 50%; }
+}
+
+.gradient-tag {
+  background: linear-gradient(270deg, #e11d48, #f472b6, #10b981, #f472b6, #e11d48);
+  background-size: 300% 300%;
+  animation: gradient-shift 5s ease infinite;
+}

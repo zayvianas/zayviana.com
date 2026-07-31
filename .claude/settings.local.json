@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s -o /dev/null -w \"REST endpoint: HTTP %{http_code}\\\\n\" -H \"apikey: sb_publishable_xi45aACVpgw5tT5NKqhu5Q_kRpyd1yH\" \"https://uzcuhmygvpjryjmipiut.supabase.co/rest/v1/\")",
+      "Bash(curl -s -o /dev/null -w \"Auth health: HTTP %{http_code}\\\\n\" -H \"apikey: sb_publishable_xi45aACVpgw5tT5NKqhu5Q_kRpyd1yH\" \"https://uzcuhmygvpjryjmipiut.supabase.co/auth/v1/health\")",
+      "Bash(npm run *)",
+      "Bash(lsof -ti:3000)",
+      "Bash(xargs kill)",
+      "Bash(echo \"restarted pid $!\")",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\n\" http://localhost:3000)",
+      "Bash(npx --yes vercel@latest --prod --yes)",
+      "Bash(curl -s -o /dev/null -w \"Live site: HTTP %{http_code}\\\\n\" https://nestegg-plum.vercel.app)",
+      "Bash(npx tsc *)",
+      "mcp__visualize__read_me",
+      "mcp__visualize__show_widget",
+      "Bash(npm install *)",
+      "Bash(perl -i -pe 's/\\\\{\\\\/\\\\* \\(.*?\\) — \\(.*?\\) \\\\*\\\\/\\\\}/{\\\\/* $1 - $2 *\\\\/}/g' app/page.tsx)",
+      "Bash(perl -i -pe 's/ — Zayviana\"/ · Zayviana\"/g; s/Singletary — A believer/Singletary · A believer/g' app/layout.tsx app/*/page.tsx)",
+      "Bash(git --version)",
+      "Bash(gh --version)",
+      "Bash(gh auth *)",
+      "Bash(git config *)",
+      "Bash(mkdir -p /Users/zayviana/Desktop/cornerstone-labs/app/components /Users/zayviana/Desktop/cornerstone-labs/public && echo \"created\")"
+    ]
+  }
+}
