@@ -133,13 +133,6 @@ const pillarData = [
   },
 ]
 
-const ventures = [
-  { name: "The Good Tutor",        tagline: "Education rooted in empathy.",  status: "Active",   color: "#10b981" },
-  { name: "Nest Egg",              tagline: "Financial futures, for everyone.", status: "Live",     color: "#e11d48" },
-  { name: "Nearby",                tagline: "Community, close to home.",     status: "Building", color: "#f472b6" },
-  { name: "Christians Anonymous",  tagline: "Faith in the open.",           status: "Building", color: "#e11d48" },
-]
-
 function ClientCard({ name, domain, onFail }: { name: string; domain: string; onFail: () => void }) {
   return (
     <div className="flex w-40 shrink-0 flex-col items-center gap-3 rounded-2xl border border-gray-200 bg-white px-4 py-6 text-center text-black transition duration-200 hover:border-gray-300 hover:shadow-sm">
@@ -161,12 +154,10 @@ export default function Home() {
   const dark = colorMode === "dark"
 
   const pillars  = useFadeUp()
-  const work     = useFadeUp()
   const clientsSection = useFadeUp()
   const tech     = useFadeUp()
   const testament = useFadeUp()
   const services = useFadeUp()
-  const explore  = useFadeUp()
 
   const [failedDomains, setFailedDomains] = useState<Set<string>>(new Set())
   const markFailed = (domain: string) => setFailedDomains(prev => new Set([...prev, domain]))
@@ -228,7 +219,7 @@ export default function Home() {
       </section>
 
       {/* PILLARS - Brand */}
-      <section ref={pillars.ref} className={`fade-up ${pillars.visible ? "visible" : ""} px-6 pt-28 pb-24`}>
+      <section id="explore" ref={pillars.ref} className={`fade-up ${pillars.visible ? "visible" : ""} scroll-mt-20 px-6 pt-28 pb-24`}>
         <div className="mx-auto max-w-6xl">
           <p className={`mb-2 text-center ${kicker}`}>Who I Am</p>
           <h2 className={`mb-3 text-center ${h2}`}>Three things, one foundation</h2>
@@ -243,25 +234,6 @@ export default function Home() {
                 <p className={`mt-4 text-sm leading-relaxed ${muted}`}>{desc}</p>
                 <p className={`mt-5 text-xs font-semibold uppercase tracking-[0.12em] ${dark ? "text-gray-500" : "text-gray-400"}`}>{evidence}</p>
               </a>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* SELECTED WORK - Portfolio */}
-      <section ref={work.ref} className={`fade-up ${work.visible ? "visible" : ""} px-6 py-20 ${dark ? "bg-white/5" : "bg-black/[0.02]"}`}>
-        <div className="mx-auto max-w-6xl">
-          <p className={`mb-2 text-center ${kicker}`}>What I'm Building</p>
-          <h2 className={`mb-12 text-center ${h2}`}>Selected ventures</h2>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {ventures.map(({ name, tagline, status, color }) => (
-              <div key={name} className={`${cardBase} p-7`}>
-                <span className="inline-block rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-white" style={{ backgroundColor: color }}>
-                  {status}
-                </span>
-                <h3 className="mt-5 font-display text-lg font-bold">{name}</h3>
-                <p className="mt-1 text-sm font-medium" style={{ color }}>{tagline}</p>
-              </div>
             ))}
           </div>
         </div>
@@ -368,34 +340,6 @@ export default function Home() {
             <a href="/connect" className="inline-block rounded-full bg-[var(--accent-red)] px-8 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-white transition hover:opacity-90">
               Work with me
             </a>
-          </div>
-        </div>
-      </section>
-
-      {/* EXPLORE */}
-      <section id="explore" ref={explore.ref} className={`fade-up ${explore.visible ? "visible" : ""} scroll-mt-20 px-6 py-24`}>
-        <div className="mx-auto max-w-6xl">
-          <p className={`mb-2 text-center ${kicker}`}>There's More</p>
-          <h2 className={`mb-14 text-center ${h2}`}>Explore my world</h2>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {[
-              { label: "The Believer",  href: "/believer",     tag: "Faith",     desc: "My testimony, my faith, and why God is the foundation of everything I do." },
-              { label: "The Builder",   href: "/professional", tag: "Portfolio",  desc: "My experience, apps, ventures, and tech stack, all in one place." },
-              { label: "The Creator",   href: "/creative",     tag: "Creative",  desc: "Music, art, and creative expression, made with purpose." },
-              { label: "Testaments",     href: "/testaments",    tag: "Blog",      desc: "Faith, AI, crypto, life: unfiltered thoughts with tags you can follow." },
-            ].map(({ label, href, tag, desc }) => (
-              <a key={label} href={href}
-                className={`group relative overflow-hidden rounded-2xl border p-7 transition duration-300 hover:-translate-y-1 ${
-                  dark ? "border-white/10 bg-white/5 hover:bg-white/10" : "border-black/10 bg-white hover:shadow-md"
-                }`}>
-                <span className="gradient-tag mb-3 inline-block rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.15em] text-white">
-                  {tag}
-                </span>
-                <h3 className="mt-2 font-display text-xl font-semibold">{label}</h3>
-                <p className={`mt-2 text-sm leading-relaxed ${muted}`}>{desc}</p>
-                <span className="mt-4 inline-block text-xs font-semibold uppercase tracking-[0.15em] text-[var(--accent-red)]">Explore →</span>
-              </a>
-            ))}
           </div>
         </div>
       </section>
