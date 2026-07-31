@@ -38,7 +38,7 @@ export default function ConnectView() {
     : "rounded-2xl border border-black/10 p-8 transition duration-200 hover:-translate-y-1 hover:shadow-md"
 
   return (
-    <main className={dark ? "min-h-screen bg-[#0e0e10] text-white" : "min-h-screen bg-white text-[#0e0e10]"}>
+    <main className={dark ? "min-h-screen bg-[#0e0e10] text-white" : "min-h-screen bg-[var(--paper)] text-[#0e0e10]"}>
       <div className="mx-auto max-w-3xl px-6 py-24">
         <p className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--accent-pink)]">Let's Talk</p>
         <h1 className="font-display text-5xl font-extrabold tracking-tight">Connect</h1>

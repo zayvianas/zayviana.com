@@ -46,7 +46,7 @@ const configs: Record<Mode, NavConfig> = {
     mobileDivide: "divide-white/10",
   },
   light: {
-    bg:           "bg-white/90 backdrop-blur-md border-b border-black/10",
+    bg:           "bg-[var(--paper)]/85 backdrop-blur-md border-b border-black/10",
     logoText:     "text-[#0e0e10]",
     linkMuted:    "text-black/50 hover:text-[#0e0e10]",
     iconMuted:    "text-black/50",
@@ -55,7 +55,7 @@ const configs: Record<Mode, NavConfig> = {
     btnText:      "text-[#0e0e10]",
     btnBorder:    "border-black/20",
     btnHover:     "hover:bg-[#0e0e10] hover:text-white",
-    mobileBg:     "bg-white border-b border-black/10",
+    mobileBg:     "bg-[var(--paper)] border-b border-black/10",
     mobileDivide: "divide-black/10",
   },
 }

@@ -181,7 +181,7 @@ export default function Home() {
   const muted = dark ? "text-gray-400" : "text-gray-600"
 
   return (
-    <main className={dark ? "min-h-screen bg-[#0e0e10] text-white transition-colors duration-300" : "min-h-screen bg-white text-[#0e0e10] transition-colors duration-300"}>
+    <main className={dark ? "min-h-screen bg-[#0e0e10] text-white transition-colors duration-300" : "min-h-screen bg-[var(--paper)] text-[#0e0e10] transition-colors duration-300"}>
 
       {/* HERO */}
       <section className="relative flex min-h-[92vh] w-full items-center overflow-hidden">
@@ -192,7 +192,7 @@ export default function Home() {
           aria-hidden="true"
           className={`absolute inset-0 h-full w-full object-cover swirl-animate ${dark ? "opacity-40" : "opacity-30"}`}
         />
-        <div className={`absolute inset-0 ${dark ? "bg-[#0e0e10]/70" : "bg-white/50"}`} />
+        <div className={`absolute inset-0 ${dark ? "bg-[#0e0e10]/70" : "bg-[var(--paper)]/60"}`} />
 
         {/* Kinetic orbs */}
         <div className={`orb-animate pointer-events-none absolute -right-24 top-24 h-[380px] w-[380px] rounded-full border ${dark ? "border-white/10" : "border-black/10"}`} />
@@ -278,8 +278,8 @@ export default function Home() {
           <h2 className={`mb-14 text-center ${h2}`}>Brands I've worked with</h2>
 
           <div className="relative overflow-hidden">
-            <div className={`pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r to-transparent ${dark ? "from-[#0e0e10]" : "from-white"}`} />
-            <div className={`pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l to-transparent ${dark ? "from-[#0e0e10]" : "from-white"}`} />
+            <div className={`pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r to-transparent ${dark ? "from-[#0e0e10]" : "from-[var(--paper)]"}`} />
+            <div className={`pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l to-transparent ${dark ? "from-[#0e0e10]" : "from-[var(--paper)]"}`} />
             <div
               className="flex w-max gap-4 py-2"
               style={{ animation: "marquee 90s linear infinite" }}

@@ -17,7 +17,7 @@ export default function ComingSoon({ tag, tagColor, title, lines, note, primary,
   const dark = colorMode === "dark"
 
   return (
-    <main className={dark ? "min-h-screen bg-[#0e0e10] text-white" : "min-h-screen bg-white text-[#0e0e10]"}>
+    <main className={dark ? "min-h-screen bg-[#0e0e10] text-white" : "min-h-screen bg-[var(--paper)] text-[#0e0e10]"}>
       <div className="flex min-h-[90vh] flex-col items-center justify-center px-6 text-center">
         <span className="mb-6 inline-block rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-white" style={{ backgroundColor: tagColor }}>
           {tag}
