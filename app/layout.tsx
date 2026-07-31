@@ -23,10 +23,6 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <head>
-        <link rel="icon" href="/favicon-z.png" type="image/png" />
-        <link rel="shortcut icon" href="/favicon-z.png" type="image/png" />
-      </head>
       <body className={`${poppins.variable} ${inter.variable}`}>
         <ColorModeProvider>
           {children}
