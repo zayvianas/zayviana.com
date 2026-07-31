@@ -190,9 +190,9 @@ export default function Home() {
           src={dark ? "/black-swirl.png" : "/swirl.png"}
           alt=""
           aria-hidden="true"
-          className={`absolute inset-0 h-full w-full object-cover swirl-animate ${dark ? "opacity-40" : "opacity-30"}`}
+          className={`absolute inset-0 h-full w-full object-cover swirl-animate ${dark ? "opacity-40" : "opacity-70"}`}
         />
-        <div className={`absolute inset-0 ${dark ? "bg-[#0e0e10]/70" : "bg-[var(--paper)]/60"}`} />
+        <div className={`absolute inset-0 ${dark ? "bg-[#0e0e10]/70" : "bg-[var(--paper)]/35"}`} />
 
         <div className="relative z-10 mx-auto w-full max-w-6xl px-6 md:px-10">
           <h1 className={`font-display text-6xl font-extrabold leading-[0.9] tracking-tight md:text-8xl ${dark ? "text-white" : "text-[#0e0e10]"}`}>
