@@ -1,15 +1,25 @@
 "use client"
-import { useState } from "react"
+import { useState, Fragment } from "react"
 import Link from "next/link"
-import { FaGithub, FaLinkedin, FaEnvelope, FaBars, FaTimes } from "react-icons/fa"
+import { FaGithub, FaLinkedin, FaEnvelope, FaBars, FaTimes, FaChevronDown } from "react-icons/fa"
 import type { Mode } from "./ColorModeProvider"
 
-const navLinks = [
+type NavItem = { label: string; href: string; children?: { label: string; href: string }[] }
+
+const navLinks: NavItem[] = [
   { label: "Believer",  href: "/believer" },
-  { label: "Builder",   href: "/professional" },
-  { label: "Creator",   href: "/creative" },
+  {
+    label: "Builder",
+    href: "/professional",
+    children: [
+      { label: "Portfolio",       href: "/professional" },
+      { label: "Apps & Ventures", href: "/professional#built" },
+      { label: "Tech & Skills",   href: "/professional#tech" },
+    ],
+  },
+  { label: "Creator",    href: "/creative" },
   { label: "Testaments", href: "/testaments" },
-  { label: "Connect",   href: "/connect" },
+  { label: "Connect",    href: "/connect" },
 ]
 
 const nextLabel: Record<Mode, string> = {
@@ -29,6 +39,8 @@ type NavConfig = {
   btnHover: string
   mobileBg: string
   mobileDivide: string
+  dropBg: string
+  dropItemHover: string
 }
 
 const configs: Record<Mode, NavConfig> = {
@@ -44,6 +56,8 @@ const configs: Record<Mode, NavConfig> = {
     btnHover:     "hover:bg-white hover:text-[#0e0e10]",
     mobileBg:     "bg-[#0e0e10] border-b border-white/10",
     mobileDivide: "divide-white/10",
+    dropBg:       "bg-[#161618] border border-white/10 shadow-xl",
+    dropItemHover:"hover:bg-white/10",
   },
   light: {
     bg:           "bg-[var(--paper)]/85 backdrop-blur-md border-b border-black/10",
@@ -57,6 +71,8 @@ const configs: Record<Mode, NavConfig> = {
     btnHover:     "hover:bg-[#0e0e10] hover:text-white",
     mobileBg:     "bg-[var(--paper)] border-b border-black/10",
     mobileDivide: "divide-black/10",
+    dropBg:       "bg-white border border-black/10 shadow-xl",
+    dropItemHover:"hover:bg-black/5",
   },
 }
 
@@ -77,6 +93,7 @@ export default function Navbar({
 }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const c = configs[colorMode]
+  const linkClass = `text-xs font-semibold uppercase tracking-[0.15em] transition ${c.linkMuted}`
 
   return (
     <nav className={`w-full ${c.bg} sticky top-0 z-50 transition-colors duration-300`}>
@@ -88,15 +105,33 @@ export default function Navbar({
 
         {/* Desktop links */}
         <div className="hidden items-center gap-6 md:flex">
-          {navLinks.map(({ label, href }) => (
-            <Link
-              key={label}
-              href={href}
-              className={`text-xs font-semibold uppercase tracking-[0.15em] transition ${c.linkMuted}`}
-            >
-              {label}
-            </Link>
-          ))}
+          {navLinks.map((item) =>
+            item.children ? (
+              <div key={item.label} className="group relative">
+                <Link href={item.href} className={`flex items-center gap-1.5 ${linkClass}`}>
+                  {item.label}
+                  <FaChevronDown className="text-[8px] opacity-60 transition group-hover:rotate-180" />
+                </Link>
+                <div className="invisible absolute left-1/2 top-full z-50 -translate-x-1/2 pt-4 opacity-0 transition duration-150 group-hover:visible group-hover:opacity-100">
+                  <div className={`min-w-[200px] rounded-xl p-2 ${c.dropBg}`}>
+                    {item.children.map((ch) => (
+                      <Link
+                        key={ch.label}
+                        href={ch.href}
+                        className={`block rounded-lg px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.12em] transition ${c.linkMuted} ${c.dropItemHover}`}
+                      >
+                        {ch.label}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <Link key={item.label} href={item.href} className={linkClass}>
+                {item.label}
+              </Link>
+            )
+          )}
         </div>
 
         {/* Right side: icons + mode toggle + hamburger */}
@@ -139,15 +174,26 @@ export default function Navbar({
       {/* Mobile drawer */}
       {menuOpen && (
         <div className={`md:hidden ${c.mobileBg} divide-y ${c.mobileDivide}`}>
-          {navLinks.map(({ label, href }) => (
-            <Link
-              key={label}
-              href={href}
-              onClick={() => setMenuOpen(false)}
-              className={`block px-6 py-4 text-xs font-semibold uppercase tracking-[0.2em] transition ${c.linkMuted}`}
-            >
-              {label}
-            </Link>
+          {navLinks.map((item) => (
+            <Fragment key={item.label}>
+              <Link
+                href={item.href}
+                onClick={() => setMenuOpen(false)}
+                className={`block px-6 py-4 text-xs font-semibold uppercase tracking-[0.2em] transition ${c.linkMuted}`}
+              >
+                {item.label}
+              </Link>
+              {item.children?.map((ch) => (
+                <Link
+                  key={ch.label}
+                  href={ch.href}
+                  onClick={() => setMenuOpen(false)}
+                  className={`block px-10 py-3 text-[11px] font-semibold uppercase tracking-[0.2em] opacity-75 transition ${c.linkMuted}`}
+                >
+                  {ch.label}
+                </Link>
+              ))}
+            </Fragment>
           ))}
           <div className="flex items-center gap-6 px-6 py-4">
             <a href="https://github.com/zayvianas" target="_blank" rel="noopener noreferrer"

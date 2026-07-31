@@ -122,7 +122,7 @@ const pillarData = [
     color: "var(--accent-pink)",
     href: "/professional",
     desc: "I turn ideas into real things: products, systems, ventures. A decade of PM, AI, data, and founding what didn't exist yet.",
-    evidence: "PM · AI · Founder · Good Tutor, Nest Egg, Nearby",
+    evidence: "Portfolio · PM · AI · Founder",
   },
   {
     name: "Creator",
@@ -380,7 +380,7 @@ export default function Home() {
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {[
               { label: "The Believer",  href: "/believer",     tag: "Faith",     desc: "My testimony, my faith, and why God is the foundation of everything I do." },
-              { label: "The Builder",   href: "/professional", tag: "Work",      desc: "PM, AI, data, product strategy, and the ventures I've founded." },
+              { label: "The Builder",   href: "/professional", tag: "Portfolio",  desc: "My experience, apps, ventures, and tech stack, all in one place." },
               { label: "The Creator",   href: "/creative",     tag: "Creative",  desc: "Music, art, and creative expression, made with purpose." },
               { label: "Testaments",     href: "/testaments",    tag: "Blog",      desc: "Faith, AI, crypto, life: unfiltered thoughts with tags you can follow." },
             ].map(({ label, href, tag, desc }) => (
