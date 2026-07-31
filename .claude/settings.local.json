@@ -20,7 +20,27 @@
       "Bash(gh --version)",
       "Bash(gh auth *)",
       "Bash(git config *)",
-      "Bash(mkdir -p /Users/zayviana/Desktop/cornerstone-labs/app/components /Users/zayviana/Desktop/cornerstone-labs/public && echo \"created\")"
+      "Bash(mkdir -p /Users/zayviana/Desktop/cornerstone-labs/app/components /Users/zayviana/Desktop/cornerstone-labs/public && echo \"created\")",
+      "mcp__claude-in-chrome__tabs_context_mcp",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\nRedirect: %{redirect_url}\\\\n\" -L --max-redirs 3 \"https://zayviana-3heigcl5a-zayvianas-projects.vercel.app/\")",
+      "Bash(curl -s -I \"https://zayviana-3heigcl5a-zayvianas-projects.vercel.app/\")",
+      "Bash(npx vercel *)",
+      "Read(//Library/Developer/CommandLineTools/usr/bin/**)",
+      "Bash(security find-internet-password *)",
+      "Bash(git commit -q -m ' *)",
+      "Bash(python3 -c \"import json,os;print\\(json.load\\(open\\(os.path.expanduser\\('~/Library/Application Support/com.vercel.cli/auth.json'\\)\\)\\)['token']\\)\")",
+      "Bash(python3 -c \"import json;print\\(json.load\\(open\\('.vercel/project.json'\\)\\)['orgId']\\)\")",
+      "Bash(curl -s -X PATCH https://api.vercel.com/v9/projects/zayviana-xyz/domains/zayviana-xyz.vercel.app?teamId=__TRACKED_VAR__ -H 'Authorization: Bearer __TRACKED_VAR__' -H 'Content-Type: application/json' -d '{\"redirect\":null}')",
+      "Bash(python3 -c \"import sys,json;d=json.load\\(sys.stdin\\);print\\('  name:',d.get\\('name'\\),'| redirect now:',d.get\\('redirect'\\)\\) if 'error' not in d else print\\('  ERROR:',d['error']\\)\")",
+      "Bash(npx --yes vercel whoami)",
+      "Bash(npx --yes vercel link --yes --project cornerstone-labs)",
+      "Bash(npx --yes vercel --prod --yes)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(curl -s \"https://zayviana.com/icon.svg\" --max-time 15)",
+      "Bash(curl -s -o /dev/null -w \"favicon-z.png -> HTTP %{http_code}\\\\n\" \"https://zayviana.com/favicon-z.png\" --max-time 15)",
+      "Bash(curl -s \"https://zayviana.com/\" --max-time 15)"
     ]
   }
 }
