@@ -194,10 +194,6 @@ export default function Home() {
         />
         <div className={`absolute inset-0 ${dark ? "bg-[#0e0e10]/70" : "bg-[var(--paper)]/60"}`} />
 
-        {/* Kinetic orbs */}
-        <div className={`orb-animate pointer-events-none absolute -right-24 top-24 h-[380px] w-[380px] rounded-full border ${dark ? "border-white/10" : "border-black/10"}`} />
-        <div className={`orb-animate pointer-events-none absolute right-10 top-40 h-[240px] w-[240px] rounded-full border ${dark ? "border-white/5" : "border-black/5"}`} />
-
         <div className="relative z-10 mx-auto w-full max-w-6xl px-6 md:px-10">
           <h1 className={`font-display text-6xl font-extrabold leading-[0.9] tracking-tight md:text-8xl ${dark ? "text-white" : "text-[#0e0e10]"}`}>
             ZAYVIANA<span className="text-[var(--accent-red)]">.</span>
