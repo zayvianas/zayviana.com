@@ -8,7 +8,7 @@ const navLinks = [
   { label: "Believer",  href: "/believer" },
   { label: "Builder",   href: "/professional" },
   { label: "Creator",   href: "/creative" },
-  { label: "Testament", href: "/testament" },
+  { label: "Testaments", href: "/testaments" },
   { label: "Connect",   href: "/connect" },
 ]
 

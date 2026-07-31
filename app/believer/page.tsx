@@ -13,7 +13,7 @@ export default function BelieverPage() {
         "I'm working on sharing my full testimony: the hard parts, the turning points, and what God has done in my life. It's worth telling.",
       ]}
       note={{ text: "Testimony coming soon", color: "#e11d48" }}
-      secondary={{ label: "Read Testament →", href: "/testament" }}
+      secondary={{ label: "Read Testaments →", href: "/testaments" }}
     />
   )
 }

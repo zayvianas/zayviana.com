@@ -12,9 +12,9 @@ const ventures = [
   },
   {
     name: "Nest Egg",
-    tagline: "Building for financial futures.",
-    desc: "A financial wellness venture focused on helping people, especially underrepresented communities, build sustainable financial habits and wealth.",
-    status: "Building",
+    tagline: "Financial futures, for everyone.",
+    desc: "A financial wellness venture focused on helping people, especially underrepresented communities, build sustainable financial habits and wealth. V1 is live.",
+    status: "Live",
     color: "#e11d48",
   },
   {

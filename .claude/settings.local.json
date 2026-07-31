@@ -40,7 +40,18 @@
       "Bash(git push *)",
       "Bash(curl -s \"https://zayviana.com/icon.svg\" --max-time 15)",
       "Bash(curl -s -o /dev/null -w \"favicon-z.png -> HTTP %{http_code}\\\\n\" \"https://zayviana.com/favicon-z.png\" --max-time 15)",
-      "Bash(curl -s \"https://zayviana.com/\" --max-time 15)"
+      "Bash(curl -s \"https://zayviana.com/\" --max-time 15)",
+      "Bash(git rev-list *)",
+      "Bash(awk '{print \"behind: \"$1\"  ahead: \"$2}')",
+      "Bash(npx --yes vercel domains ls)",
+      "Bash(npx --yes vercel alias ls)",
+      "Bash(npx --yes vercel domains add --help)",
+      "Bash(echo \"helper\\(global\\): $\\(git config --global --get credential.helper\\)\")",
+      "Bash(git remote *)",
+      "Bash(echo \"remote: $\\(git remote get-url origin\\)\")",
+      "Bash(ssh -o BatchMode=yes -o StrictHostKeyChecking=accept-new -T git@github.com)",
+      "Bash(curl -s -o /dev/null -w \"zayviana.com -> HTTP %{http_code}\\\\n\" \"https://zayviana.com/\" --max-time 15)",
+      "Bash(git mv *)"
     ]
   }
 }

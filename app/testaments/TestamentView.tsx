@@ -13,7 +13,7 @@ export default function TestamentView() {
       <div className="mx-auto max-w-4xl px-6 py-24">
         <p className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--accent-pink)]">Thoughts & Reflections</p>
         <h1 className="font-display text-6xl font-extrabold tracking-tight">
-          Testament<span className="text-[var(--accent-red)]">.</span>
+          Testaments<span className="text-[var(--accent-red)]">.</span>
         </h1>
         <p className={`mt-4 max-w-xl text-lg ${dark ? "text-gray-400" : "text-gray-500"}`}>
           Faith, AI, crypto, life, all unfiltered. The record of what I believe and what I'm learning, tagged so you can follow the threads that resonate.

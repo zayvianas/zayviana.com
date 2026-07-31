@@ -129,13 +129,13 @@ const pillarData = [
     color: "var(--accent-green)",
     href: "/creative",
     desc: "Creativity runs through everything: music, art, design, and writing. Expression made with purpose and rooted in gratitude.",
-    evidence: "Music · Art · Design · Testament",
+    evidence: "Music · Art · Design · Testaments",
   },
 ]
 
 const ventures = [
   { name: "The Good Tutor",        tagline: "Education rooted in empathy.",  status: "Active",   color: "#10b981" },
-  { name: "Nest Egg",              tagline: "Building financial futures.",   status: "Building", color: "#e11d48" },
+  { name: "Nest Egg",              tagline: "Financial futures, for everyone.", status: "Live",     color: "#e11d48" },
   { name: "Nearby",                tagline: "Community, close to home.",     status: "Building", color: "#f472b6" },
   { name: "Christians Anonymous",  tagline: "Faith in the open.",           status: "Building", color: "#e11d48" },
 ]
@@ -328,14 +328,14 @@ export default function Home() {
         <div className="mx-auto max-w-4xl text-center">
           <p className={`mb-2 ${kicker}`}>From the blog</p>
           <h2 className={`mb-4 font-display text-4xl font-extrabold tracking-tight ${dark ? "text-white" : "text-[#0e0e10]"}`}>
-            Testament<span className="text-[var(--accent-red)]">.</span>
+            Testaments<span className="text-[var(--accent-red)]">.</span>
           </h2>
           <p className={`mx-auto mb-8 max-w-xl text-base ${muted}`}>
             Faith, AI, crypto, life, all unfiltered. The record of what I believe and what I'm learning, tagged so you can follow the threads that resonate.
           </p>
-          <a href="/testament"
+          <a href="/testaments"
             className="inline-block rounded-full bg-[var(--accent-red)] px-8 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-white transition hover:opacity-90">
-            Read Testament
+            Read Testaments
           </a>
         </div>
       </section>
@@ -382,7 +382,7 @@ export default function Home() {
               { label: "The Believer",  href: "/believer",     tag: "Faith",     desc: "My testimony, my faith, and why God is the foundation of everything I do." },
               { label: "The Builder",   href: "/professional", tag: "Work",      desc: "PM, AI, data, product strategy, and the ventures I've founded." },
               { label: "The Creator",   href: "/creative",     tag: "Creative",  desc: "Music, art, and creative expression, made with purpose." },
-              { label: "Testament",     href: "/testament",    tag: "Blog",      desc: "Faith, AI, crypto, life: unfiltered thoughts with tags you can follow." },
+              { label: "Testaments",     href: "/testaments",    tag: "Blog",      desc: "Faith, AI, crypto, life: unfiltered thoughts with tags you can follow." },
             ].map(({ label, href, tag, desc }) => (
               <a key={label} href={href}
                 className={`group relative overflow-hidden rounded-2xl border p-7 transition duration-300 hover:-translate-y-1 ${
