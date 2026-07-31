@@ -3,7 +3,71 @@
 import { useColorMode } from "../components/ColorModeProvider"
 import { techCategories, clients, builds } from "../lib/siteData"
 
-const focus = ["Product Management", "AI Consulting", "Data & Analytics", "Product Strategy", "Startup & Brand Building"]
+const LINKEDIN = "https://www.linkedin.com/in/zayviana/"
+
+const focus = ["Product Management", "AI & Delivery", "Stakeholder Management", "IT Transformation", "Agile / Scrum"]
+
+const experience = [
+  {
+    company: "RevStar",
+    role: "Data & AI Product Manager & Delivery Manager",
+    period: "2025 - Present",
+    bullets: [
+      "Manage an active client portfolio exceeding $500K with 12+ retained accounts, serving as the primary contact across the full engagement lifecycle from pre-sales and scoping through delivery and executive reporting.",
+      "Lead cross-functional teams with direct reports spanning full-stack, front-end, back-end, AI engineering, and DevOps across distributed locations and time zones.",
+      "Own the full pre-sales cycle including SOW authoring and PRD development, translating client needs into clearly scoped, billable engagements.",
+      "Present portfolio performance at quarterly business reviews and executive briefings; run parallel sprints across EOS and Agile (Scrum/Kanban).",
+      "Apply Claude Code, custom GPTs, and MCP integrations to accelerate discovery and prototype concepts before engineering handoff.",
+    ],
+  },
+  {
+    company: "CornerStone Labs",
+    role: "Builder & Product Lead",
+    period: "2024 - Present",
+    bullets: [
+      "Building CornerStone Labs from scratch: an AI-powered tools company focused on productivity and financial clarity. First product, Nest Egg, is live.",
+      "Own all product strategy, roadmap, and customer discovery end-to-end, applying AI throughout the build to move fast and validate before committing to full development.",
+    ],
+  },
+  {
+    company: "Tampa Electric",
+    role: "IT Modernization Project & Portfolio Manager (Contract, via Insight Global)",
+    period: "2025",
+    bullets: [
+      "Led a ServiceNow STEP transformation in a B2B enterprise environment: defined acceptance criteria, managed UAT cycles, and delivered KPI dashboards that gave leadership measurable delivery visibility across two portfolios.",
+      "Redesigned intake workflows, SOPs, and change management processes to reduce friction and improve adoption across enterprise business units.",
+    ],
+  },
+  {
+    company: "Miter Brands",
+    role: "IT Transformation Project Manager (Contract, via Kelly SET&T)",
+    period: "2022 - 2025",
+    bullets: [
+      "Directed IT and process integration programs across major acquisitions using Agile, leading cross-functional delivery across IT, Finance, HR, Sales, and Operations with full end-to-end ownership.",
+      "Translated complex technical programs into executive-ready communication and drove enterprise-wide adoption through structured change management.",
+    ],
+  },
+  {
+    company: "Earlier Background",
+    role: "Software Dev Associate · Data Analyst · Business Analyst · Jr. Project Manager",
+    period: "2018 - 2022",
+    bullets: [
+      "Dev10, Value Tech Realty, InvestCloud, and Puelo's Concrete. Built the technical foundation across full-stack development (Java, JavaScript), data modeling, UAT, and project coordination before moving into product and delivery.",
+    ],
+  },
+]
+
+const education = [
+  { school: "University of South Florida", degree: "MS, Artificial Intelligence & Business Analytics", year: "2025" },
+  { school: "University of South Florida", degree: "BS, Information Technology", year: "2020" },
+]
+
+const skills = [
+  { label: "Leadership", items: "Direct reports, cross-functional & distributed team management, client retention, executive communication, QBRs, stakeholder alignment, change management" },
+  { label: "Product Management", items: "PRD & spec writing, SOW authoring, roadmapping, prioritization, sprint planning, backlog management, budget & burn tracking, EOS, Agile" },
+  { label: "Data & Analytics", items: "KPI definition & tracking, data-driven prioritization, customer feedback synthesis, ServiceNow Platform Analytics, Tableau, Excel" },
+  { label: "AI & Technology", items: "Claude Code, MCP integrations, custom GPTs & agents, agentic workflow design, prompt engineering, SDLC, UAT, ServiceNow, SharePoint" },
+]
 
 export default function BuilderView() {
   const { colorMode } = useColorMode()
@@ -30,25 +94,28 @@ export default function BuilderView() {
           <span className={dark ? "text-white/30" : "text-black/25"}> · </span>
           <span className="text-[var(--accent-pink)]">AI</span>
           <span className={dark ? "text-white/30" : "text-black/25"}> · </span>
-          <span className="text-[var(--accent-green)]">Data</span>
+          <span className="text-[var(--accent-green)]">Delivery</span>
           <span className={dark ? "text-white/30" : "text-black/25"}> · </span>
           <span className="text-[var(--accent-red)]">Founder</span>
         </p>
+        <p className={`mt-2 text-sm font-medium uppercase tracking-[0.15em] ${dark ? "text-gray-500" : "text-gray-500"}`}>
+          Senior AI Product Manager · Tampa Bay, FL
+        </p>
         <p className={`mt-6 max-w-2xl text-lg ${dark ? "text-gray-300" : "text-gray-700"}`}>
-          I turn ideas into products that work. A decade across product management, AI, data, and founding ventures, building for startups and enterprises alike.
+          Senior product manager and people leader across software development, enterprise IT transformation, and AI consulting. I manage a $500K+ client portfolio and cross-functional engineering teams at RevStar, owning each engagement from the first conversation through delivery. Master's in AI &amp; Business Analytics from USF.
         </p>
 
         <div className="mt-8 flex flex-wrap gap-3">
-          <a href="/connect"
+          <a href={LINKEDIN} target="_blank" rel="noopener noreferrer"
             className="gradient-tag rounded-full px-8 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-white transition hover:opacity-90">
-            Get in touch
+            View LinkedIn
           </a>
-          <a href="https://linkedin.com/in/zayviana" target="_blank" rel="noopener noreferrer"
+          <a href="/connect"
             className={`rounded-full border px-8 py-3 text-sm font-semibold uppercase tracking-[0.12em] transition ${
               dark ? "border-white/30 text-white hover:bg-white hover:text-[#0e0e10]"
                    : "border-black/20 text-[#0e0e10] hover:bg-[#0e0e10] hover:text-white"
             }`}>
-            LinkedIn
+            Get in touch
           </a>
         </div>
 
@@ -58,6 +125,70 @@ export default function BuilderView() {
               {f}
             </span>
           ))}
+        </div>
+      </section>
+
+      {/* EXPERIENCE */}
+      <section id="experience" className={`scroll-mt-20 px-6 py-16 ${dark ? "bg-white/5" : "bg-black/[0.02]"}`}>
+        <div className="mx-auto max-w-5xl">
+          <p className={`mb-2 ${kicker}`}>Experience</p>
+          <h2 className={`mb-10 ${h2}`}>Where I've worked</h2>
+
+          <div className="flex flex-col gap-8">
+            {experience.map(({ company, role, period, bullets }) => (
+              <div key={company} className={`border-l-2 pl-6 ${dark ? "border-white/15" : "border-black/10"}`}>
+                <div className="flex flex-wrap items-baseline justify-between gap-x-4">
+                  <h3 className="font-display text-xl font-bold">{company}</h3>
+                  <span className={`text-xs font-semibold uppercase tracking-[0.15em] ${dark ? "text-gray-500" : "text-gray-400"}`}>{period}</span>
+                </div>
+                <p className="mt-1 text-sm font-medium text-[var(--accent-pink)]">{role}</p>
+                <ul className="mt-4 flex flex-col gap-2">
+                  {bullets.map((b, i) => (
+                    <li key={i} className={`flex gap-3 text-sm leading-relaxed ${muted}`}>
+                      <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-[var(--accent-red)]" />
+                      <span>{b}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-10">
+            <a href={LINKEDIN} target="_blank" rel="noopener noreferrer"
+              className="text-sm font-semibold uppercase tracking-[0.15em] text-[var(--accent-red)] hover:opacity-70">
+              See the full career on LinkedIn →
+            </a>
+          </div>
+
+          {/* Education */}
+          <div className={`mt-12 border-t pt-8 ${dark ? "border-white/10" : "border-black/10"}`}>
+            <p className={`mb-5 ${kicker}`}>Education</p>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {education.map(({ school, degree, year }) => (
+                <div key={degree}>
+                  <p className="font-display text-base font-semibold">{degree}</p>
+                  <p className={`mt-1 text-sm ${muted}`}>{school} · {year}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SKILLS */}
+      <section className="px-6 py-16">
+        <div className="mx-auto max-w-5xl">
+          <p className={`mb-2 ${kicker}`}>Core Skills</p>
+          <h2 className={`mb-10 ${h2}`}>What I bring</h2>
+          <div className="grid gap-5 sm:grid-cols-2">
+            {skills.map(({ label, items }) => (
+              <div key={label} className={card}>
+                <h3 className="font-display text-base font-bold text-[var(--accent-red)]">{label}</h3>
+                <p className={`mt-2 text-sm leading-relaxed ${muted}`}>{items}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -145,10 +276,19 @@ export default function BuilderView() {
           <p className={`mx-auto mb-8 max-w-xl text-base ${muted}`}>
             Open to roles, consulting, and collaborations at the intersection of product, AI, and impact.
           </p>
-          <a href="/connect"
-            className="gradient-tag inline-block rounded-full px-8 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-white transition hover:opacity-90">
-            Get in touch
-          </a>
+          <div className="flex flex-wrap justify-center gap-3">
+            <a href={LINKEDIN} target="_blank" rel="noopener noreferrer"
+              className="gradient-tag inline-block rounded-full px-8 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-white transition hover:opacity-90">
+              View LinkedIn
+            </a>
+            <a href="/connect"
+              className={`inline-block rounded-full border px-8 py-3 text-sm font-semibold uppercase tracking-[0.12em] transition ${
+                dark ? "border-white/30 text-white hover:bg-white hover:text-[#0e0e10]"
+                     : "border-black/20 text-[#0e0e10] hover:bg-[#0e0e10] hover:text-white"
+              }`}>
+              Get in touch
+            </a>
+          </div>
         </div>
       </section>
     </main>
