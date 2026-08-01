@@ -3,13 +3,6 @@
 import { useState, useEffect, useRef } from "react"
 import { useColorMode } from "./components/ColorModeProvider"
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa"
-import {
-  SiPython, SiJavascript, SiReact, SiHtml5, SiCss,
-  SiDjango, SiMysql, SiSqlite, SiGit, SiVercel,
-  SiDatabricks, SiSnowflake,
-  SiJira, SiConfluence, SiMiro, SiFigma, SiNotion, SiSlack,
-} from "react-icons/si"
-import { FaJava } from "react-icons/fa"
 
 function useFadeUp() {
   const ref = useRef<HTMLDivElement>(null)
@@ -26,65 +19,6 @@ function useFadeUp() {
   }, [visible])
   return { ref, visible }
 }
-
-const DI = "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons"
-
-const techCategories = [
-  {
-    label: "Languages",
-    items: [
-      { name: "Python",      Icon: SiPython,     img: null, color: "#3776AB" },
-      { name: "JavaScript",  Icon: SiJavascript, img: null, color: "#F7DF1E" },
-      { name: "Java",        Icon: FaJava,       img: null, color: "#ED8B00" },
-    ],
-  },
-  {
-    label: "Frontend",
-    items: [
-      { name: "React",  Icon: SiReact,  img: null, color: "#61DAFB" },
-      { name: "HTML5",  Icon: SiHtml5,  img: null, color: "#E34F26" },
-      { name: "CSS3",   Icon: SiCss,    img: null, color: "#1572B6" },
-    ],
-  },
-  {
-    label: "Backend & Databases",
-    items: [
-      { name: "Django",  Icon: SiDjango, img: null, color: "#44B78B" },
-      { name: "MySQL",   Icon: SiMysql,  img: null, color: "#4479A1" },
-      { name: "SQLite",  Icon: SiSqlite, img: null, color: "#003B57" },
-    ],
-  },
-  {
-    label: "Cloud & DevOps",
-    items: [
-      { name: "AWS",    Icon: null, img: `${DI}/amazonwebservices/amazonwebservices-plain-wordmark.svg`, color: "#FF9900" },
-      { name: "Azure",  Icon: null, img: `${DI}/azure/azure-original.svg`,                               color: "#0078D4" },
-      { name: "Git",    Icon: SiGit,    img: null, color: "#F05032" },
-      { name: "Vercel", Icon: SiVercel, img: null, color: "#888888" },
-    ],
-  },
-  {
-    label: "Data & Analytics",
-    items: [
-      { name: "Tableau",    Icon: null, img: null, color: "#E97627" },
-      { name: "Power BI",   Icon: null, img: `${DI}/microsoftsqlserver/microsoftsqlserver-plain.svg`, color: "#F2C811" },
-      { name: "Databricks", Icon: SiDatabricks, img: null, color: "#FF3621" },
-      { name: "Snowflake",  Icon: SiSnowflake,  img: null, color: "#29B5E8" },
-    ],
-  },
-  {
-    label: "PM & Collaboration",
-    items: [
-      { name: "Jira",         Icon: SiJira,       img: null, color: "#0052CC" },
-      { name: "Confluence",   Icon: SiConfluence, img: null, color: "#0052CC" },
-      { name: "Azure DevOps", Icon: null, img: `${DI}/azuredevops/azuredevops-original.svg`, color: "#0078D7" },
-      { name: "Miro",         Icon: SiMiro,       img: null, color: "#FFD02F" },
-      { name: "Figma",        Icon: SiFigma,      img: null, color: "#F24E1E" },
-      { name: "Notion",       Icon: SiNotion,     img: null, color: "#888888" },
-      { name: "Slack",        Icon: SiSlack,      img: null, color: "#4A154B" },
-    ],
-  },
-]
 
 const clients = [
   { name: "Feastables",               domain: "feastables.com" },
@@ -155,7 +89,6 @@ export default function Home() {
 
   const pillars  = useFadeUp()
   const clientsSection = useFadeUp()
-  const tech     = useFadeUp()
   const testament = useFadeUp()
   const services = useFadeUp()
 
@@ -260,38 +193,6 @@ export default function Home() {
             </div>
           </div>
           <p className="mt-6 text-center text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent-pink)]">And many more</p>
-        </div>
-      </section>
-
-      {/* TECH STACK - Portfolio */}
-      <section ref={tech.ref} className={`fade-up ${tech.visible ? "visible" : ""} px-6 pb-24`}>
-        <div className="mx-auto max-w-6xl">
-          <p className={`mb-2 text-center ${kicker}`}>Tools & Technologies</p>
-          <h2 className={`mb-14 text-center ${h2}`}>Tech stack</h2>
-          <div className="flex flex-col gap-10">
-            {techCategories.map((cat) => (
-              <div key={cat.label}>
-                <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent-red)]">{cat.label}</p>
-                <div className="flex flex-wrap gap-3">
-                  {cat.items.map(({ name, Icon, img, color }) => (
-                    <div
-                      key={name}
-                      className={
-                        dark
-                          ? "flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm backdrop-blur-sm transition duration-200 hover:border-white/20 hover:bg-white/10"
-                          : "flex items-center gap-2 rounded-full border border-black/10 bg-black/[0.03] px-4 py-2 text-sm backdrop-blur-sm transition duration-200 hover:border-black/20 hover:bg-black/[0.06]"
-                      }
-                    >
-                      {Icon && <Icon style={{ color }} className="text-base shrink-0" />}
-                      {!Icon && img && <img src={img} alt={name} className="h-4 w-4 shrink-0 object-contain" />}
-                      {!Icon && !img && <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ backgroundColor: color }} />}
-                      <span>{name}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
