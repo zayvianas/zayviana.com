@@ -51,7 +51,14 @@
       "Bash(echo \"remote: $\\(git remote get-url origin\\)\")",
       "Bash(ssh -o BatchMode=yes -o StrictHostKeyChecking=accept-new -T git@github.com)",
       "Bash(curl -s -o /dev/null -w \"zayviana.com -> HTTP %{http_code}\\\\n\" \"https://zayviana.com/\" --max-time 15)",
-      "Bash(git mv *)"
+      "Bash(git mv *)",
+      "Bash(ls -la && echo \"---GIT REMOTE---\" && git remote -v && echo \"---PARENT DIR---\" && ls -la ..)",
+      "Bash(vercel --version)",
+      "Bash(npx --yes create-next-app@latest christian-anonymous --typescript --tailwind --eslint --app --no-src-dir --import-alias \"@/*\" --use-npm --yes)",
+      "Bash(sleep 3; cat ~/.local/gh-auth-out.txt 2>/dev/null; echo \"---\"; cat /private/tmp/claude-501/-Users-zayviana-Desktop-zayviana-xyz-main/80a7ebe9-d3ad-4d93-bbb5-b222901458e9/tasks/bwmis0ha7.output 2>/dev/null)",
+      "Bash(git rm *)",
+      "Bash(python3 -c ' *)",
+      "Bash(perl -i -pe 's/ – / - /g' app/professional/BuilderView.tsx)"
     ]
   }
 }
