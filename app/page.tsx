@@ -20,27 +20,14 @@ function useFadeUp() {
   return { ref, visible }
 }
 
-const clients = [
-  { name: "Feastables",               domain: "feastables.com" },
-  { name: "Who's Your Landlord",      domain: "wyl.co" },
-  { name: "SuperCarl",                domain: "supercarl.ai" },
-  { name: "Levra",                    domain: "levra.me" },
-  { name: "Tampa Electric",           domain: "tampaelectric.com" },
-  { name: "Miter Brands",             domain: "miterbrands.com" },
-  { name: "New South Windows",        domain: "newsouthwindow.com" },
-  { name: "PGT Innovations",          domain: "pgtinnovations.com" },
-  { name: "Upmeals / Demi",           domain: "getdemi.co" },
-  { name: "Data For Inclusion",       domain: "dataforinclusion.com" },
-  { name: "Atunwa Digital",           domain: "atunwadigital.com" },
-  { name: "Positronix",               domain: "uspositronix.com" },
-  { name: "Band Connect",             domain: "bandconnect.net" },
-  { name: "Feeding South Florida",    domain: "feedingsouthflorida.org" },
-  { name: "Klerk",                    domain: "klerk.ca" },
-  { name: "Word Collections",         domain: "wordcollections.com" },
-  { name: "Lima Compost",             domain: "limacompost.com" },
-  { name: "Sumeera",                  domain: "sumeerasolutions.com" },
-  { name: "HomeCare Hub",             domain: "homecarehub.com" },
-  { name: "Ready Set Surgical",       domain: "readysetsurgical.com" },
+const brandsRowA = [
+  "Feastables", "Who's Your Landlord", "SuperCarl", "Tampa Electric",
+  "Miter Brands", "New South Windows", "PGT Innovations", "Upmeals / Demi",
+  "Data For Inclusion", "Atunwa Digital",
+]
+const brandsRowB = [
+  "Positronix", "Band Connect", "Feeding South Florida", "Klerk",
+  "Word Collections", "Lima Compost", "Sumeera", "HomeCare Hub", "Ready Set Surgical",
 ]
 
 const pillarData = [
@@ -67,18 +54,24 @@ const pillarData = [
   },
 ]
 
-function ClientCard({ name, domain, onFail }: { name: string; domain: string; onFail: () => void }) {
+const brandDots = ["var(--accent-red)", "var(--accent-pink)", "var(--accent-green)"]
+
+function BrandRow({ items, dark, reverse }: { items: string[]; dark: boolean; reverse?: boolean }) {
   return (
-    <div className="flex w-40 shrink-0 flex-col items-center gap-3 rounded-2xl border border-gray-200 bg-white px-4 py-6 text-center text-black transition duration-200 hover:border-gray-300 hover:shadow-sm">
-      <img
-        suppressHydrationWarning
-        src={`https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${domain}&size=128`}
-        alt={name}
-        className="h-12 w-12 rounded-xl object-contain"
-        onError={onFail}
-        onLoad={(e) => { if (e.currentTarget.naturalWidth < 48) onFail() }}
-      />
-      <span className="text-xs font-medium leading-tight">{name}</span>
+    <div
+      className="flex w-max items-center gap-7 py-3"
+      style={{ animation: `marquee ${reverse ? 62 : 72}s linear infinite`, animationDirection: reverse ? "reverse" : "normal" }}
+      onMouseEnter={(e) => ((e.currentTarget as HTMLDivElement).style.animationPlayState = "paused")}
+      onMouseLeave={(e) => ((e.currentTarget as HTMLDivElement).style.animationPlayState = "running")}
+    >
+      {[...items, ...items].map((name, i) => (
+        <span key={`${name}-${i}`} className="flex items-center gap-7">
+          <span className={`font-display text-2xl font-bold uppercase tracking-tight transition-colors duration-200 md:text-4xl ${dark ? "text-white/40 hover:text-white" : "text-black/35 hover:text-[#0e0e10]"}`}>
+            {name}
+          </span>
+          <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ backgroundColor: brandDots[i % 3] }} />
+        </span>
+      ))}
     </div>
   )
 }
@@ -91,10 +84,6 @@ export default function Home() {
   const clientsSection = useFadeUp()
   const testament = useFadeUp()
   const services = useFadeUp()
-
-  const [failedDomains, setFailedDomains] = useState<Set<string>>(new Set())
-  const markFailed = (domain: string) => setFailedDomains(prev => new Set([...prev, domain]))
-  const visibleClients = clients.filter(c => !failedDomains.has(c.domain))
 
   const cardBase = dark
     ? "rounded-3xl border border-white/10 bg-white/5 backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-white/10"
@@ -178,21 +167,13 @@ export default function Home() {
           <p className={`mb-2 text-center ${kicker}`}>Work & Collaboration</p>
           <h2 className={`mb-14 text-center ${h2}`}>Brands I've worked with</h2>
 
-          <div className="relative overflow-hidden">
-            <div className={`pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r to-transparent ${dark ? "from-[#0e0e10]" : "from-[var(--paper)]"}`} />
-            <div className={`pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l to-transparent ${dark ? "from-[#0e0e10]" : "from-[var(--paper)]"}`} />
-            <div
-              className="flex w-max gap-4 py-2"
-              style={{ animation: "marquee 90s linear infinite" }}
-              onMouseEnter={(e) => ((e.currentTarget as HTMLDivElement).style.animationPlayState = "paused")}
-              onMouseLeave={(e) => ((e.currentTarget as HTMLDivElement).style.animationPlayState = "running")}
-            >
-              {[...visibleClients, ...visibleClients].map(({ name, domain }, i) => (
-                <ClientCard key={`${name}-${i}`} name={name} domain={domain} onFail={() => markFailed(domain)} />
-              ))}
-            </div>
+          <div className="relative flex flex-col gap-1 overflow-hidden">
+            <div className={`pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r to-transparent md:w-32 ${dark ? "from-[#0e0e10]" : "from-[var(--paper)]"}`} />
+            <div className={`pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l to-transparent md:w-32 ${dark ? "from-[#0e0e10]" : "from-[var(--paper)]"}`} />
+            <BrandRow items={brandsRowA} dark={dark} />
+            <BrandRow items={brandsRowB} dark={dark} reverse />
           </div>
-          <p className="mt-6 text-center text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent-pink)]">And many more</p>
+          <p className="mt-8 text-center text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent-pink)]">And many more</p>
         </div>
       </section>
 

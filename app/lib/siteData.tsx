@@ -72,7 +72,6 @@ export const clients = [
   { name: "Feastables",               domain: "feastables.com" },
   { name: "Who's Your Landlord",      domain: "wyl.co" },
   { name: "SuperCarl",                domain: "supercarl.ai" },
-  { name: "Levra",                    domain: "levra.me" },
   { name: "Tampa Electric",           domain: "tampaelectric.com" },
   { name: "Miter Brands",             domain: "miterbrands.com" },
   { name: "New South Windows",        domain: "newsouthwindow.com" },
