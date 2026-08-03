@@ -10,7 +10,7 @@ const focus = ["Product Management", "AI & Delivery", "Stakeholder Management", 
 const experience = [
   {
     company: "RevStar",
-    role: "Data & AI Product Manager & Delivery Manager",
+    role: "Senior Data & AI Product Manager & Delivery Manager",
     period: "2025 - Present",
     bullets: [
       "Manage an active client portfolio exceeding $500K with 12+ retained accounts, serving as the primary contact across the full engagement lifecycle from pre-sales and scoping through delivery and executive reporting.",
@@ -99,10 +99,10 @@ export default function BuilderView() {
           <span className="text-[var(--accent-red)]">Founder</span>
         </p>
         <p className={`mt-2 text-sm font-medium uppercase tracking-[0.15em] ${dark ? "text-gray-500" : "text-gray-500"}`}>
-          Senior AI Product Manager · Tampa Bay, FL
+          Senior Data &amp; AI Product Manager · Tampa Bay, FL
         </p>
         <p className={`mt-6 max-w-2xl text-lg ${dark ? "text-gray-300" : "text-gray-700"}`}>
-          Senior product manager and people leader across software development, enterprise IT transformation, and AI consulting. I manage a $500K+ client portfolio and cross-functional engineering teams at RevStar, owning each engagement from the first conversation through delivery. Master's in AI &amp; Business Analytics from USF.
+Senior Data &amp; AI Product Manager and Delivery Manager at RevStar, and a people leader across software development, enterprise IT transformation, and AI consulting. I manage a $500K+ client portfolio and cross-functional engineering teams, owning each engagement from the first conversation through delivery. Master's in AI &amp; Business Analytics from USF.
         </p>
 
         <div className="mt-8 flex flex-wrap gap-3">
