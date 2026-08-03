@@ -92,21 +92,23 @@ export const clients = [
 
 export type Build = {
   name: string
-  type: "App" | "Product" | "Brand"
-  status: "Live" | "Active" | "Building"
+  type: "App" | "Product" | "Brand" | "Service"
+  status: "Live" | "Active" | "Available" | "Building"
   color: string
   desc: string
   href: string | null
+  cta?: string
 }
 
 export const builds: Build[] = [
   {
     name: "The Good Tutor",
-    type: "Brand",
-    status: "Active",
+    type: "Service",
+    status: "Available",
     color: "#10b981",
-    desc: "A tutoring and education brand built for people who think differently, rooted in ADHD, dyslexia, and a love of learning.",
-    href: "https://thegoodtutor.co",
+    desc: "A tutoring service for people who think differently, rooted in ADHD, dyslexia, and a love of learning.",
+    href: "https://calendar.app.google/ifYoVPjNkCwU39Qm6",
+    cta: "Book a session →",
   },
   {
     name: "Nest Egg",

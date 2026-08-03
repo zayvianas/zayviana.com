@@ -21,8 +21,8 @@ const ways = [
   },
   {
     label: "The Good Tutor",
-    desc: "Looking for tutoring or educational support? This is the place.",
-    href: "https://thegoodtutor.co",
+    desc: "Looking for tutoring or educational support? Book a session directly.",
+    href: "https://calendar.app.google/ifYoVPjNkCwU39Qm6",
     cta: "Book a session",
     color: "#10b981",
     external: true,

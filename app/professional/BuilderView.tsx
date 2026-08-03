@@ -198,7 +198,7 @@ Senior Data &amp; AI Product Manager and Delivery Manager at RevStar, and a peop
           <p className={`mb-2 ${kicker}`}>Apps, Products & Ventures</p>
           <h2 className={`mb-10 ${h2}`}>What I've built</h2>
           <div className="grid gap-5 sm:grid-cols-2">
-            {builds.map(({ name, type, status, color, desc, href }) => (
+            {builds.map(({ name, type, status, color, desc, href, cta }) => (
               <div key={name} className={card}>
                 <div className="flex items-center gap-2">
                   <span className="rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-white" style={{ backgroundColor: color }}>
@@ -213,7 +213,7 @@ Senior Data &amp; AI Product Manager and Delivery Manager at RevStar, and a peop
                 {href && (
                   <a href={href} target="_blank" rel="noopener noreferrer"
                     className="mt-4 inline-block text-xs font-semibold uppercase tracking-[0.15em] text-[var(--accent-red)] hover:opacity-70">
-                    Visit →
+                    {cta || "Visit →"}
                   </a>
                 )}
               </div>
