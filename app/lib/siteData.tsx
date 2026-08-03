@@ -116,7 +116,8 @@ export const builds: Build[] = [
     status: "Live",
     color: "#e11d48",
     desc: "A financial wellness product helping people, especially underrepresented communities, build sustainable habits and wealth. V1 is live.",
-    href: null,
+    href: "https://nestegg.cstonelabs.com/",
+    cta: "Visit Nest Egg →",
   },
   {
     name: "Nearby",
