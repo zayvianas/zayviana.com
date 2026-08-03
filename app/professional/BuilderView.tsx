@@ -103,7 +103,7 @@ export default function BuilderView() {
           Senior Data &amp; AI Product Manager &amp; People Leader · Tampa Bay, FL
         </p>
         <p className={`mt-6 max-w-2xl text-lg ${dark ? "text-gray-300" : "text-gray-700"}`}>
-A senior product manager and people leader, fluent in both the business and the technical side. At RevStar I own a $500K+ client portfolio and manage direct reports across every engineering discipline, from full-stack to AI. Equally at home leading a team or building hands-on, with a decade spanning software development, enterprise IT transformation, and AI. Master's in AI &amp; Business Analytics from USF.
+A senior product manager and people leader, fluent in both the business and the technical side. At RevStar I own a $500K+ client portfolio and manage direct reports across every engineering discipline, from full-stack to AI. As comfortable leading a team as building hands-on, with a decade spanning software development, enterprise IT transformation, and AI. Master's in AI &amp; Business Analytics from USF.
         </p>
 
         <div className="mt-8 flex flex-wrap gap-3">
