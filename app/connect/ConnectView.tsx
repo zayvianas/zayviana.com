@@ -4,6 +4,22 @@ import { useColorMode } from "../components/ColorModeProvider"
 
 const ways = [
   {
+    label: "Book a 30-min chat",
+    desc: "A quick intro call. Perfect for recruiters, collaborators, or just to connect.",
+    href: "https://calendar.app.google/6SxperZ148UqN4vz9",
+    cta: "Book 30 minutes",
+    color: "#e11d48",
+    external: true,
+  },
+  {
+    label: "Book a 1-hour session",
+    desc: "For a deeper conversation: consulting, a project, or mentorship.",
+    href: "https://calendar.app.google/wZpM17NFu1f9cUTp7",
+    cta: "Book an hour",
+    color: "#10b981",
+    external: true,
+  },
+  {
     label: "LinkedIn",
     desc: "Professional connection, collabs, or consulting inquiries.",
     href: "https://linkedin.com/in/zayviana",

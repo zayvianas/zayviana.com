@@ -4,6 +4,7 @@ import { useColorMode } from "../components/ColorModeProvider"
 import { techCategories, clients, builds } from "../lib/siteData"
 
 const LINKEDIN = "https://www.linkedin.com/in/zayviana/"
+const BOOKING = "https://calendar.app.google/6SxperZ148UqN4vz9"
 
 const focus = ["Product Management", "AI & Delivery", "Stakeholder Management", "IT Transformation", "Agile / Scrum"]
 
@@ -106,16 +107,16 @@ Senior Data &amp; AI Product Manager and Delivery Manager at RevStar, and a peop
         </p>
 
         <div className="mt-8 flex flex-wrap gap-3">
-          <a href={LINKEDIN} target="_blank" rel="noopener noreferrer"
+          <a href={BOOKING} target="_blank" rel="noopener noreferrer"
             className="gradient-tag rounded-full px-8 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-white transition hover:opacity-90">
-            View LinkedIn
+            Book a 30-min call
           </a>
-          <a href="/connect"
+          <a href={LINKEDIN} target="_blank" rel="noopener noreferrer"
             className={`rounded-full border px-8 py-3 text-sm font-semibold uppercase tracking-[0.12em] transition ${
               dark ? "border-white/30 text-white hover:bg-white hover:text-[#0e0e10]"
                    : "border-black/20 text-[#0e0e10] hover:bg-[#0e0e10] hover:text-white"
             }`}>
-            Get in touch
+            View LinkedIn
           </a>
         </div>
 
@@ -277,16 +278,16 @@ Senior Data &amp; AI Product Manager and Delivery Manager at RevStar, and a peop
             Open to roles, consulting, and collaborations at the intersection of product, AI, and impact.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
-            <a href={LINKEDIN} target="_blank" rel="noopener noreferrer"
+            <a href={BOOKING} target="_blank" rel="noopener noreferrer"
               className="gradient-tag inline-block rounded-full px-8 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-white transition hover:opacity-90">
-              View LinkedIn
+              Book a 30-min call
             </a>
-            <a href="/connect"
+            <a href={LINKEDIN} target="_blank" rel="noopener noreferrer"
               className={`inline-block rounded-full border px-8 py-3 text-sm font-semibold uppercase tracking-[0.12em] transition ${
                 dark ? "border-white/30 text-white hover:bg-white hover:text-[#0e0e10]"
                      : "border-black/20 text-[#0e0e10] hover:bg-[#0e0e10] hover:text-white"
               }`}>
-              Get in touch
+              View LinkedIn
             </a>
           </div>
         </div>
