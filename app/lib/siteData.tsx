@@ -92,7 +92,7 @@ export const clients = [
 
 export type Build = {
   name: string
-  type: "App" | "Product" | "Brand" | "Service"
+  type: string
   status: "Live" | "Active" | "Available" | "Building"
   color: string
   desc: string
@@ -129,10 +129,10 @@ export const builds: Build[] = [
   },
   {
     name: "Christians Anonymous",
-    type: "Brand",
+    type: "App & Community",
     status: "Building",
     color: "#e11d48",
-    desc: "A community and content brand for Christians honest about doubt, struggle, and growth, with no performance required.",
+    desc: "An app and community for Christians who are honest about doubt, struggle, and growth. A place to belong, with no performance required.",
     href: null,
   },
 ]
