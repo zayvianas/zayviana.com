@@ -6,7 +6,7 @@ import { techCategories, clients, builds } from "../lib/siteData"
 const LINKEDIN = "https://www.linkedin.com/in/zayviana/"
 const BOOKING = "https://calendar.app.google/6SxperZ148UqN4vz9"
 
-const focus = ["Product Management", "AI & Delivery", "Stakeholder Management", "IT Transformation", "Agile / Scrum"]
+const focus = ["Senior Product Management", "People Leadership", "AI & Data", "Delivery & Execution", "Stakeholder Alignment", "Agile / Scrum"]
 
 const experience = [
   {
@@ -93,17 +93,17 @@ export default function BuilderView() {
         <p className="mt-4 font-display text-lg font-bold">
           <span className="text-[var(--accent-red)]">Product</span>
           <span className={dark ? "text-white/30" : "text-black/25"}> · </span>
-          <span className="text-[var(--accent-pink)]">AI</span>
+          <span className="text-[var(--accent-pink)]">People</span>
           <span className={dark ? "text-white/30" : "text-black/25"}> · </span>
-          <span className="text-[var(--accent-green)]">Delivery</span>
+          <span className="text-[var(--accent-green)]">Data</span>
           <span className={dark ? "text-white/30" : "text-black/25"}> · </span>
-          <span className="text-[var(--accent-red)]">Founder</span>
+          <span className="text-[var(--accent-red)]">AI</span>
         </p>
         <p className={`mt-2 text-sm font-medium uppercase tracking-[0.15em] ${dark ? "text-gray-500" : "text-gray-500"}`}>
-          Senior Data &amp; AI Product Manager · Tampa Bay, FL
+          Senior Data &amp; AI Product Manager &amp; People Leader · Tampa Bay, FL
         </p>
         <p className={`mt-6 max-w-2xl text-lg ${dark ? "text-gray-300" : "text-gray-700"}`}>
-Senior Data &amp; AI Product Manager and Delivery Manager at RevStar, and a people leader across software development, enterprise IT transformation, and AI consulting. I manage a $500K+ client portfolio and cross-functional engineering teams, owning each engagement from the first conversation through delivery. Master's in AI &amp; Business Analytics from USF.
+A senior product manager and people leader, fluent in both the business and the technical side. At RevStar I own a $500K+ client portfolio and manage direct reports across every engineering discipline, from full-stack to AI. Equally at home leading a team or building hands-on, with a decade spanning software development, enterprise IT transformation, and AI. Master's in AI &amp; Business Analytics from USF.
         </p>
 
         <div className="mt-8 flex flex-wrap gap-3">
