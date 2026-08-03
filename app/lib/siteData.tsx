@@ -16,8 +16,18 @@ export const techCategories: { label: string; items: TechItem[] }[] = [
     label: "Languages",
     items: [
       { name: "Python",      Icon: SiPython,     img: null, color: "#3776AB" },
+      { name: "SQL",         Icon: null,         img: null, color: "#336791" },
       { name: "JavaScript",  Icon: SiJavascript, img: null, color: "#F7DF1E" },
       { name: "Java",        Icon: FaJava,       img: null, color: "#ED8B00" },
+    ],
+  },
+  {
+    label: "Python & Data",
+    items: [
+      { name: "Pandas",     Icon: null, img: `${DI}/pandas/pandas-original.svg`,         color: "#150458" },
+      { name: "NumPy",      Icon: null, img: `${DI}/numpy/numpy-original.svg`,           color: "#013243" },
+      { name: "Matplotlib", Icon: null, img: `${DI}/matplotlib/matplotlib-original.svg`, color: "#11557C" },
+      { name: "Jupyter",    Icon: null, img: `${DI}/jupyter/jupyter-original.svg`,       color: "#F37626" },
     ],
   },
   {
@@ -50,6 +60,8 @@ export const techCategories: { label: string; items: TechItem[] }[] = [
     items: [
       { name: "Tableau",    Icon: null, img: null, color: "#E97627" },
       { name: "Power BI",   Icon: null, img: `${DI}/microsoftsqlserver/microsoftsqlserver-plain.svg`, color: "#F2C811" },
+      { name: "Excel",      Icon: null, img: null, color: "#217346" },
+      { name: "ServiceNow Analytics", Icon: null, img: null, color: "#62D84E" },
       { name: "Databricks", Icon: SiDatabricks, img: null, color: "#FF3621" },
       { name: "Snowflake",  Icon: SiSnowflake,  img: null, color: "#29B5E8" },
     ],

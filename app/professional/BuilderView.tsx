@@ -66,7 +66,7 @@ const education = [
 const skills = [
   { label: "Leadership", items: "Direct reports, cross-functional & distributed team management, client retention, executive communication, QBRs, stakeholder alignment, change management" },
   { label: "Product Management", items: "PRD & spec writing, SOW authoring, roadmapping, prioritization, sprint planning, backlog management, budget & burn tracking, EOS, Agile" },
-  { label: "Data & Analytics", items: "KPI definition & tracking, data-driven prioritization, customer feedback synthesis, ServiceNow Platform Analytics, Tableau, Excel" },
+  { label: "Data & Analytics", items: "KPI definition & tracking, data-driven prioritization, Python (Pandas, NumPy, Matplotlib), SQL, ServiceNow Platform Analytics, Tableau, Power BI, Excel" },
   { label: "AI & Technology", items: "Claude Code, MCP integrations, custom GPTs & agents, agentic workflow design, prompt engineering, SDLC, UAT, ServiceNow, SharePoint" },
 ]
 
