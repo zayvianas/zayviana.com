@@ -176,7 +176,7 @@ export async function loadTasksAndClients() {
   const items: MoneyItem[] = money ? (JSON.parse(money).items || []) : []
   items.forEach((i) => {
     const owes = i.type === "card" || i.type === "bnpl" ? Number(i.balance) > 0.009 : i.status !== "canceled"
-    if (!i.due || !(Number(i.min) > 0) || (i.payer && i.payer !== "me") || !owes || (i.until && i.due >= i.until)) return
+    if (i.type === "income" || !i.due || !(Number(i.min) > 0) || (i.payer && i.payer !== "me") || !owes || (i.until && i.due >= i.until)) return
     tasks.push({ id: "pay-" + i.id + "-" + i.due, text: `Pay ${i.name} $${Number(i.min).toFixed(2)}`, date: i.due })
   })
   const cl: { id: string; name: string }[] = clients ? (JSON.parse(clients).items || []) : []
