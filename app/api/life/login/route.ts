@@ -1,17 +1,28 @@
-import { checkPasscode, configured, json, COOKIE, sessionValue } from "../../../lib/lifeServer"
+import { checkPasscode, configured, createPasscode, json, COOKIE, needsSetup, sessionValue } from "../../../lib/lifeServer"
 
 export const dynamic = "force-dynamic"
 
+async function signedIn() {
+  const res = json({ ok: true })
+  res.headers.append("Set-Cookie", `${COOKIE}=${await sessionValue()}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${60 * 60 * 24 * 180}`)
+  return res
+}
+
 export async function POST(req: Request) {
   if (!configured()) return json({ error: "not_configured" }, 500)
-  let passcode = ""
-  try { passcode = String((await req.json()).passcode || "") } catch {}
+  let body: { passcode?: string; setup?: boolean } = {}
+  try { body = await req.json() } catch {}
+  const passcode = String(body.passcode || "")
   // Small delay makes guessing slow.
   await new Promise((r) => setTimeout(r, 400))
-  if (!checkPasscode(passcode)) return json({ error: "wrong_passcode" }, 401)
-  const res = json({ ok: true })
-  res.headers.append("Set-Cookie", `${COOKIE}=${sessionValue()}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${60 * 60 * 24 * 180}`)
-  return res
+  if (body.setup) {
+    if (passcode.length < 6) return json({ error: "too_short" }, 400)
+    if (!(await createPasscode(passcode))) return json({ error: "already_set" }, 409)
+    return signedIn()
+  }
+  if (await needsSetup()) return json({ error: "setup" }, 401)
+  if (!(await checkPasscode(passcode))) return json({ error: "wrong_passcode" }, 401)
+  return signedIn()
 }
 
 export async function DELETE() {

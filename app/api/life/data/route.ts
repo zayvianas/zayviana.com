@@ -3,7 +3,7 @@ import { authed, unauthorized, redis, json, PREFIX, feedToken } from "../../../l
 export const dynamic = "force-dynamic"
 
 export async function GET(req: Request) {
-  if (!authed(req)) return unauthorized()
+  if (!(await authed(req))) return unauthorized()
   const dayKeys: string[] = []
   let cursor = "0"
   do {
@@ -16,5 +16,5 @@ export async function GET(req: Request) {
   const parse = (v: string | null) => (v ? JSON.parse(v) : null)
   const days: Record<string, unknown> = {}
   dayKeys.forEach((k, i) => { const v = parse(vals[i + 3]); if (v) days[k.slice((PREFIX + "days/").length)] = v })
-  return json({ plan: parse(vals[0]), inbox: parse(vals[1]) || { items: [] }, clients: parse(vals[2]) || { items: [] }, days, feedToken: feedToken() })
+  return json({ plan: parse(vals[0]), inbox: parse(vals[1]) || { items: [] }, clients: parse(vals[2]) || { items: [] }, days, feedToken: await feedToken() })
 }

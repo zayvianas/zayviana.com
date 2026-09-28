@@ -8,9 +8,7 @@ The page is `public/life/index.html`; the API is `app/api/life/*`; server helper
 
 1. **Database:** Project → Storage → Create → Upstash for Redis (free plan) → connect it to this project.
    That adds `KV_REST_API_URL` and `KV_REST_API_TOKEN` automatically.
-2. **Environment variables** (Project → Settings → Environment Variables, all environments):
-   - `LIFE_PASSCODE`: the passcode you type to open the app.
-   - `LIFE_SECRET`: a long random string (for example the output of `openssl rand -hex 32`). Changing it signs you out everywhere and changes the calendar subscription link.
+2. **Passcode:** open life.zayviana.com. The first visit asks you to create a passcode; it's stored hashed in Redis. (Optional: set `LIFE_PASSCODE` and `LIFE_SECRET` env vars instead.) To reset it, delete the `life:auth` key in the Upstash console.
 3. **Domain:** Project → Settings → Domains → add `life.zayviana.com`, then add the CNAME record Vercel shows at your DNS provider.
 4. Redeploy.
 

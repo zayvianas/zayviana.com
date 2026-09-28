@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic"
 // Every task with a date shows up and updates on its own.
 export async function GET(req: Request) {
   const token = new URL(req.url).searchParams.get("token") || ""
-  const want = configured() ? feedToken() : ""
+  const want = configured() ? await feedToken() : ""
   const ok = want && token.length === want.length && timingSafeEqual(Buffer.from(token), Buffer.from(want))
   if (!ok) return new Response("Not found", { status: 404 })
   const { tasks, names } = await loadTasksAndClients()

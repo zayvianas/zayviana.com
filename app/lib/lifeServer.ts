@@ -1,17 +1,18 @@
 // Server helpers for Life OS (life.zayviana.com).
 // Storage: Upstash Redis over its REST API. Auth: one passcode, signed cookie.
-import { createHmac, timingSafeEqual } from "crypto"
+import { createHmac, randomBytes, scryptSync, timingSafeEqual } from "crypto"
 
 const URL_ = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL || ""
 const TOKEN = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN || ""
-const SECRET = process.env.LIFE_SECRET || ""
-const PASSCODE = process.env.LIFE_PASSCODE || ""
+const ENV_SECRET = process.env.LIFE_SECRET || ""
+const ENV_PASSCODE = process.env.LIFE_PASSCODE || ""
 
 export const COOKIE = "life_session"
 export const PREFIX = "life:"
+const AUTH_KEY = PREFIX + "auth"
 
 export function configured() {
-  return Boolean(URL_ && TOKEN && SECRET && PASSCODE)
+  return Boolean(URL_ && TOKEN)
 }
 
 export async function redis<T = unknown>(...cmd: (string | number)[]): Promise<T> {
@@ -26,8 +27,40 @@ export async function redis<T = unknown>(...cmd: (string | number)[]): Promise<T
   return json.result as T
 }
 
-function sign(value: string) {
-  return createHmac("sha256", SECRET).update(value).digest("hex")
+/* The passcode is created in the app on first visit (stored hashed in Redis),
+   unless LIFE_PASSCODE / LIFE_SECRET are set as environment variables. */
+type AuthRecord = { salt: string; hash: string; secret: string }
+let cached: AuthRecord | null = null
+
+function hashPass(p: string, salt: string) {
+  return scryptSync(p, salt, 32).toString("hex")
+}
+
+async function authRecord(): Promise<AuthRecord | null> {
+  if (ENV_PASSCODE && ENV_SECRET) return { salt: "env", hash: hashPass(ENV_PASSCODE, "env"), secret: ENV_SECRET }
+  if (cached) return cached
+  if (!configured()) return null
+  const raw = await redis<string | null>("GET", AUTH_KEY)
+  cached = raw ? (JSON.parse(raw) as AuthRecord) : null
+  return cached
+}
+
+export async function needsSetup() {
+  return configured() && !(await authRecord())
+}
+
+// Only succeeds when no passcode exists yet.
+export async function createPasscode(p: string) {
+  const salt = randomBytes(16).toString("hex")
+  const rec: AuthRecord = { salt, hash: hashPass(p, salt), secret: randomBytes(32).toString("hex") }
+  const ok = await redis<string | null>("SET", AUTH_KEY, JSON.stringify(rec), "NX")
+  if (ok !== "OK") return false
+  cached = rec
+  return true
+}
+
+function sign(secret: string, value: string) {
+  return createHmac("sha256", secret).update(value).digest("hex")
 }
 
 function safeEqual(a: string, b: string) {
@@ -35,23 +68,28 @@ function safeEqual(a: string, b: string) {
   return x.length === y.length && timingSafeEqual(x, y)
 }
 
-export function checkPasscode(p: string) {
-  return !!PASSCODE && safeEqual(sign("pass:" + p), sign("pass:" + PASSCODE))
+export async function checkPasscode(p: string) {
+  const rec = await authRecord()
+  return !!rec && safeEqual(hashPass(p, rec.salt), rec.hash)
 }
 
-export function sessionValue() {
-  return sign("session:v1")
+export async function sessionValue() {
+  const rec = await authRecord()
+  return rec ? sign(rec.secret, "session:v1") : ""
 }
 
-export function feedToken() {
-  return sign("feed:v1").slice(0, 32)
+export async function feedToken() {
+  const rec = await authRecord()
+  return rec ? sign(rec.secret, "feed:v1").slice(0, 32) : ""
 }
 
-export function authed(req: Request) {
+export async function authed(req: Request) {
   if (!configured()) return false
+  const want = await sessionValue()
+  if (!want) return false
   const raw = req.headers.get("cookie") || ""
   const m = raw.match(new RegExp("(?:^|;\\s*)" + COOKIE + "=([^;]+)"))
-  return !!m && safeEqual(m[1], sessionValue())
+  return !!m && safeEqual(m[1], want)
 }
 
 export function json(data: unknown, status = 200) {
@@ -61,8 +99,9 @@ export function json(data: unknown, status = 200) {
   })
 }
 
-export function unauthorized() {
-  return json({ error: configured() ? "locked" : "not_configured" }, 401)
+export async function unauthorized() {
+  if (!configured()) return json({ error: "not_configured" }, 401)
+  return json({ error: (await needsSetup()) ? "setup" : "locked" }, 401)
 }
 
 // Only these document paths can be written.

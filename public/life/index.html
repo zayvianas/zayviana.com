@@ -256,7 +256,7 @@ var WORKFOR = ['Cornerstone Labs','RevStar','Tutoring','Other'];
 var pendingCount = 0, feedTok = '';
 function api(method, url, body){
   return fetch(url, { method: method, credentials: 'same-origin', headers: body ? {'Content-Type':'application/json'} : {}, body: body ? JSON.stringify(body) : undefined })
-    .then(function(r){ if (r.status === 401) { lock(); throw {code:'locked'}; } return r.json().then(function(j){ if (!r.ok) throw j; return j; }); });
+    .then(function(r){ return r.json().catch(function(){ return {}; }).then(function(j){ if (r.status === 401) { lockMode = j.error || 'locked'; lock(); throw {code:'locked'}; } if (!r.ok) throw j; return j; }); });
 }
 function bodyFor(path){ if (path === 'config/plan') return S.plan; if (path === 'config/inbox') return S.inbox; if (path === 'config/clients') return S.clients; return S.days[path.slice(5)]; }
 function recent(path){ return touched[path] && Date.now() - touched[path] < 4000; }
@@ -664,21 +664,27 @@ function act(a, el){
     case 'cal-open': var tc = findTask(arg); if (tc && !tc.cal) { tc.cal = true; save('config/inbox'); setTimeout(render, 300); } break;
     case 'unlock':
       var pin = document.getElementById('pass-in'), pv = pin ? pin.value : ''; if (!pv) return;
+      var setupMode = lockMode === 'setup';
+      if (setupMode) {
+        var p2 = document.getElementById('pass-in2');
+        if (pv.length < 6) { lockError = 'Use at least 6 characters.'; render(); return; }
+        if (!p2 || p2.value !== pv) { lockError = 'Those don’t match. Try again.'; render(); return; }
+      }
       var ub = document.getElementById('unlock-btn'); if (ub) { ub.disabled = true; ub.textContent = 'Checking…'; }
-      fetch('/api/life/login', {method:'POST', credentials:'same-origin', headers:{'Content-Type':'application/json'}, body: JSON.stringify({passcode: pv})})
+      fetch('/api/life/login', {method:'POST', credentials:'same-origin', headers:{'Content-Type':'application/json'}, body: JSON.stringify({passcode: pv, setup: setupMode})})
         .then(function(r){ return r.json().then(function(j){ return {ok:r.ok, j:j}; }); })
         .then(function(res){
-          if (res.ok) { S.mode = 'loading'; render(); load().catch(offline); return; }
-          lockError = res.j && res.j.error === 'not_configured' ? 'Life OS isn’t set up on the server yet. Add the passcode and database in Vercel.' : 'That passcode didn’t work.';
+          if (res.ok) { lockError = ''; S.mode = 'loading'; render(); load().catch(offline); return; }
+          var e = res.j && res.j.error;
+          if (e === 'setup') { lockMode = 'setup'; lockError = ''; }
+          else if (e === 'already_set') { lockMode = 'locked'; lockError = 'A passcode already exists. Enter it to open.'; }
+          else if (e === 'not_configured') { lockMode = 'not_configured'; }
+          else lockError = 'That passcode didn’t work.';
           render();
         }, function(){ lockError = 'Can’t reach Life OS. Check your connection.'; render(); });
       break;
-    case 'backup':
-      var blob = new Blob([JSON.stringify({plan:S.plan, inbox:S.inbox, clients:S.clients, days:S.days}, null, 1)], {type:'application/json'});
-      var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'life-os-backup-' + TODAY + '.json'; document.body.appendChild(a); a.click(); a.remove();
-      break;
     case 'retry': S.mode = 'loading'; render(); load().catch(offline); break;
-    case 'logout': fetch('/api/life/login', {method:'DELETE', credentials:'same-origin'}).then(function(){ lock(); }); break;
+    case 'logout': fetch('/api/life/login', {method:'DELETE', credentials:'same-origin'}).then(function(){ lockMode = 'locked'; lock(); }); break;
     case 'copy-feed':
       var url = feedUrl();
       if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(function(){ toast('Link copied'); }, function(){ selectFeed(); });
@@ -763,18 +769,22 @@ function upload(file){
 }
 
 /* ---------- lock, feed, boot ---------- */
-var lockError = '';
+var lockError = '', lockMode = 'locked';
 function lock(){ S.mode = 'locked'; S.plan = null; S.days = {}; S.inbox = {items:[]}; S.clients = {items:[]}; render(); }
 function offline(e){ if (e && e.code === 'locked') return; S.mode = 'offline'; render(); }
 function lockScreen(){
-  return '<div class="stack"><section class="sec empty"><div class="eyebrow">Private</div><h2>Welcome back, Zayviana</h2><p class="muted">Enter your passcode to open Life OS.</p>'
-    + '<form id="lock-form" class="row" style="flex-wrap:nowrap;width:100%;max-width:340px" onsubmit="return false"><input type="password" id="pass-in" autocomplete="current-password" placeholder="Passcode" aria-label="Passcode"><button class="btn" id="unlock-btn" data-act="unlock">Open</button></form>'
+  if (lockMode === 'not_configured') return '<div class="stack"><section class="sec empty"><h2>Almost ready</h2><p class="muted">Life OS needs its database connected in Vercel before it can open.</p></section></div>';
+  var setup = lockMode === 'setup';
+  return '<div class="stack"><section class="sec empty"><div class="eyebrow">Private</div><h2>'+(setup ? 'Create your passcode' : 'Welcome back, Zayviana')+'</h2><p class="muted">'+(setup ? 'This locks Life OS so only you can open it. Use at least 6 characters.' : 'Enter your passcode to open Life OS.')+'</p>'
+    + '<form id="lock-form" style="display:grid;gap:8px;width:100%;max-width:340px" onsubmit="return false"><input type="password" id="pass-in" autocomplete="'+(setup?'new-password':'current-password')+'" placeholder="Passcode" aria-label="Passcode">'
+    + (setup ? '<input type="password" id="pass-in2" autocomplete="new-password" placeholder="Type it again" aria-label="Confirm passcode">' : '')
+    + '<button class="btn" id="unlock-btn" data-act="unlock">'+(setup ? 'Create and open' : 'Open')+'</button></form>'
     + (lockError ? '<p class="small" style="color:var(--warn)">'+esc(lockError)+'</p>' : '') + '</section></div>';
 }
 function feedUrl(){ return 'webcal://' + location.host + '/api/life/feed?token=' + feedTok; }
 function selectFeed(){ var el = document.getElementById('feed-url'); if (el) { el.focus(); el.select(); } toast('Link selected. Copy it from here.', 2500); }
 
-document.addEventListener('keydown', function(e){ if (e.key === 'Enter' && e.target.id === 'pass-in') { e.preventDefault(); act('unlock'); } });
+document.addEventListener('keydown', function(e){ if (e.key === 'Enter' && (e.target.id === 'pass-in' || e.target.id === 'pass-in2')) { e.preventDefault(); act('unlock'); } });
 document.addEventListener('visibilitychange', function(){ if (document.visibilityState === 'visible' && S.mode === 'api') load().catch(function(){}); });
 
 render();

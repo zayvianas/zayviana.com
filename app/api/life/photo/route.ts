@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic"
 
 // Photos are resized in the browser to a small JPEG before upload.
 export async function POST(req: Request) {
-  if (!authed(req)) return unauthorized()
+  if (!(await authed(req))) return unauthorized()
   let data = ""
   try { data = String((await req.json()).data || "") } catch { return json({ error: "bad_json" }, 400) }
   const m = data.match(/^data:image\/(jpeg|png|webp);base64,([A-Za-z0-9+/=]+)$/)
@@ -17,7 +17,7 @@ export async function POST(req: Request) {
 }
 
 export async function GET(req: Request) {
-  if (!authed(req)) return new Response("Locked", { status: 401 })
+  if (!(await authed(req))) return new Response("Locked", { status: 401 })
   const id = new URL(req.url).searchParams.get("id") || ""
   if (!/^[a-f0-9]{24}$/.test(id)) return new Response("Not found", { status: 404 })
   const data = await redis<string | null>("GET", PREFIX + "photo:" + id)
@@ -27,7 +27,7 @@ export async function GET(req: Request) {
 }
 
 export async function DELETE(req: Request) {
-  if (!authed(req)) return unauthorized()
+  if (!(await authed(req))) return unauthorized()
   const id = new URL(req.url).searchParams.get("id") || ""
   if (/^[a-f0-9]{24}$/.test(id)) await redis("DEL", PREFIX + "photo:" + id)
   return json({ ok: true })

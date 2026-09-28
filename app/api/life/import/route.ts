@@ -4,7 +4,7 @@ export const dynamic = "force-dynamic"
 
 // One-time import of a backup file: { plan, inbox, clients, days: { "YYYY-MM-DD": {...} } }
 export async function POST(req: Request) {
-  if (!authed(req)) return unauthorized()
+  if (!(await authed(req))) return unauthorized()
   let b: { plan?: object; inbox?: object; clients?: object; days?: Record<string, object> }
   try { b = await req.json() } catch { return json({ error: "bad_json" }, 400) }
   const pairs: string[] = []

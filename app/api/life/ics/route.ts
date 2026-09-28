@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic"
 // One task (?id=) or one week (?week=YYYY-MM-DD, the Monday). Opening this on
 // an iPhone or Mac offers "Add to Calendar".
 export async function GET(req: Request) {
-  if (!authed(req)) return new Response("Open Life OS and enter your passcode first.", { status: 401 })
+  if (!(await authed(req))) return new Response("Open Life OS and enter your passcode first.", { status: 401 })
   const q = new URL(req.url).searchParams
   const { tasks, names } = await loadTasksAndClients()
   let list = tasks.filter((t) => t.date && !t.done)

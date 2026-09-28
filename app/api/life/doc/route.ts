@@ -3,7 +3,7 @@ import { authed, unauthorized, redis, json, PREFIX, validPath } from "../../../l
 export const dynamic = "force-dynamic"
 
 export async function PUT(req: Request) {
-  if (!authed(req)) return unauthorized()
+  if (!(await authed(req))) return unauthorized()
   let body: { path?: string; data?: unknown }
   try { body = await req.json() } catch { return json({ error: "bad_json" }, 400) }
   const path = String(body.path || "")
