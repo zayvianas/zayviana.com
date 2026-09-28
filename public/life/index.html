@@ -195,7 +195,7 @@ a.btn,a.chip,label.btn{text-decoration:none;display:inline-block;text-align:cent
 .empty{text-align:center;padding:28px 16px;display:grid;gap:10px;justify-items:center}
 
 .tabs{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px));z-index:5}
-.tabs .in{display:grid;grid-template-columns:repeat(6,1fr);max-width:640px;margin:0 auto}
+.tabs .in{display:grid;grid-template-columns:repeat(7,1fr);max-width:640px;margin:0 auto}
 .tabs button{border:0;background:none;font:inherit;font-size:11px;font-weight:700;color:var(--muted);padding:8px 2px;border-radius:10px;cursor:pointer;display:grid;gap:3px;justify-items:center}
 .tabs button svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .tabs button[aria-current="page"]{color:var(--accent);background:var(--accent-soft)}
@@ -214,6 +214,7 @@ a.btn,a.chip,label.btn{text-decoration:none;display:inline-block;text-align:cent
   <button data-act="nav:week"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Week</button>
   <button data-act="nav:tasks"><svg viewBox="0 0 24 24"><path d="M4 6l2 2 3-3M4 13l2 2 3-3"/><path d="M12 7h8M12 14h8M4 20h16"/></svg>Tasks</button>
   <button data-act="nav:clients"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18.5 14.8c1.6.9 2.6 2.6 3 5.2"/></svg>Clients</button>
+  <button data-act="nav:money"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 9v.01M18 15v.01"/></svg>Money</button>
   <button data-act="nav:progress"><svg viewBox="0 0 24 24"><path d="M3 20h18"/><path d="M5 16l5-5 4 3 6-7"/></svg>Progress</button>
   <button data-act="nav:plan"><svg viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>Plan</button>
 </div></nav>
@@ -246,7 +247,7 @@ function fmtSec(s){ var neg = s < 0; s = Math.abs(Math.round(s)); return (neg?'-
 var TODAY = iso(new Date());
 var S = { plan:null, inbox:{items:[]}, clients:{items:[]}, days:{}, mode:'loading', planLoaded:false };
 var view = 'today', cur = TODAY, weekOf = TODAY, planDay = wdOf(TODAY), editingCustom = false, needRender = false;
-var taskWeek = TODAY, editingTask = null, openClient = null, delArm = null;
+var taskWeek = TODAY, editingTask = null, openClient = null, openMoney = null, delArm = null;
 var touched = {}, timers = {}, inflight = {};
 var TZ = (function(){ try { return Intl.DateTimeFormat().resolvedOptions().timeZone || 'America/New_York'; } catch(e){ return 'America/New_York'; } })();
 var STAGES = [['lead','Lead','--muted'],['talking','Talking','--fuel'],['proposal','Proposal sent','--gold'],['active','Active','--good'],['paused','Paused','--warn'],['done','Done','--muted']];
@@ -258,7 +259,7 @@ function api(method, url, body){
   return fetch(url, { method: method, credentials: 'same-origin', headers: body ? {'Content-Type':'application/json'} : {}, body: body ? JSON.stringify(body) : undefined })
     .then(function(r){ return r.json().catch(function(){ return {}; }).then(function(j){ if (r.status === 401) { lockMode = j.error || 'locked'; lock(); throw {code:'locked'}; } if (!r.ok) throw j; return j; }); });
 }
-function bodyFor(path){ if (path === 'config/plan') return S.plan; if (path === 'config/inbox') return S.inbox; if (path === 'config/clients') return S.clients; return S.days[path.slice(5)]; }
+function bodyFor(path){ if (path === 'config/money') return S.money; if (path === 'config/plan') return S.plan; if (path === 'config/inbox') return S.inbox; if (path === 'config/clients') return S.clients; return S.days[path.slice(5)]; }
 function recent(path){ return touched[path] && Date.now() - touched[path] < 4000; }
 function save(path){
   touched[path] = Date.now();
@@ -282,7 +283,7 @@ function flush(path){
 function load(){
   return api('GET', '/api/life/data').then(function(d){
     if (pendingCount > 0) return;
-    S.plan = d.plan; S.inbox = d.inbox || {items:[]}; S.clients = d.clients || {items:[]}; S.days = d.days || {};
+    S.plan = d.plan; S.inbox = d.inbox || {items:[]}; S.clients = d.clients || {items:[]}; S.money = d.money || {}; S.days = d.days || {};
     feedTok = d.feedToken || '';
     S.mode = 'api'; S.planLoaded = true; soft();
   });
@@ -327,8 +328,8 @@ function render(){
   if (S.mode === 'locked') { m.innerHTML = lockScreen(); var pi = document.getElementById('pass-in'); if (pi) pi.focus(); return; }
   if (S.mode === 'offline') { m.innerHTML = '<div class="stack"><section class="sec empty"><h2>Can\u2019t reach Life OS</h2><p class="muted">Check your connection and try again.</p><button class="btn" data-act="retry">Try again</button></section></div>'; return; }
   if (S.mode === 'loading' || !S.planLoaded) { m.innerHTML = '<div class="stack"><section class="sec empty"><p class="muted">Loading your plan…</p></section></div>'; return; }
-  if (!S.plan && view !== 'tasks' && view !== 'clients') { m.innerHTML = emptyPlan(); return; }
-  m.innerHTML = '<div class="stack">' + ({today:vToday, week:vWeek, tasks:vTasks, clients:vClients, progress:vProgress, plan:vPlan}[view])() + '</div>';
+  if (!S.plan && view !== 'tasks' && view !== 'clients' && view !== 'money') { m.innerHTML = emptyPlan(); return; }
+  m.innerHTML = '<div class="stack">' + ({today:vToday, week:vWeek, tasks:vTasks, clients:vClients, money:vMoney, progress:vProgress, plan:vPlan}[view])() + '</div>';
 }
 
 function renderHeader(){
@@ -568,6 +569,148 @@ function statBox(name, pts, fmt, betterLower){
   var delta = pts.length > 1 && d !== 0 ? '<span class="delta '+(good?'up':'down')+'">'+(d>0?'+':'')+fmt(d)+' since '+esc(label(pts[0].k).slice(5))+'</span>' : '<span class="small muted">Baseline '+esc(label(pts[0].k).slice(5))+'</span>';
   return '<div><span class="eyebrow">'+name+'</span><b>'+fmt(z)+'</b>'+delta+'</div>';
 }
+/* ---------- money ---------- */
+var MT = {card:'Credit card', bnpl:'Buy now, pay later', bill:'Bill', sub:'Subscription'};
+function money(){ if (!S.money || typeof S.money !== 'object') S.money = {}; var m = S.money; m.items = m.items || []; m.cash = m.cash || []; m.log = m.log || []; if (m.extra == null) m.extra = 1300; return m; }
+function mItem(id){ return money().items.filter(function(i){ return i.id === id; })[0]; }
+function usd(n, cents){ n = Number(n) || 0; return (n < 0 ? '-' : '') + '$' + Math.abs(n).toLocaleString('en-US', {minimumFractionDigits: cents ? 2 : 0, maximumFractionDigits: cents ? 2 : 0}); }
+function mine(i){ return (i.payer || 'me') === 'me'; }
+function liveItem(i){
+  if (i.type === 'sub' && i.status === 'canceled') return false;
+  if ((i.type === 'card' || i.type === 'bnpl') && !(Number(i.balance) > 0.009)) return false;
+  if (i.until && i.due && i.due >= i.until) return false;
+  return true;
+}
+function addMonth(d){ if (!d) return d; var p = d.split('-').map(Number), dt = new Date(p[0], p[1], 1), last = new Date(p[0], p[1] + 1, 0).getDate(); dt.setDate(Math.min(p[2], last)); return iso(dt); }
+function dueList(days){
+  var end = addDays(TODAY, days);
+  return money().items.filter(function(i){ return i.type !== 'sub' && liveItem(i) && mine(i) && (Number(i.min) > 0) && (i.pastDue || !i.due || i.due <= end); })
+    .sort(function(a, b){ if (!!b.pastDue !== !!a.pastDue) return a.pastDue ? -1 : 1; return (a.due || '9') < (b.due || '9') ? -1 : 1; });
+}
+function snowball(extra){
+  var cards = money().items.filter(function(i){ return (i.type === 'card' || i.type === 'bnpl') && Number(i.balance) > 0.009; })
+    .map(function(i){ return {name:i.name, bal:Number(i.balance), apr:(i.scra ? Math.min(6, Number(i.apr) || 6) : (Number(i.apr) || (i.type === 'bnpl' ? 0 : 29.99))) / 1200, min:Number(i.min) || 0, month:0}; })
+    .sort(function(a, b){ return a.bal - b.bal; });
+  var budget = Math.max(Number(extra) || 0, 0), m = 0, interest = 0;
+  if (!cards.length) return {months:0, order:[], interest:0};
+  var minSum = cards.reduce(function(a, c){ return a + c.min; }, 0);
+  if (budget < minSum) budget = minSum;
+  while (cards.some(function(c){ return c.bal > 0.009; }) && m < 240) {
+    m++;
+    cards.forEach(function(c){ if (c.bal > 0.009) { var it = c.bal * c.apr; interest += it; c.bal += it; } });
+    var left = budget;
+    cards.forEach(function(c){ if (c.bal > 0.009) { var p = Math.min(c.min, c.bal, left); c.bal -= p; left -= p; } });
+    cards.forEach(function(c){ if (c.bal > 0.009 && left > 0) { var p = Math.min(c.bal, left); c.bal -= p; left -= p; } if (c.bal <= 0.009 && !c.month) c.month = m; });
+  }
+  return {months:m, order:cards.slice().sort(function(a, b){ return a.month - b.month; }), interest:interest};
+}
+function monthName(offset){ var d = new Date(); d.setDate(1); d.setMonth(d.getMonth() + offset); return MON[d.getMonth()] + ' ' + d.getFullYear(); }
+
+function mRow(i){
+  var badges = [];
+  if (i.pastDue) badges.push('<span class="late">Past due</span>');
+  if (i.autopay) badges.push('Autopay');
+  if (!i.due) badges.push('Add a due date');
+  if (i.type === 'card' && i.scra) badges.push('SCRA');
+  var when = i.due ? esc(label(i.due)) : 'No date';
+  return '<div class="task"><div class="mono small" style="min-width:74px;padding-top:2px">'+when+'</div><div class="tt"><span>'+esc(i.name)+'</span><div class="tmeta"><span>'+MT[i.type]+'</span>'+badges.map(function(b){ return '<span aria-hidden="true">·</span>'+b; }).join('')+'</div></div>'
+    + '<div class="tact"><button class="chip" data-act="m-paid:'+esc(i.id)+'">Paid '+usd(i.min, true)+'</button><button class="chip" data-act="m-open:'+esc(i.id)+'">Edit</button></div></div>'
+    + (openMoney === i.id ? mEditor(i) : '');
+}
+function mEditor(i){
+  var f = function(key, lab, type, ph){ return '<div class="field"><label for="m-'+key+'-'+i.id+'">'+lab+'</label><input type="'+(type||'text')+'" id="m-'+key+'-'+i.id+'" data-mid="'+esc(i.id)+'" data-mk="'+key+'" value="'+esc(i[key]==null?'':i[key])+'" placeholder="'+esc(ph||'')+'"'+(type==='number'?' step="0.01" inputmode="decimal"':'')+'></div>'; };
+  var h = '<div class="task editing"><div class="grid2">' + f('name','Name') + f('min', i.type === 'card' ? 'Minimum due' : 'Amount', 'number') + f('due','Next due date','date');
+  if (i.type === 'card' || i.type === 'bnpl') h += f('balance','Balance left','number');
+  if (i.type === 'card') h += f('limit','Credit limit','number') + f('apr','Interest rate (APR %)','number','29.99');
+  if (i.type === 'bill') h += '<div class="field"><label for="m-payer-'+i.id+'">Who pays</label><select id="m-payer-'+i.id+'" data-mid="'+esc(i.id)+'" data-mk="payer"><option value="me"'+(mine(i)?' selected':'')+'>Me</option><option value="parents"'+(!mine(i)?' selected':'')+'>My parents</option></select></div>' + f('until','Ends on (optional)','date');
+  h += '</div><div class="row">';
+  if (i.type !== 'sub') h += '<label class="toggle small"><input type="checkbox" data-act="m-flag:'+esc(i.id)+':pastDue"'+(i.pastDue?' checked':'')+'> Past due</label><label class="toggle small"><input type="checkbox" data-act="m-flag:'+esc(i.id)+':autopay"'+(i.autopay?' checked':'')+'> Autopay on</label>';
+  if (i.type === 'card') h += '<label class="toggle small"><input type="checkbox" data-act="m-flag:'+esc(i.id)+':scra"'+(i.scra?' checked':'')+'> SCRA 6% approved</label>';
+  if (i.type === 'sub') h += ['keep','cancel','canceled'].map(function(s){ return '<button class="chip" data-act="m-sub:'+esc(i.id)+':'+s+'" aria-pressed="'+((i.status||'keep')===s)+'">'+{keep:'Keep',cancel:'Cancel before I ship',canceled:'Canceled'}[s]+'</button>'; }).join('');
+  h += '</div><div class="row"><button class="btn" data-act="m-close">Done</button><span style="flex:1"></span><button class="linkbtn" data-act="m-del:'+esc(i.id)+'">'+(delArm===i.id?'Tap again to delete':'Delete')+'</button></div></div>';
+  return h;
+}
+function mSection(type, title, eyebrow){
+  var list = money().items.filter(function(i){ return i.type === type; });
+  var shown = list.filter(liveItem), gone = list.length - shown.length;
+  if (type === 'card' || type === 'bnpl') shown.sort(function(a, b){ return Number(a.balance) - Number(b.balance); });
+  var h = '<section class="sec"><div class="sechead"><div><div class="eyebrow">'+eyebrow+'</div><h2>'+title+'</h2></div><button class="chip" data-act="m-add:'+type+'">+ Add</button></div>';
+  if (!shown.length) h += '<p class="muted small">Nothing here'+(gone ? ' right now. ' + gone + ' paid off or canceled.' : ' yet.')+'</p>';
+  h += '<div class="tlist">' + shown.map(function(i){
+    var right = '', sub = [];
+    if (type === 'card') {
+      right = usd(i.balance, true);
+      if (i.limit) sub.push(Math.round(Number(i.balance) / Number(i.limit) * 100) + '% of ' + usd(i.limit) + ' limit');
+      sub.push('Min ' + usd(i.min, true) + (i.due ? ' by ' + label(i.due).slice(5) : ''));
+      if (i.scra) sub.push('6% SCRA'); else if (i.apr) sub.push(i.apr + '% APR');
+    } else if (type === 'bnpl') {
+      right = usd(i.balance, true) + ' left'; sub.push(usd(i.min, true) + (i.due ? ' due ' + label(i.due).slice(5) : ' per payment'));
+    } else if (type === 'bill') {
+      right = usd(i.min); sub.push(mine(i) ? 'I pay' : 'Parents pay'); if (i.until) sub.push('ends ' + label(i.until).slice(5));
+    } else {
+      right = usd(i.min) + '/mo'; sub.push({keep:'Keeping', cancel:'Cancel before I ship', canceled:'Canceled'}[i.status || 'keep']);
+    }
+    if (i.pastDue) sub.unshift('<span class="late">Past due</span>');
+    var util = type === 'card' && i.limit ? '<div class="bar" style="--c:var('+(Number(i.balance) > Number(i.limit) * 0.9 ? '--warn' : '--fuel')+');margin-top:6px"><i style="width:'+Math.min(100, Math.round(Number(i.balance)/Number(i.limit)*100))+'%"></i></div>' : '';
+    return '<div class="task" style="grid-template-columns:1fr auto"><button class="tt" data-act="m-open:'+esc(i.id)+'" style="all:unset;cursor:pointer;min-width:0"><span style="font-weight:700">'+esc(i.name)+'</span><div class="tmeta">'+sub.map(function(x){ return '<span>'+x+'</span>'; }).join('<span aria-hidden="true">·</span>')+'</div>'+util+'</button><div class="mono" style="font-weight:700;text-align:right">'+right+'</div></div>' + (openMoney === i.id ? mEditor(i) : '');
+  }).join('') + '</div>';
+  if (type === 'sub') {
+    var keep = list.filter(function(i){ return (i.status || 'keep') === 'keep'; }).reduce(function(a, i){ return a + (Number(i.min) || 0); }, 0);
+    var all = list.filter(function(i){ return i.status !== 'canceled'; }).reduce(function(a, i){ return a + (Number(i.min) || 0); }, 0);
+    h += '<p class="small muted">Now ' + usd(all) + '/mo. After you cancel the ones marked, ' + usd(keep) + '/mo.</p>';
+  }
+  return h + '</section>';
+}
+function vMoney(){
+  var m = money(), items = m.items;
+  var cash = m.cash.reduce(function(a, c){ return a + (Number(c.amount) || 0); }, 0);
+  var debt = items.filter(function(i){ return (i.type === 'card' || i.type === 'bnpl') && liveItem(i); }).reduce(function(a, i){ return a + (Number(i.balance) || 0); }, 0);
+  var subsNow = items.filter(function(i){ return i.type === 'sub' && i.status !== 'canceled'; }).reduce(function(a, i){ return a + (Number(i.min) || 0); }, 0);
+  var thisMonth = dueList(35).reduce(function(a, i){ return a + (Number(i.min) || 0); }, 0) + subsNow, left = cash - thisMonth;
+  if (m.startDebt == null && debt > 0) { m.startDebt = Math.round(debt * 100) / 100; save('config/money'); }
+  var paidOff = Math.max(0, (m.startDebt || 0) - debt);
+  var h = '<section class="sec"><div class="sechead"><div><div class="eyebrow">Money</div><h2>Where you stand</h2></div></div>'
+    + '<div class="tally"><div><b>'+usd(cash)+'</b><span class="small muted">cash</span></div><div><b>'+usd(debt)+'</b><span class="small muted">owed (cards + BNPL)</span></div><div><b>'+usd(thisMonth)+'</b><span class="small muted">due in the next 5 weeks</span></div><div><b style="color:var('+(left < 0 ? '--warn' : '--good')+')">'+usd(left)+'</b><span class="small muted">'+(left < 0 ? 'short' : 'left over')+'</span></div></div>';
+  if (m.startDebt) h += '<div class="meter"><div class="lab"><span>Paid off since you started tracking</span><span class="mono">'+usd(paidOff)+' of '+usd(m.startDebt)+'</span></div><div class="bar" style="--c:var(--good)"><i style="width:'+Math.min(100, Math.round(paidOff / m.startDebt * 100))+'%"></i></div></div>';
+  h += '</section>';
+
+  var due = dueList(35), dated = due.filter(function(i){ return i.due || i.pastDue; }), undated = due.filter(function(i){ return !i.due && !i.pastDue; });
+  h += '<section class="sec"><div class="sechead"><div><div class="eyebrow">Next 5 weeks</div><h2>Due soon</h2></div></div>'
+    + (dated.length ? '<div class="tlist">' + dated.map(mRow).join('') + '</div>' : '<p class="muted small">Nothing with a date in the next 5 weeks.</p>')
+    + (undated.length ? '<div class="eyebrow" style="margin-top:6px">Missing a due date</div><p class="small muted">Check each app, tap Edit and add the date so it shows up above and in your calendar.</p><div class="tlist">' + undated.map(mRow).join('') + '</div>' : '')
+    + '<p class="small muted">Tap Paid after you pay. It lowers the balance and moves the due date to next month. Subscriptions charge on their own, so they only count in the total above.</p></section>';
+
+  h += mSection('card', 'Credit cards', 'Smallest balance first');
+  h += mSection('bnpl', 'Buy now, pay later', 'Klarna, Affirm and others');
+  h += mSection('bill', 'Bills', 'Monthly');
+  h += mSection('sub', 'Subscriptions', 'Monthly');
+
+  var sb = snowball(m.extra);
+  h += '<section class="sec"><div class="sechead"><div><div class="eyebrow">Payoff plan</div><h2>'+(sb.months ? 'Debt free in about ' + sb.months + ' month' + (sb.months > 1 ? 's' : '') : 'No card debt')+'</h2></div></div>'
+    + '<div class="field" style="max-width:260px"><label for="m-extra">Total I can put toward cards and BNPL each month</label><input type="number" id="m-extra" data-mx="extra" value="'+esc(m.extra)+'" inputmode="numeric"></div>'
+    + (sb.months ? '<p class="small muted">Smallest balance first. Pay every minimum, then put everything left on the top one. Around ' + esc(monthName(sb.months)) + ' if you start this month, with about ' + usd(sb.interest) + ' in interest. Marking cards SCRA 6% lowers that.</p><ol class="small" style="margin:0;padding-left:18px;display:grid;gap:3px">' + sb.order.map(function(c){ return '<li>' + esc(c.name) + ' <span class="muted">· paid off month ' + c.month + '</span></li>'; }).join('') + '</ol>' : '')
+    + '</section>';
+
+  h += '<section class="sec"><div class="sechead"><div><div class="eyebrow">Accounts</div><h2>Cash</h2></div><button class="chip" data-act="m-addcash">+ Add</button></div><div class="grid2">'
+    + m.cash.map(function(c){ return '<div class="field"><label for="mc-'+esc(c.id)+'">'+esc(c.name)+'</label><input type="number" step="0.01" inputmode="decimal" id="mc-'+esc(c.id)+'" data-cash="'+esc(c.id)+'" value="'+esc(c.amount)+'"></div>'; }).join('')
+    + '</div>' + (m.cash.length ? '<p class="small muted">Update these when you check your bank app.</p>' : '<p class="muted small">Add your checking and savings.</p>') + '</section>';
+
+  if (m.log.length) h += '<section class="sec"><div class="sechead"><div><div class="eyebrow">History</div><h2>Payments you logged</h2></div></div><div class="log">' + m.log.slice(0, 12).map(function(l){ return '<div><span>'+esc(label(l.date))+' · '+esc(l.name)+'</span><span class="mono">'+usd(l.amount, true)+'</span></div>'; }).join('') + '</div></section>';
+  return h;
+}
+function markPaid(id){
+  var i = mItem(id); if (!i) return;
+  var amt = Number(i.min) || 0, m = money();
+  if (i.type === 'card' || i.type === 'bnpl') i.balance = Math.max(0, Math.round((Number(i.balance) - amt) * 100) / 100);
+  i.pastDue = false;
+  if (i.due) i.due = addMonth(i.due);
+  if (i.type === 'bnpl' && Number(i.balance) < Number(i.min)) i.min = i.balance;
+  var main = m.cash[0]; if (main) main.amount = Math.round((Number(main.amount) - amt) * 100) / 100;
+  m.log.unshift({id:newId(), date:TODAY, itemId:i.id, name:i.name, amount:amt});
+  if (m.log.length > 200) m.log.length = 200;
+  save('config/money'); toast('Logged ' + usd(amt, true) + (main ? ' from ' + main.name : ''), 2200);
+}
+
 function vProgress(){
   var wt = series('weight'), run = series('run2', toSec), pu = series('pushups'), pl = series('plank', toSec);
   var h = '<section class="sec"><div class="sechead"><div><div class="eyebrow">Weight</div><h2>'+(wt.length ? wt[wt.length-1].v+' lb' : 'No weigh-ins yet')+'</h2>'+(wt.length>1?'<div class="small muted">'+((wt[wt.length-1].v - wt[0].v)>0?'+':'')+(wt[wt.length-1].v - wt[0].v).toFixed(1)+' lb since '+esc(label(wt[0].k).slice(5))+'</div>':'')+'</div></div>'+chart(wt)+'</section>';
@@ -692,6 +835,24 @@ function act(a, el){
       break;
     case 'tw-prev': taskWeek = addDays(mondayOf(taskWeek), -7); render(); break;
     case 'tw-next': taskWeek = addDays(mondayOf(taskWeek), 7); render(); break;
+    case 'backup':
+      var blob = new Blob([JSON.stringify({plan:S.plan, inbox:S.inbox, clients:S.clients, money:S.money, days:S.days}, null, 1)], {type:'application/json'});
+      var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'life-os-backup-' + TODAY + '.json'; document.body.appendChild(a); a.click(); a.remove();
+      break;
+    case 'm-paid': markPaid(arg); render(); break;
+    case 'm-open': openMoney = openMoney === arg ? null : arg; delArm = null; render(); break;
+    case 'm-close': openMoney = null; delArm = null; render(); break;
+    case 'm-flag': var mf = arg.split(':'), mi = mItem(mf[0]); if (mi) { mi[mf[1]] = !!el.checked; save('config/money'); } soft(); break;
+    case 'm-sub': var ms = arg.split(':'), mi2 = mItem(ms[0]); if (mi2) { mi2.status = ms[1]; save('config/money'); } render(); break;
+    case 'm-add':
+      var nmi = {id:newId(), type:arg, name:'New ' + MT[arg].toLowerCase(), min:0, due:''};
+      if (arg === 'card' || arg === 'bnpl') nmi.balance = 0; if (arg === 'bill') nmi.payer = 'me'; if (arg === 'sub') nmi.status = 'keep';
+      money().items.push(nmi); openMoney = nmi.id; save('config/money'); render();
+      var nf = document.getElementById('m-name-' + nmi.id); if (nf) { nf.focus(); nf.select(); } break;
+    case 'm-addcash': money().cash.push({id:newId(), name:'Account ' + (money().cash.length + 1), amount:0}); save('config/money'); render(); break;
+    case 'm-del':
+      if (delArm !== arg) { delArm = arg; render(); return; }
+      S.money.items = money().items.filter(function(i){ return i.id !== arg; }); delArm = null; openMoney = null; save('config/money'); render(); break;
     case 'clear-done': S.inbox.items = tasks().filter(function(t){ return !t.done; }); save('config/inbox'); render(); break;
     case 'client-add':
       var cn = document.getElementById('cl-name'), nm2 = cn.value.trim(); if (!nm2) { cn.focus(); return; }
@@ -718,11 +879,12 @@ document.addEventListener('change', function(e){
   if (t.dataset.act && (t.tagName === 'SELECT' || t.type === 'checkbox')) { act(t.dataset.act, t); return; }
   if (t.id === 'ci-ph' && t.files && t.files[0]) { upload(t.files[0]); return; }
   if (t.id === 'import-file' && t.files && t.files[0]) {
-    t.files[0].text().then(function(txt){ var o = JSON.parse(txt); return api('POST', '/api/life/import', {plan:o.plan, inbox:o.inbox, clients:o.clients, days:o.days}); })
+    t.files[0].text().then(function(txt){ var o = JSON.parse(txt); return api('POST', '/api/life/import', {plan:o.plan, inbox:o.inbox, clients:o.clients, money:o.money, days:o.days}); })
       .then(function(r){ toast('Imported ' + r.docs + ' items', 2500); return load(); }, function(e){ if (e && e.code === 'locked') return; toast('That file didn\u2019t look like a Life OS backup.', 3000); });
     return;
   }
   if (t.dataset.dk && t.type === 'checkbox') { edit(cur, function(d){ setPath(d, t.dataset.dk, t.checked); }); render(); return; }
+  if ((t.dataset.mid && t.dataset.mk) || t.dataset.cash || t.dataset.mx) { needRender = true; if (t.tagName === 'SELECT') soft(); return; }
   if (t.dataset.ck && t.dataset.cid) { var cl2 = findClient(t.dataset.cid); if (cl2 && cl2[t.dataset.ck] !== t.value) { cl2[t.dataset.ck] = t.value; save('config/clients'); } needRender = true; return; }
   if (t.dataset.pl || t.dataset.plist || t.dataset.foods || t.dataset.pw || t.dataset.pk) { needRender = true; }
 });
@@ -736,6 +898,9 @@ document.addEventListener('keydown', function(e){
 });
 document.addEventListener('input', function(e){
   var t = e.target, v;
+  if (t.dataset.mid && t.dataset.mk) { var mi3 = mItem(t.dataset.mid); if (mi3) { var nv = t.type === 'number' ? (t.value === '' ? null : Number(t.value)) : t.value; mi3[t.dataset.mk] = nv; save('config/money'); } return; }
+  if (t.dataset.cash) { var ca = money().cash.filter(function(c){ return c.id === t.dataset.cash; })[0]; if (ca) { ca.amount = t.value === '' ? 0 : Number(t.value); save('config/money'); } return; }
+  if (t.dataset.mx) { money()[t.dataset.mx] = t.value === '' ? 0 : Number(t.value); save('config/money'); return; }
   if (t.dataset.ck && t.dataset.cid) { var cl = findClient(t.dataset.cid); if (cl) { cl[t.dataset.ck] = t.value; save('config/clients'); } return; }
   if (t.dataset.dk && t.type !== 'checkbox') {
     v = t.type === 'number' ? (t.value === '' ? null : Number(t.value)) : t.value;

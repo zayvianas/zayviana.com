@@ -11,10 +11,10 @@ export async function GET(req: Request) {
     cursor = next
     dayKeys.push(...keys)
   } while (cursor !== "0")
-  const keys = [PREFIX + "config/plan", PREFIX + "config/inbox", PREFIX + "config/clients", ...dayKeys]
+  const keys = [PREFIX + "config/plan", PREFIX + "config/inbox", PREFIX + "config/clients", PREFIX + "config/money", ...dayKeys]
   const vals = await redis<(string | null)[]>("MGET", ...keys)
   const parse = (v: string | null) => (v ? JSON.parse(v) : null)
   const days: Record<string, unknown> = {}
-  dayKeys.forEach((k, i) => { const v = parse(vals[i + 3]); if (v) days[k.slice((PREFIX + "days/").length)] = v })
-  return json({ plan: parse(vals[0]), inbox: parse(vals[1]) || { items: [] }, clients: parse(vals[2]) || { items: [] }, days, feedToken: await feedToken() })
+  dayKeys.forEach((k, i) => { const v = parse(vals[i + 4]); if (v) days[k.slice((PREFIX + "days/").length)] = v })
+  return json({ plan: parse(vals[0]), inbox: parse(vals[1]) || { items: [] }, clients: parse(vals[2]) || { items: [] }, money: parse(vals[3]) || {}, days, feedToken: await feedToken() })
 }
