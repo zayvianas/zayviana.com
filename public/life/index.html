@@ -387,7 +387,7 @@ function vToday(){
 
   // Fuel
   var T = P.targets;
-  h += '<section class="sec"><div class="sechead"><div><div class="eyebrow">Fuel</div><h2>Food, water, creatine</h2></div></div>';
+  h += '<section class="sec"><div class="sechead"><div><div class="eyebrow">Fuel</div><h2>Food, water, supplements</h2></div></div>';
   h += meter('Protein', st.pro+' / '+T.protein+' g', T.protein? st.pro/T.protein:0, '--fuel');
   h += meter('Calories', st.cal+' / '+T.calories, T.calories? st.cal/T.calories:0, st.cal > T.calories ? '--warn' : '--fuel');
   var toGo = T.protein - st.pro;
@@ -398,7 +398,11 @@ function vToday(){
   h += '<label class="toggle small"><input type="checkbox" id="f-keep"> Save to quick add</label>';
   h += '<div class="water"><span class="eyebrow" style="flex:1 1 100%">Water</span><span class="big">'+st.water+'<span class="small muted"> / '+T.water+' oz</span></span><button class="chip" data-act="water:8">+8</button><button class="chip" data-act="water:16">+16</button><button class="chip" data-act="water:-8">−8</button></div>';
   h += '<div class="bar" style="--c:var(--fuel)"><i style="width:'+Math.round(Math.min(1, st.water/(T.water||1))*100)+'%"></i></div>';
-  h += '<div class="row" style="gap:18px"><label class="toggle"><input type="checkbox" data-dk="creatine"'+(d.creatine?' checked':'')+'> Creatine</label><label class="toggle"><input type="checkbox" data-dk="steps"'+(d.steps?' checked':'')+'> '+(T.steps? Number(T.steps).toLocaleString()+' steps' : 'Step goal')+'</label></div>';
+  var supps = suppList(), taken = d.supps || {};
+  h += '<div class="eyebrow" style="margin-top:4px">Daily checklist · '+supps.filter(function(x){ return suppTaken(d, x); }).length+'/'+supps.length+'</div>';
+  h += '<div class="row">' + supps.map(function(x, i){ return '<button class="chip" data-act="supp:'+i+'" aria-pressed="'+suppTaken(d, x)+'">'+(suppTaken(d, x) ? '✓ ' : '')+esc(x)+'</button>'; }).join('')
+    + '<label class="chip" style="display:inline-flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" data-dk="steps"'+(d.steps?' checked':'')+' style="accent-color:var(--accent)"> '+(T.steps? Number(T.steps).toLocaleString()+' steps' : 'Step goal')+'</label></div>';
+  h += '<div class="row" style="flex-wrap:nowrap"><input type="text" id="supp-new" placeholder="Add to checklist, e.g. Multivitamin, Vitamin D, Iron"><button class="btn ghost" data-act="supp-add">+ Add</button></div>';
   h += '</section>';
 
   // Faith
@@ -776,6 +780,8 @@ function vProgress(){
   return h;
 }
 
+function suppList(){ var P = S.plan; if (!P.supps) P.supps = ['Creatine']; return P.supps; }
+function suppTaken(d, name){ return !!((d.supps || {})[name] || (name === 'Creatine' && d.creatine)); }
 function listFor(key){
   var P = S.plan;
   if (key.indexOf('w-') === 0) { var w = P.workouts[planDay]; return w[key.slice(2)] || (w[key.slice(2)] = []); }
@@ -806,7 +812,7 @@ function vPlan(){
   h += '<div class="grid2"><div class="field"><label for="pw-title">Workout name</label><input type="text" id="pw-title" data-pw="title" value="'+esc(w.title||'')+'"></div><div class="field"><label for="pw-focus">Focus</label><input type="text" id="pw-focus" data-pw="focus" value="'+esc(w.focus||'')+'"></div></div>';
   [['gym','Gym version'],['home','Home version (no gym)'],['mvp','MVP version (bad day)']].forEach(function(t){ h += '<div class="eyebrow" style="margin-top:6px">'+t[1]+'</div>' + listEditor('w-'+t[0], 'Add an exercise, e.g. Hip thrusts: 4 x 10'); });
   h += '</section>';
-  h += '<section class="sec"><div class="sechead"><div><div class="eyebrow">Self-care</div><h2>Daily list & Sunday reset</h2></div></div><div class="eyebrow">Daily self-care</div>' + listEditor('selfcare', 'Add one, e.g. Skincare PM') + '<div class="eyebrow" style="margin-top:6px">Sunday reset</div>' + listEditor('reset', 'Add one, e.g. Meal prep') + '</section>';
+  h += '<section class="sec"><div class="sechead"><div><div class="eyebrow">Self-care</div><h2>Daily lists & Sunday reset</h2></div></div><div class="eyebrow">Supplements and daily checklist</div>' + (suppList(), listEditor('supps', 'Add one, e.g. Magnesium at night')) + '<div class="eyebrow" style="margin-top:6px">Daily self-care</div>' + listEditor('selfcare', 'Add one, e.g. Skincare PM') + '<div class="eyebrow" style="margin-top:6px">Sunday reset</div>' + listEditor('reset', 'Add one, e.g. Meal prep') + '</section>';
   h += '<section class="sec"><div class="sechead"><div><div class="eyebrow">Quick add</div><h2>Go-to foods</h2></div></div>' + foodEditor() + '</section>';
   h += '<section class="sec"><div class="sechead"><div><div class="eyebrow">Apple Calendar</div><h2>Subscribe once</h2></div></div>'
     + '<p class="small muted">Every task with a day shows up in Apple Calendar on its own and updates when you change it. Apple checks for changes every so often, so new tasks can take a little while to appear. Use + Calendar on a task when you want it there right now.</p>'
@@ -849,6 +855,12 @@ function act(a, el){
       save('config/plan'); render(); break;
     case 'fd-add': (S.plan.foods = S.plan.foods || []).push({name:'', cal:0, protein:0}); save('config/plan'); render(); var fnn = document.getElementById('fd-n-' + (S.plan.foods.length - 1)); if (fnn) fnn.focus(); break;
     case 'fd-del': S.plan.foods.splice(+arg, 1); save('config/plan'); render(); break;
+    case 'supp':
+      var sn = suppList()[+arg]; if (!sn) return;
+      edit(k, function(d){ var on = !suppTaken(d, sn); d.supps = d.supps || {}; if (on) d.supps[sn] = true; else delete d.supps[sn]; if (sn === 'Creatine') d.creatine = on; }); render(); break;
+    case 'supp-add':
+      var si = document.getElementById('supp-new'), sv = si ? si.value.trim() : ''; if (!sv) { if (si) si.focus(); return; }
+      if (suppList().indexOf(sv) < 0) { suppList().push(sv); save('config/plan'); } render(); toast('Added to your daily checklist'); break;
     case 'cw-add':
       var cwn = document.getElementById('cw-new'), cwv = cwn ? cwn.value.trim() : ''; if (!cwv) { if (cwn) cwn.focus(); return; }
       edit(k, function(d){ d.custom = d.custom || {}; (d.custom.items = d.custom.items || []).push(cwv); }); render();
@@ -988,6 +1000,7 @@ document.addEventListener('keydown', function(e){
   var id = e.target.id;
   if (id === 'task-in') { e.preventDefault(); act('task-add'); }
   if (id === 'cw-new') { e.preventDefault(); act('cw-add'); }
+  if (id === 'supp-new') { e.preventDefault(); act('supp-add'); }
   if (id && id.indexOf('le-new-') === 0) { e.preventDefault(); var lb = e.target.closest('.row').querySelector('[data-act^="le-add"]'); if (lb) act(lb.dataset.act); }
   if (id === 'cl-name' || id === 'cl-org') { e.preventDefault(); act('client-add'); }
   if (id === 'te-text') { e.preventDefault(); var sb = document.querySelector('[data-act^="task-save:"]'); if (sb) act(sb.dataset.act); }
