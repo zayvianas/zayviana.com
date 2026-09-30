@@ -167,7 +167,7 @@ export function buildIcs(tasks: Task[], clientNames: Record<string, string>, cal
   return lines.map(fold).join("\r\n") + "\r\n"
 }
 
-type MoneyItem = { id: string; name: string; min?: number; due?: string; payer?: string; type?: string; status?: string; balance?: number; until?: string }
+type MoneyItem = { id: string; name: string; isDebt?: boolean; min?: number; due?: string; payer?: string; type?: string; status?: string; balance?: number; until?: string }
 
 export async function loadTasksAndClients() {
   const [inbox, clients, money] = await redis<(string | null)[]>("MGET", PREFIX + "config/inbox", PREFIX + "config/clients", PREFIX + "config/money")
@@ -175,7 +175,7 @@ export async function loadTasksAndClients() {
   // Money due dates show up in the calendar too.
   const items: MoneyItem[] = money ? (JSON.parse(money).items || []) : []
   items.forEach((i) => {
-    const owes = i.type === "card" || i.type === "bnpl" ? Number(i.balance) > 0.009 : i.status !== "canceled"
+    const owes = i.isDebt || i.type === "card" || i.type === "bnpl" || i.type === "loan" ? Number(i.balance) > 0.009 : i.status !== "canceled"
     if (i.type === "income" || !i.due || !(Number(i.min) > 0) || (i.payer && i.payer !== "me") || !owes || (i.until && i.due >= i.until)) return
     tasks.push({ id: "pay-" + i.id + "-" + i.due, text: `Pay ${i.name} $${Number(i.min).toFixed(2)}`, date: i.due })
   })
