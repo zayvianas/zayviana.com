@@ -469,10 +469,26 @@ function stageOf(c){
   if (kindOf(c) === 'tutoring') id = {lead:'waiting', talking:'waiting', proposal:'waiting', done:'closed'}[id] || id;
   return st.filter(function(s){ return s[0] === id; })[0] || st[0];
 }
-function tutorWeekly(c){ return kindOf(c) === 'tutoring' && stageOf(c)[0] === 'active' ? (Number(c.rate) || 0) * (Number(c.perWeek) || 0) : 0; }
+function mondaysIn(ym){
+  var y = +ym.slice(0, 4), mo = +ym.slice(5, 7) - 1, d = new Date(y, mo, 1), out = [];
+  while (d.getDay() !== 1) d.setDate(d.getDate() + 1);
+  while (d.getMonth() === mo) { out.push(iso(d)); d.setDate(d.getDate() + 7); }
+  return out;
+}
+function isTutoringActive(c){ return kindOf(c) === 'tutoring' && stageOf(c)[0] === 'active'; }
+function weekSessions(c, monday){ var w = (c.weeks || {})[monday]; if (w && w.n != null) return Number(w.n) || 0; return isTutoringActive(c) ? (Number(c.perWeek) || 0) : 0; }
+function tutorMonth(c, ym){
+  var weeks = mondaysIn(ym).map(function(m){ var w = (c.weeks || {})[m] || {}; var def = isTutoringActive(c) ? (Number(c.perWeek) || 0) : 0; return {monday:m, n:weekSessions(c, m), note:w.note || '', changed:w.n != null && Number(w.n) !== def}; });
+  var n = weeks.reduce(function(a, w){ return a + w.n; }, 0);
+  return {weeks:weeks, sessions:n, amount:n * (Number(c.rate) || 0)};
+}
 function retainer(c){ return kindOf(c) !== 'tutoring' && stageOf(c)[0] === 'active' ? (Number(String(c.retainer || '').replace(/[^0-9.]/g, '')) || 0) : 0; }
-function clientIncome(){
-  return clients().map(function(c){ var w = tutorWeekly(c), r = retainer(c); return w ? {name:c.name, weekly:w, monthly:w * 52 / 12, note:'$' + c.rate + ' × ' + c.perWeek + ' a week'} : r ? {name:c.name, weekly:r * 12 / 52, monthly:r, note:'monthly retainer'} : null; }).filter(Boolean);
+function clientIncome(ym){
+  ym = ym || TODAY.slice(0, 7);
+  return clients().map(function(c){
+    if (kindOf(c) === 'tutoring') { var t = tutorMonth(c, ym); return t.amount ? {name:c.name, monthly:t.amount, note:t.sessions + ' session' + (t.sessions === 1 ? '' : 's') + ' × $' + c.rate + ' in ' + MON[+ym.slice(5, 7) - 1]} : null; }
+    var r = retainer(c); return r ? {name:c.name, monthly:r, note:'monthly retainer'} : null;
+  }).filter(Boolean);
 }
 
 function taskRow(t, showDate){
@@ -539,24 +555,36 @@ function vClients(){
     var sa = order(a), sb = order(b); if (sa !== sb) return sa - sb; return (a.nextDate || '9') < (b.nextDate || '9') ? -1 : 1;
   });
   var tutoring = all.filter(function(c){ return kindOf(c) === 'tutoring' && stageOf(c)[0] === 'active'; });
-  var weekly = all.reduce(function(a, c){ return a + tutorWeekly(c); }, 0);
+  var weekly = all.reduce(function(a, c){ return a + (kindOf(c) === 'tutoring' ? tutorMonth(c, TODAY.slice(0, 7)).amount : 0); }, 0);
   var pipe = all.filter(function(c){ return kindOf(c) !== 'tutoring' && ['lead','talking','proposal'].indexOf(stageOf(c)[0]) >= 0; });
   var pv = pipe.reduce(function(a, c){ var n = Number(String(c.value||'').replace(/[^0-9.]/g,'')); return a + (isNaN(n)?0:n); }, 0);
   var h = '<section class="sec"><div class="sechead"><div><div class="eyebrow">Your people</div><h2>Clients</h2></div></div>';
-  h += '<div class="tally"><div><b>'+tutoring.length+'</b><span class="small muted">active students</span></div><div><b>'+usd(weekly)+'</b><span class="small muted">tutoring a week</span></div><div><b>'+pipe.length+'</b><span class="small muted">Cornerstone leads</span></div><div><b>'+usd(pv)+'</b><span class="small muted">pipeline value</span></div></div>';
+  h += '<div class="tally"><div><b>'+tutoring.length+'</b><span class="small muted">active students</span></div><div><b>'+usd(weekly)+'</b><span class="small muted">tutoring in '+MON[new Date().getMonth()]+'</span></div><div><b>'+pipe.length+'</b><span class="small muted">Cornerstone leads</span></div><div><b>'+usd(pv)+'</b><span class="small muted">pipeline value</span></div></div>';
   h += '<div class="addtask addclient"><input type="text" id="cl-name" placeholder="Name"><input type="text" id="cl-org" placeholder="Business or parent (optional)"><select id="cl-kind" aria-label="Type">'+Object.keys(KINDS).map(function(k){ return '<option value="'+k+'">'+KINDS[k].label+'</option>'; }).join('')+'</select><button class="btn" data-act="client-add">Add</button></div>';
   h += '<div class="row">' + [['all','All'],['tutoring','Tutoring'],['cornerstone','Cornerstone Labs'],['other','Other']].map(function(f){ return '<button class="chip" data-act="c-filter:'+f[0]+'" aria-pressed="'+(clientFilter===f[0])+'">'+f[1]+'</button>'; }).join('') + '</div></section>';
   if (!cs.length) return h + '<section class="sec empty"><p class="muted">'+(all.length ? 'No clients of this type.' : 'No clients yet. Add a student or a business you want to walk into this week.')+'</p></section>';
   h += '<section class="sec"><div class="clist">' + cs.map(clientCard).join('') + '</div></section>';
   return h;
 }
+var tutorYm = null;
+function tutorWeeksBlock(c){
+  var ym = tutorYm || TODAY.slice(0, 7), t = tutorMonth(c, ym), mi = +ym.slice(5, 7) - 1;
+  var h = '<div class="task editing" style="gap:8px"><div class="sechead" style="align-items:center"><div><div class="eyebrow">'+MON[mi]+' sessions</div><div style="font-weight:700">'+t.sessions+' session'+(t.sessions === 1 ? '' : 's')+' · '+usd(t.amount)+'</div></div><div class="row"><button class="iconbtn" data-act="tm-prev" aria-label="Previous month">‹</button><button class="iconbtn" data-act="tm-next" aria-label="Next month">›</button></div></div>';
+  h += t.weeks.map(function(w){
+    return '<div class="task" style="grid-template-columns:86px auto 1fr;align-items:center;border-top:1px solid var(--line)"><span class="small">Week of '+esc(label(w.monday).slice(5))+'</span>'
+      + '<div class="row" style="flex-wrap:nowrap;gap:4px"><button class="chip" data-act="tw-n:'+esc(c.id)+'|'+w.monday+'|-1" aria-label="One less session">−</button><b class="mono" style="min-width:18px;text-align:center'+(w.changed ? ';color:var(--accent)' : '')+'">'+w.n+'</b><button class="chip" data-act="tw-n:'+esc(c.id)+'|'+w.monday+'|1" aria-label="One more session">+</button></div>'
+      + '<input type="text" id="twn-'+esc(c.id)+'-'+w.monday+'" data-twc="'+esc(c.id)+'" data-twm="'+w.monday+'" value="'+esc(w.note)+'" placeholder="Note, e.g. she was sick"></div>';
+  }).join('');
+  return h + '<p class="small muted">Each week starts at '+(c.perWeek || 0)+'. Tap − or + when you meet less or more. Changed weeks show in color.</p></div>';
+}
 function clientCard(c){
   var kind = kindOf(c), st = stageOf(c), open = openClient === c.id, tut = kind === 'tutoring';
   var line = [KINDS[kind].label, c.org].filter(Boolean);
-  if (tut && c.rate) line.push('$' + c.rate + '/session × ' + (c.perWeek || 0) + ' a week' + (tutorWeekly(c) ? ' = ' + usd(tutorWeekly(c)) + '/wk' : ''));
+  if (tut && c.rate) line.push('$' + c.rate + '/session, usually ' + (c.perWeek || 0) + ' a week');
   if (!tut && c.value) line.push(c.value + ' deal'); if (!tut && c.retainer) line.push(c.retainer + '/mo retainer');
   var h = '<div class="client"><div class="chead"><div style="min-width:0"><h3>'+esc(c.name||'Unnamed')+'</h3><div class="small muted">'+esc(line.join(' · '))+'</div></div><span class="stage" style="--sc:var('+st[2]+')">'+esc(st[1])+'</span></div>';
   if (c.next) h += '<div class="cnext"><span class="eyebrow">Next step</span><div>'+esc(c.next)+(c.nextDate?' <span class="muted">· '+esc(label(c.nextDate))+'</span>':'')+(c.nextDate && c.nextDate < TODAY && ['done','closed'].indexOf(st[0]) < 0 ? ' <span class="tmeta" style="display:inline"><span class="late">Overdue</span></span>' : '')+'</div></div>';
+  if (tut && c.rate) h += tutorWeeksBlock(c);
   if (open) {
     var f = function(key, lab, type, ph){ return '<div class="field"><label for="c-'+key+'-'+c.id+'">'+lab+'</label><input type="'+(type||'text')+'" id="c-'+key+'-'+c.id+'" data-cid="'+esc(c.id)+'" data-ck="'+key+'" value="'+esc(c[key]==null?'':c[key])+'" placeholder="'+esc(ph||'')+'"'+(type==='number'?' inputmode="decimal"':'')+'></div>'; };
     h += '<div class="field"><span class="eyebrow">Stage</span><div class="stagepick">'+KINDS[kind].stages.map(function(s){ return '<button class="chip" data-act="c-stage:'+esc(c.id)+':'+s[0]+'" aria-pressed="'+(st[0]===s[0])+'">'+s[1]+'</button>'; }).join('')+'</div></div>';
@@ -567,7 +595,7 @@ function clientCard(c){
       + '</div>';
     h += '<div class="grid2">' + f('next','Next step','text', tut ? 'Send session notes' : 'Send website mockup') + f('nextDate','Next step date','date') + '</div>';
     h += '<div class="field"><label for="c-notes-'+c.id+'">Notes</label><textarea id="c-notes-'+c.id+'" data-cid="'+esc(c.id)+'" data-ck="notes" rows="3" placeholder="'+(tut ? 'What you worked on, what to review next time' : 'What they need, what you promised, how they like to talk')+'">'+esc(c.notes||'')+'</textarea></div>';
-    if (tut) h += '<p class="small muted">Active students count as income on the Money tab.</p>';
+    if (tut) h += '<p class="small muted">Active students count as income on the Money tab, month by month.</p>';
   } else if (c.notes) {
     h += '<div class="small muted" style="white-space:pre-wrap">'+esc(c.notes.length > 160 ? c.notes.slice(0,160)+'…' : c.notes)+'</div>';
   }
@@ -680,7 +708,10 @@ function incomeWithin(days){
     else { while (d < TODAY && guard++ < 400) d = advance(d, f); while (d <= end && guard++ < 400) { n++; d = advance(d, f); } }
     total += n * amt;
   });
-  clientIncome().forEach(function(c){ total += c.weekly * days / 7; });
+  clients().forEach(function(c){
+    if (kindOf(c) === 'tutoring') { for (var dd = TODAY; dd <= end; dd = addDays(dd, 1)) { if (parse(dd).getDay() === 1) total += weekSessions(c, dd) * (Number(c.rate) || 0); } }
+    else total += retainer(c) * days / 30;
+  });
   return total;
 }
 function snowball(budget){
@@ -834,7 +865,7 @@ function monthPlanner(){
   var ym = base.getFullYear() + '-' + pad(base.getMonth() + 1), m = money(), rows = [], incRows = [];
   m.items.forEach(function(i){ occurrences(i, ym).forEach(function(d){ (i.type === 'income' ? incRows : rows).push({i:i, d:d}); }); });
   var paidIds = {}; m.log.forEach(function(l){ if (l.date.slice(0, 7) === ym) paidIds[l.itemId] = (paidIds[l.itemId] || 0) + l.amount; });
-  var clientMonthly = clientIncome().reduce(function(a, c){ return a + c.monthly; }, 0);
+  var clientMonthly = clientIncome(ym).reduce(function(a, c){ return a + c.monthly; }, 0);
   var incTotal = incRows.reduce(function(a, r){ return a + (Number(r.i.min) || 0); }, 0) + clientMonthly;
   var groups = {must:[], regular:[], optional:[]};
   rows.forEach(function(r){ groups[mine(r.i) ? prio(r.i) : 'optional'].push(r); });
@@ -886,7 +917,7 @@ function vMoney(){
   h += monthPlanner();
   h += mSection('income', 'Income', 'Money coming in');
   var ci = clientIncome();
-  if (ci.length) h = h.replace(/<\/section>$/, '<div class="eyebrow">From clients</div><div class="tlist">' + ci.map(function(c){ return '<div class="task" style="grid-template-columns:1fr auto"><div class="tt"><span style="font-weight:700">'+esc(c.name)+'</span><div class="tmeta"><span>'+esc(c.note)+'</span></div></div><div class="mono" style="font-weight:700;text-align:right">'+usd(c.monthly)+'/mo</div></div>'; }).join('') + '</div><p class="small muted">Change rates and sessions on the Clients tab.</p></section>');
+  if (ci.length) h = h.replace(/<\/section>$/, '<div class="eyebrow">From clients this month</div><div class="tlist">' + ci.map(function(c){ return '<div class="task" style="grid-template-columns:1fr auto"><div class="tt"><span style="font-weight:700">'+esc(c.name)+'</span><div class="tmeta"><span>'+esc(c.note)+'</span></div></div><div class="mono" style="font-weight:700;text-align:right">'+usd(c.monthly)+'</div></div>'; }).join('') + '</div><p class="small muted">Change rates and sessions on the Clients tab.</p></section>');
   h += mSection('card', 'Credit cards', 'Smallest balance first');
   h += mSection('loan', 'Loans and other debt', 'Car loan, personal, student');
   h += mSection('bnpl', 'Buy now, pay later', 'Klarna, Affirm, Afterpay');
@@ -1123,6 +1154,13 @@ function act(a, el){
       moneyDraft = {item:nmi}; openMoney = null; payOpen = null; render();
       var nf = document.getElementById('mf-name-draft'); if (nf) nf.focus(); break;
     case 'm-cancel': moneyDraft = null; render(); break;
+    case 'tw-n':
+      var tp = arg.split('|'), tc = findClient(tp[0]); if (!tc) return;
+      tc.weeks = tc.weeks || {}; var cur0 = weekSessions(tc, tp[1]), nv0 = Math.max(0, cur0 + Number(tp[2]));
+      var wk = tc.weeks[tp[1]] || {}; wk.n = nv0; if (nv0 === (isTutoringActive(tc) ? Number(tc.perWeek) || 0 : 0) && !wk.note) delete tc.weeks[tp[1]]; else tc.weeks[tp[1]] = wk;
+      save('config/clients'); render(); break;
+    case 'tm-prev': case 'tm-next':
+      var tb = parse((tutorYm || TODAY.slice(0, 7)) + '-01'); tb.setMonth(tb.getMonth() + (name === 'tm-next' ? 1 : -1)); tutorYm = tb.getFullYear() + '-' + pad(tb.getMonth() + 1); render(); break;
     case 'pm-prev': planMonth = Math.max(0, planMonth - 1); moneyDraft = null; render(); break;
     case 'pm-next': planMonth = Math.min(11, planMonth + 1); moneyDraft = null; render(); break;
     case 'pm-open': planOpen = !(openMoney === arg && planOpen); openMoney = planOpen ? arg : null; payOpen = null; moneyDraft = null; render(); break;
@@ -1215,6 +1253,7 @@ document.addEventListener('input', function(e){
     edit(cur, function(d){ setPath(d, t.dataset.dk, v); if (t.dataset.dk.indexOf('top3.') === 0 && d.top3.length < 3) { while (d.top3.length < 3) d.top3.push(''); } });
     return;
   }
+  if (t.dataset.twc) { var tc2 = findClient(t.dataset.twc); if (tc2) { tc2.weeks = tc2.weeks || {}; var w2 = tc2.weeks[t.dataset.twm] || {}; w2.note = t.value; if (w2.n == null) w2.n = weekSessions(tc2, t.dataset.twm); tc2.weeks[t.dataset.twm] = w2; save('config/clients'); } return; }
   if (t.dataset.le != null && t.dataset.li != null) { listFor(t.dataset.le)[+t.dataset.li] = t.value; save('config/plan'); return; }
   if (t.dataset.fi != null) { var fo = S.plan.foods[+t.dataset.fi]; if (fo) { fo[t.dataset.ff] = t.dataset.ff === 'name' ? t.value : (Number(t.value) || 0); save('config/plan'); } return; }
   if (t.dataset.cwi != null) { edit(cur, function(d){ d.custom.items[+t.dataset.cwi] = t.value; }); return; }
