@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Study Shelf">
+<meta name="theme-color" content="#f7f6f2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#12151c" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" href="/learn/icon-180.png">
+<link rel="manifest" href="/learn/manifest.webmanifest">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}
+.shelf-back{display:inline-block;margin:12px 16px 0;font:600 14px system-ui,sans-serif;color:inherit;opacity:.7;text-decoration:none}.shelf-back:hover{opacity:1}</style>
+<title>Mermaid Crash Course</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:ital,wght@0,500;1,400&display=swap">
+<style>
+/* Layout: one reading column like a blueprint spec sheet; examples sit code-over-diagram, side by side on wide screens */
+:root{
+  --bg:#f5f7f8; --surface:#ffffff; --ink:#15212b; --muted:#566573; --line:#d6dee4;
+  --accent:#0f5e7a; --accent-soft:#e2eff4; --code-bg:#0f1c25; --code-ink:#d9e6ee; --warn:#8a5a00; --warn-soft:#fbf1dc;
+  --f-display:"IBM Plex Serif",Georgia,serif; --f-body:"IBM Plex Sans",system-ui,sans-serif; --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0e161c; --surface:#15212a; --ink:#e3ebf0; --muted:#9aabb8; --line:#2a3a46;
+  --accent:#6cc0dc; --accent-soft:#163240; --code-bg:#081016; --code-ink:#d9e6ee; --warn:#f0c46a; --warn-soft:#3a2d12; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e161c; --surface:#15212a; --ink:#e3ebf0; --muted:#9aabb8; --line:#2a3a46;
+  --accent:#6cc0dc; --accent-soft:#163240; --code-bg:#081016; --code-ink:#d9e6ee; --warn:#f0c46a; --warn-soft:#3a2d12; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:16px/1.6 var(--f-body);padding-inline:16px;padding-block:32px 64px}
+.wrap{max-width:980px;margin:0 auto;display:grid;gap:48px}
+header{display:grid;gap:12px;max-width:68ch}
+.eyebrow{font:500 12px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+h1{font:500 clamp(30px,5vw,44px)/1.1 var(--f-display);margin:0;text-wrap:balance}
+h2{font:500 26px/1.2 var(--f-display);margin:0;text-wrap:balance}
+h3{font:600 17px/1.3 var(--f-body);margin:0}
+p{margin:0}
+.lead{font-size:18px;color:var(--muted)}
+nav{display:flex;flex-wrap:wrap;gap:8px}
+nav a{font:500 13px/1 var(--f-body);color:var(--accent);text-decoration:none;border:1px solid var(--line);background:var(--surface);padding:8px 12px;border-radius:999px}
+nav a:hover,nav a:focus-visible{border-color:var(--accent);outline:none}
+section{display:grid;gap:16px}
+.prose{display:grid;gap:12px;max-width:68ch}
+.prose ul,.prose ol{margin:0;padding-left:20px;display:grid;gap:6px}
+code{font:14px var(--f-mono);background:var(--accent-soft);padding:1px 5px;border-radius:4px}
+.ex{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface)}
+@media (max-width:760px){.ex{grid-template-columns:minmax(0,1fr)}}
+.ex-head{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--line)}
+.ex-head p{color:var(--muted);font-size:14px}
+.codecol{background:var(--code-bg);position:relative;min-width:0}
+.codecol pre{margin:0;padding:16px;overflow-x:auto;color:var(--code-ink);font:13px/1.6 var(--f-mono)}
+.copy{position:absolute;top:8px;right:8px;font:500 12px var(--f-body);color:var(--code-ink);background:transparent;border:1px solid #3a4c58;border-radius:6px;padding:4px 10px;cursor:pointer}
+.copy:hover,.copy:focus-visible{border-color:var(--code-ink);outline:none}
+.render{padding:16px;overflow-x:auto;min-width:0;display:flex;align-items:center;justify-content:center;background:#ffffff}
+.render pre.mermaid{margin:0;background:transparent}
+.cheat{width:100%;border-collapse:collapse;font-size:14px}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+.cheat th,.cheat td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+.cheat th{font:500 12px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.cheat tr:last-child td{border-bottom:0}
+.cheat td:first-child{white-space:nowrap}
+.note{background:var(--warn-soft);border-left:3px solid var(--warn);padding:14px 16px;border-radius:0 8px 8px 0;max-width:68ch}
+.note strong{color:var(--warn)}
+.say{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.say blockquote{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;font:italic 400 16px/1.55 var(--f-display)}
+.say blockquote span{display:block;font:500 12px var(--f-mono);font-style:normal;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.drills{list-style:none;padding:0;margin:0;display:grid;gap:10px;max-width:72ch}
+.drills li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.drills input{margin-top:5px;width:18px;height:18px;accent-color:var(--accent)}
+.drills label{display:grid;gap:4px;cursor:pointer}
+.drills small{color:var(--muted);font-size:14px}
+a{color:var(--accent)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head><body>
+<a class="shelf-back" href="/learn/index.html">← Study Shelf</a>
+
+
+<div class="wrap">
+<header>
+  <span class="eyebrow">eLend · Technical Product Manager prep</span>
+  <h1>Mermaid in one sitting</h1>
+  <p class="lead">Mermaid lets you write a diagram as plain text, and the tool draws it for you. eLend wants you to build one live in the interview. Here's everything you need, in the order you need it.</p>
+  <nav aria-label="Sections">
+    <a href="#what">What it is</a><a href="#types">5 diagrams</a><a href="#cheat">Cheat sheet</a><a href="#interview">Interview</a><a href="#terms">Their tool list</a><a href="#practice">Practice plan</a>
+  </nav>
+</header>
+
+<section id="what">
+  <h2>What it is, and why they care</h2>
+  <div class="prose">
+    <p>You type something like <code>A --&gt; B</code> and Mermaid draws a box A with an arrow to box B. That's the whole idea. The text lives in a Markdown file next to the code, so it gets saved in Git, reviewed in pull requests, and updated like any other file. That's what <strong>diagram-as-code</strong> and <strong>docs-as-code</strong> mean.</p>
+    <p>GitHub, GitLab, Azure DevOps wikis, Notion, and Obsidian all draw Mermaid automatically inside Markdown. Confluence needs a plugin.</p>
+    <p>Why a modernization team cares:</p>
+    <ul>
+      <li><strong>Diagrams stop going stale.</strong> A Visio file on someone's laptop is out of date in a month. A Mermaid file in the repo gets updated in the same pull request as the change.</li>
+      <li><strong>You can see what changed.</strong> Git shows exactly which arrow moved and who moved it.</li>
+      <li><strong>AI writes it well.</strong> You can paste messy notes into Claude and get a working first draft in seconds. That's the "AI-assisted documentation" line in the job description.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="types">
+  <h2>The five diagrams you actually need</h2>
+  <p class="prose" style="color:var(--muted)">Each example uses a made-up mortgage setup so it sounds like their world. None of it is eLend's real architecture. Copy any of them into <a href="https://mermaid.live" target="_blank" rel="noopener">mermaid.live</a> and play with it.</p>
+
+  <div class="ex">
+    <div class="ex-head"><h3>1. Flowchart: current state vs. future state</h3><p>Use for processes, workflows, migration paths</p></div>
+    <div class="codecol"><button class="copy" type="button">Copy</button><pre>flowchart LR
+  subgraph Current["Current state"]
+    B1[Broker submits loan] --&gt; E1[Manual re-entry into LOS]
+    E1 --&gt; R1[Nightly batch export]
+    R1 --&gt; X1[Excel reports]
+  end
+  subgraph Future["Future state"]
+    B2[Broker submits loan] --&gt; A2[Loan API]
+    A2 --&gt; E2[Encompass LOS]
+    A2 --&gt; D2[(Azure data platform)]
+    D2 --&gt; P2[Live dashboards]
+  end</pre></div>
+    <div class="render"><pre class="mermaid">flowchart LR
+  subgraph Current["Current state"]
+    B1[Broker submits loan] --&gt; E1[Manual re-entry into LOS]
+    E1 --&gt; R1[Nightly batch export]
+    R1 --&gt; X1[Excel reports]
+  end
+  subgraph Future["Future state"]
+    B2[Broker submits loan] --&gt; A2[Loan API]
+    A2 --&gt; E2[Encompass LOS]
+    A2 --&gt; D2[(Azure data platform)]
+    D2 --&gt; P2[Live dashboards]
+  end</pre></div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-head"><h3>2. Dependency map</h3><p>Use to show what breaks if you touch one system</p></div>
+    <div class="codecol"><button class="copy" type="button">Copy</button><pre>flowchart TD
+  SF[Salesforce CRM] --&gt; API[Loan API layer]
+  LOS[Encompass LOS] --&gt; API
+  PRC[Legacy pricing app] --&gt; API
+  API --&gt; DW[(Data warehouse)]
+  DW --&gt; BI[Fabric reports]
+  PRC -.-&gt; DB[(Old SQL Server)]
+  classDef risk stroke:#c0392b,stroke-width:3px
+  class PRC,DB risk</pre></div>
+    <div class="render"><pre class="mermaid">flowchart TD
+  SF[Salesforce CRM] --&gt; API[Loan API layer]
+  LOS[Encompass LOS] --&gt; API
+  PRC[Legacy pricing app] --&gt; API
+  API --&gt; DW[(Data warehouse)]
+  DW --&gt; BI[Fabric reports]
+  PRC -.-&gt; DB[(Old SQL Server)]
+  classDef risk stroke:#c0392b,stroke-width:3px
+  class PRC,DB risk</pre></div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-head"><h3>3. Sequence diagram</h3><p>Use for API calls and integrations, who talks to whom and in what order</p></div>
+    <div class="codecol"><button class="copy" type="button">Copy</button><pre>sequenceDiagram
+  participant B as Borrower portal
+  participant API as Loan API
+  participant LOS as Encompass
+  participant SF as Salesforce
+  B-&gt;&gt;API: Submit application
+  API-&gt;&gt;LOS: Create loan file
+  LOS--&gt;&gt;API: Loan number
+  API-&gt;&gt;SF: Update lead status
+  API--&gt;&gt;B: Confirmation</pre></div>
+    <div class="render"><pre class="mermaid">sequenceDiagram
+  participant B as Borrower portal
+  participant API as Loan API
+  participant LOS as Encompass
+  participant SF as Salesforce
+  B-&gt;&gt;API: Submit application
+  API-&gt;&gt;LOS: Create loan file
+  LOS--&gt;&gt;API: Loan number
+  API-&gt;&gt;SF: Update lead status
+  API--&gt;&gt;B: Confirmation</pre></div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-head"><h3>4. Gantt: migration plan</h3><p>Use for roadmaps, phases, and cutover dates</p></div>
+    <div class="codecol"><button class="copy" type="button">Copy</button><pre>gantt
+  title Retire legacy pricing app
+  dateFormat YYYY-MM-DD
+  section Discover
+  Inventory and dependency map :a1, 2026-11-02, 14d
+  section Build
+  New pricing service :a2, after a1, 30d
+  section Migrate
+  Parallel run :a3, after a2, 14d
+  Cutover :milestone, m1, after a3, 0d
+  section Retire
+  Decommission old app :a4, after m1, 7d</pre></div>
+    <div class="render"><pre class="mermaid">gantt
+  title Retire legacy pricing app
+  dateFormat YYYY-MM-DD
+  section Discover
+  Inventory and dependency map :a1, 2026-11-02, 14d
+  section Build
+  New pricing service :a2, after a1, 30d
+  section Migrate
+  Parallel run :a3, after a2, 14d
+  Cutover :milestone, m1, after a3, 0d
+  section Retire
+  Decommission old app :a4, after m1, 7d</pre></div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-head"><h3>5. State diagram</h3><p>Use for anything with statuses, like a loan moving through its lifecycle</p></div>
+    <div class="codecol"><button class="copy" type="button">Copy</button><pre>stateDiagram-v2
+  [*] --&gt; Application
+  Application --&gt; Processing
+  Processing --&gt; Underwriting
+  Underwriting --&gt; Approved
+  Underwriting --&gt; Suspended: Missing docs
+  Suspended --&gt; Underwriting
+  Approved --&gt; Closing
+  Closing --&gt; Funded
+  Funded --&gt; [*]</pre></div>
+    <div class="render"><pre class="mermaid">stateDiagram-v2
+  [*] --&gt; Application
+  Application --&gt; Processing
+  Processing --&gt; Underwriting
+  Underwriting --&gt; Approved
+  Underwriting --&gt; Suspended: Missing docs
+  Suspended --&gt; Underwriting
+  Approved --&gt; Closing
+  Closing --&gt; Funded
+  Funded --&gt; [*]</pre></div>
+  </div>
+</section>
+
+<section id="cheat">
+  <h2>Cheat sheet</h2>
+  <div class="tablewrap"><table class="cheat">
+    <thead><tr><th>You type</th><th>You get</th></tr></thead>
+    <tbody>
+      <tr><td><code>flowchart LR</code> / <code>TD</code></td><td>Start a flowchart. LR runs left to right, TD runs top down.</td></tr>
+      <tr><td><code>A[Text]</code></td><td>Rectangle (a step or system)</td></tr>
+      <tr><td><code>A(Text)</code></td><td>Rounded box (start or end)</td></tr>
+      <tr><td><code>A{Text}</code></td><td>Diamond (a decision)</td></tr>
+      <tr><td><code>A[(Text)]</code></td><td>Cylinder (a database)</td></tr>
+      <tr><td><code>A --&gt; B</code></td><td>Solid arrow</td></tr>
+      <tr><td><code>A -.-&gt; B</code></td><td>Dotted arrow (optional, async, or "going away")</td></tr>
+      <tr><td><code>A --&gt;|label| B</code></td><td>Arrow with words on it</td></tr>
+      <tr><td><code>subgraph Name ... end</code></td><td>A labeled box around a group (a team, a system, a state)</td></tr>
+      <tr><td><code>A{Approved?} --&gt;|Yes| B</code></td><td>Branch out of a decision</td></tr>
+      <tr><td><code>%% note</code></td><td>A comment that doesn't show up</td></tr>
+      <tr><td><code>A-&gt;&gt;B: msg</code></td><td>Sequence diagram: call. <code>--&gt;&gt;</code> is the response.</td></tr>
+    </tbody>
+  </table></div>
+  <p class="prose" style="color:var(--muted)">Most common mistake: a label with parentheses or special characters inside <code>[ ]</code> breaks it. Wrap the label in quotes, like <code>A["Pricing (legacy)"]</code>.</p>
+</section>
+
+<section id="interview">
+  <h2>How it'll show up in the interview</h2>
+  <div class="prose">
+    <p>They listed what they want you to demonstrate: a PRD, a modernization plan, dependency mapping, technical writing, architecture docs, a Mermaid diagram, migration and risk planning, and using AI to help. Expect a scenario like "we have an old system, walk us through how you'd replace it." Here's the order to answer in:</p>
+    <ol>
+      <li><strong>Ask questions first.</strong> Who uses it? What depends on it? What can't go down?</li>
+      <li><strong>Draw the current state</strong> (diagram 1 or 2). Say the risks out loud as you draw.</li>
+      <li><strong>Draw the future state</strong> next to it.</li>
+      <li><strong>Plan the move</strong> in phases (diagram 4): discover, build, run both side by side, cut over, retire the old one.</li>
+      <li><strong>Name the risks</strong> and what you'd do about each: data migration, downtime, people who aren't trained yet, and things nobody knew depended on the old system.</li>
+    </ol>
+  </div>
+  <div class="note"><strong>Stay honest about your level.</strong> Mermaid is on your resume now, so get real reps in before next week so it's true when you say it. If they ask how long you've used it, a good answer is that you've used diagramming tools for years (SharePoint, Smartsheet, process maps at Tampa Electric and MITER) and moved to Mermaid because it keeps docs next to the code. Then show them.</div>
+  <div class="say">
+    <blockquote><span>If they ask why Mermaid</span>"Because the diagram lives in the repo with the code. When the system changes, the diagram changes in the same pull request, so it doesn't go stale like a Visio file."</blockquote>
+    <blockquote><span>If they ask how you use AI</span>"I'll paste my discovery notes into Claude and have it draft the Mermaid. Then I check every box and arrow against what the engineers told me. AI gets me a first draft fast, and I make sure it's right."</blockquote>
+    <blockquote><span>If they ask about legacy risk</span>"The scariest dependencies are the ones nobody wrote down. So I map what we know first, then confirm it with the people who run it every day before we touch anything."</blockquote>
+  </div>
+</section>
+
+<section id="terms">
+  <h2>The rest of their tool list, in plain English</h2>
+  <div class="tablewrap"><table class="cheat">
+    <thead><tr><th>Term</th><th>What it is</th></tr></thead>
+    <tbody>
+      <tr><td>Encompass</td><td>A loan origination system (LOS) from ICE Mortgage Technology. It's where mortgage loans get created, processed, and closed. It's a big deal in mortgage.</td></tr>
+      <tr><td>Salesforce</td><td>A CRM. In mortgage it usually tracks leads, brokers, and borrower relationships.</td></tr>
+      <tr><td>Microsoft Azure</td><td>Microsoft's cloud, where apps, databases, and APIs run.</td></tr>
+      <tr><td>Microsoft Fabric</td><td>Microsoft's data and analytics platform. It brings data together for reporting, with Power BI built in.</td></tr>
+      <tr><td>PlantUML</td><td>An older, similar tool. Text in, diagram out. Its syntax is wordier than Mermaid's.</td></tr>
+      <tr><td>C4 model</td><td>A way to draw architecture at four zoom levels: Context (the system and its users), Containers (apps and databases), Components (the pieces inside one app), and Code. Usually you only draw the first two.</td></tr>
+      <tr><td>Lucidchart, Visio, Miro</td><td>Drag-and-drop diagram tools. Good for workshops and whiteboarding, but they don't live with the code.</td></tr>
+      <tr><td>Event-driven architecture</td><td>Systems announce things ("loan funded") and other systems react, instead of calling each other directly.</td></tr>
+      <tr><td>Technical debt</td><td>Shortcuts and old code that make every future change slower and riskier.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="practice">
+  <h2>Practice plan before your interviews</h2>
+  <ul class="drills">
+    <li><input type="checkbox" id="d1"><label for="d1"><strong>Day 1, 30 min.</strong><small>Open mermaid.live and type all five examples by hand. Don't paste. Change one thing in each and watch what happens.</small></label></li>
+    <li><input type="checkbox" id="d2"><label for="d2"><strong>Day 2, 30 min.</strong><small>From memory, draw the Tampa Electric ServiceNow intake process as a current-state and future-state flowchart.</small></label></li>
+    <li><input type="checkbox" id="d3"><label for="d3"><strong>Day 3, 45 min.</strong><small>Draw the MITER acquisition integration as a dependency map: the legacy systems on each side and what had to connect.</small></label></li>
+    <li><input type="checkbox" id="d4"><label for="d4"><strong>Day 4, 45 min.</strong><small>Mock scenario: "Retire a legacy pricing app." Write a one-page PRD in Markdown with a Mermaid diagram and a Gantt plan inside it. Ask Claude to draft it, then fix what's wrong.</small></label></li>
+    <li><input type="checkbox" id="d5"><label for="d5"><strong>Day 5, 30 min.</strong><small>Do a timed run: talk out loud while drawing a 10-box diagram in under 10 minutes. That's what the live interview will feel like.</small></label></li>
+  </ul>
+</section>
+</div>
+
+<script>
+document.querySelectorAll('.copy').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var pre=btn.nextElementSibling, text=pre.textContent;
+    var done=function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},1500)};
+    try{navigator.clipboard.writeText(text).then(done,function(){sel(pre)})}catch(e){sel(pre)}
+  });
+});
+function sel(el){var r=document.createRange();r.selectNodeContents(el);var s=window.getSelection();s.removeAllRanges();s.addRange(r)}
+</script>
+
+<script src="/learn/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true,theme:"default",securityLevel:"strict"});</script>
+</body></html>

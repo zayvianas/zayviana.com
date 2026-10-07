@@ -10,6 +10,12 @@ const nextConfig: NextConfig = {
           has: [{ type: "host", value: "life.zayviana.com" }],
           destination: "/life/index.html",
         },
+        // learn.zayviana.com serves the Study Shelf (public/learn/index.html).
+        {
+          source: "/",
+          has: [{ type: "host", value: "learn.zayviana.com" }],
+          destination: "/learn/index.html",
+        },
       ],
     };
   },
@@ -17,6 +23,10 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/life/:path*",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
+      {
+        source: "/learn/:path*",
         headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
       },
     ];
