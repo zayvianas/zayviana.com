@@ -129,7 +129,7 @@ export default function Home() {
               className="rounded-full bg-[var(--accent-red)] px-7 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-white transition hover:opacity-90">
               Explore my world
             </a>
-            <a href="/connect"
+            <a href="https://cstonelabs.com" target="_blank" rel="noopener noreferrer"
               className={`rounded-full border px-7 py-3 text-sm font-semibold uppercase tracking-[0.12em] transition ${
                 dark ? "border-white/30 text-white hover:bg-white hover:text-[#0e0e10]"
                      : "border-black/20 text-[#0e0e10] hover:bg-[#0e0e10] hover:text-white"
@@ -194,35 +194,20 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SERVICES - Clients */}
-      <section ref={services.ref} className={`fade-up ${services.visible ? "visible" : ""} px-6 py-24`}>
-        <div className="mx-auto max-w-6xl">
-          <p className={`mb-2 text-center ${kicker}`}>What I Do</p>
-          <h2 className={`mb-14 text-center ${h2}`}>Services</h2>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {[
-              { icon: "🤖", title: "AI Consulting", desc: "Strategy, implementation, and education around AI tools, workflows, and products for teams and businesses." },
-              { icon: "📋", title: "Product & Project Management", desc: "End-to-end product strategy, roadmapping, sprint planning, and delivery for startups and enterprises." },
-              { icon: "🌐", title: "Web & Digital Services", desc: "Websites, branding, logos, and digital presence, built to reflect who you actually are." },
-              { icon: "🚀", title: "Startup & Brand Building", desc: "From zero to launched. Helping founders and small businesses establish their foundation and identity." },
-              { icon: "📣", title: "Marketing & Social Media", desc: "Content strategy, social presence, and storytelling that connects your brand to the right audience." },
-              { icon: "💡", title: "Business Consulting", desc: "Operational guidance, tools setup, and strategic thinking for growing organizations and entrepreneurs." },
-            ].map(({ icon, title, desc }) => (
-              <div key={title} className={`rounded-2xl border p-7 transition duration-300 hover:-translate-y-1 ${
-                dark ? "border-white/10 bg-white/5 hover:border-[var(--accent-pink)]/40 hover:bg-white/10"
-                     : "border-black/10 bg-white hover:border-[var(--accent-pink)]/40 hover:shadow-md"
-              }`}>
-                <span className="text-3xl">{icon}</span>
-                <h3 className="mt-4 font-display text-base font-semibold">{title}</h3>
-                <p className={`mt-2 text-sm leading-relaxed ${muted}`}>{desc}</p>
-              </div>
-            ))}
-          </div>
-          <div className="mt-10 text-center">
-            <a href="/connect" className="inline-block rounded-full bg-[var(--accent-red)] px-8 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-white transition hover:opacity-90">
-              Work with me
-            </a>
-          </div>
+      {/* WORK WITH ME - hands off to CornerStone Labs */}
+      <section id="work" ref={services.ref} className={`fade-up ${services.visible ? "visible" : ""} scroll-mt-20 px-6 py-24`}>
+        <div className={`mx-auto max-w-4xl ${cardBase} p-10 text-center md:p-14`}>
+          <p className={`mb-2 ${kicker}`}>Work With Me</p>
+          <h2 className={`mb-5 ${h2}`}>
+            My business work lives at CornerStone Labs<span className="text-[var(--accent-red)]">.</span>
+          </h2>
+          <p className={`mx-auto mb-9 max-w-2xl text-base leading-relaxed ${muted}`}>
+            If you&apos;re here because your business needs help, that&apos;s where to go. We refresh outdated websites and build AI workflows that take the busywork off your plate, so you can get back to the work that matters. In person around Tampa Bay, remote anywhere.
+          </p>
+          <a href="https://cstonelabs.com" target="_blank" rel="noopener noreferrer"
+            className="inline-block rounded-full bg-[var(--accent-red)] px-8 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-white transition hover:opacity-90">
+            Visit CornerStone Labs
+          </a>
         </div>
       </section>
 
