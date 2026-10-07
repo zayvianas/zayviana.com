@@ -1,0 +1,13 @@
+{
+  "name": "Study Shelf",
+  "short_name": "Study Shelf",
+  "start_url": "/learn/index.html",
+  "scope": "/learn/",
+  "display": "standalone",
+  "background_color": "#f7f6f2",
+  "theme_color": "#1b2333",
+  "icons": [
+    { "src": "/learn/icon-180.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "/learn/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

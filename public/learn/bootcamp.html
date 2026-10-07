@@ -1,0 +1,1106 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Study Shelf">
+<meta name="theme-color" content="#f7f6f2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#12151c" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" href="/learn/icon-180.png">
+<link rel="manifest" href="/learn/manifest.webmanifest">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}
+.shelf-back{display:inline-block;margin:12px 16px 0;font:600 14px system-ui,sans-serif;color:inherit;opacity:.7;text-decoration:none}.shelf-back:hover{opacity:1}</style>
+<title>Zayviana's TPM Bootcamp</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: a course binder. Sticky module index on the left (top strip on phones), one reading column on the right. Highlighter marks key vocabulary. */
+:root{
+  --paper:#f7f6f2; --card:#ffffff; --ink:#1b2333; --muted:#5d6475; --rule:#dcdad2;
+  --blue:#1d4ed8; --blue-soft:#e6ecfb; --mark:#ffe36e; --green:#16794a; --green-soft:#e3f3ea; --amber:#9a5b00; --amber-soft:#fdf0d6;
+  --f-display:"Bricolage Grotesque",system-ui,sans-serif; --f-body:"Atkinson Hyperlegible",system-ui,sans-serif; --f-mono:"JetBrains Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#12151c; --card:#1a1f29; --ink:#e7e9ef; --muted:#a2a8b6; --rule:#2c3341;
+  --blue:#8fb0ff; --blue-soft:#1c2747; --mark:#6b5a12; --green:#6fd3a0; --green-soft:#16352a; --amber:#f2c26b; --amber-soft:#3a2c12; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#12151c; --card:#1a1f29; --ink:#e7e9ef; --muted:#a2a8b6; --rule:#2c3341;
+  --blue:#8fb0ff; --blue-soft:#1c2747; --mark:#6b5a12; --green:#6fd3a0; --green-soft:#16352a; --amber:#f2c26b; --amber-soft:#3a2c12; color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--paper);color:var(--ink);font:17px/1.65 var(--f-body);padding-inline:16px;padding-block:0 80px}
+.shell{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px}
+aside{position:sticky;top:env(safe-area-inset-top,0px);align-self:start;max-height:100vh;overflow:auto;padding-block:32px}
+aside .brand{font:800 15px/1.2 var(--f-display);margin-bottom:16px}
+aside ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+aside a{display:grid;grid-template-columns:28px 1fr 16px;align-items:center;gap:6px;padding:6px 8px;border-radius:6px;color:var(--ink);text-decoration:none;font-size:14px;line-height:1.3}
+aside a:hover,aside a:focus-visible{background:var(--card);outline:none}
+aside a .n{font:500 12px var(--f-mono);color:var(--muted)}
+aside a .ck{font-size:12px;color:var(--green);visibility:hidden}
+aside a.done .ck{visibility:visible}
+main{min-width:0;padding-block:32px;display:grid;gap:72px}
+@media (max-width:900px){
+  .shell{grid-template-columns:minmax(0,1fr);gap:0}
+  aside{position:sticky;max-height:none;padding-block:10px;background:var(--paper);z-index:5;border-bottom:1px solid var(--rule);margin-inline:-16px;padding-inline:16px}
+  aside .brand{display:none}
+  aside ol{display:flex;overflow-x:auto;gap:4px}
+  aside a{grid-template-columns:auto auto;white-space:nowrap;background:var(--card);border:1px solid var(--rule)}
+  aside a .ck{display:none}
+}
+.hero{display:grid;gap:14px;max-width:70ch}
+.kicker{font:500 12px/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--blue)}
+h1{font:800 clamp(34px,6vw,56px)/1.02 var(--f-display);margin:0;letter-spacing:-.01em;text-wrap:balance}
+h2{font:800 clamp(26px,4vw,34px)/1.1 var(--f-display);margin:0;text-wrap:balance}
+h3{font:600 21px/1.25 var(--f-display);margin:0;text-wrap:balance}
+h4{font:700 17px/1.3 var(--f-body);margin:0}
+p{margin:0}
+.lead{font-size:19px;color:var(--muted)}
+section.mod{display:grid;gap:24px;scroll-margin-top:72px}
+.modhead{display:grid;gap:8px;border-top:3px solid var(--ink);padding-top:14px}
+.modhead .kicker{color:var(--muted)}
+.read{display:grid;gap:14px;max-width:70ch}
+.read ul,.read ol{margin:0;padding-left:22px;display:grid;gap:8px}
+mark{background:linear-gradient(transparent 55%,var(--mark) 55%);color:inherit;padding:0 1px;font-weight:700}
+.kid{background:var(--blue-soft);border-radius:12px;padding:16px 18px;display:grid;gap:6px;max-width:70ch}
+.kid b.lbl,.say b.lbl,.proof b.lbl,.warn b.lbl{font:500 11px/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase}
+.kid b.lbl{color:var(--blue)}
+.say{border-left:3px solid var(--green);background:var(--green-soft);padding:14px 18px;border-radius:0 12px 12px 0;display:grid;gap:6px;max-width:70ch}
+.say b.lbl{color:var(--green)}
+.say p{font-style:italic}
+.proof{border:1px dashed var(--rule);border-radius:12px;padding:14px 18px;display:grid;gap:6px;max-width:70ch;background:var(--card)}
+.proof b.lbl{color:var(--muted)}
+.warn{background:var(--amber-soft);border-radius:12px;padding:14px 18px;display:grid;gap:6px;max-width:70ch}
+.warn b.lbl{color:var(--amber)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips span{font:500 13px var(--f-mono);background:var(--card);border:1px solid var(--rule);padding:3px 9px;border-radius:999px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:16px 18px;display:grid;gap:8px;align-content:start;min-width:0}
+.card p,.card li{font-size:16px}
+.card ul{margin:0;padding-left:18px;display:grid;gap:4px}
+.tw{overflow-x:auto;border:1px solid var(--rule);border-radius:12px;background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;vertical-align:top;padding:10px 14px;border-bottom:1px solid var(--rule)}
+th{font:500 11px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:700;white-space:nowrap}
+.steps{counter-reset:s;list-style:none;padding:0;margin:0;display:grid;gap:10px;max-width:70ch}
+.steps li{counter-increment:s;display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:start}
+.steps li::before{content:counter(s);font:800 15px/34px var(--f-display);text-align:center;width:34px;height:34px;border-radius:50%;background:var(--ink);color:var(--paper)}
+.memcard{background:var(--card);border:1px solid var(--rule);border-radius:14px;overflow:hidden}
+.memcard header{padding:14px 18px;border-bottom:1px solid var(--rule);display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 12px;align-items:baseline}
+.memcard header span{font:500 13px var(--f-mono);color:var(--muted)}
+.memcard dl{margin:0;display:grid;grid-template-columns:150px minmax(0,1fr)}
+.memcard dt,.memcard dd{padding:10px 18px;border-bottom:1px solid var(--rule);margin:0;font-size:16px}
+.memcard dt{font:500 12px/1.6 var(--f-mono);letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.memcard dl > :nth-last-child(-n+2){border-bottom:0}
+@media (max-width:560px){.memcard dl{grid-template-columns:minmax(0,1fr)}.memcard dt{border-bottom:0;padding-bottom:0}}
+.story{background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:18px;display:grid;gap:14px}
+.story .tags{display:flex;flex-wrap:wrap;gap:6px}
+.story .tags span{font:500 12px var(--f-mono);background:var(--blue-soft);color:var(--blue);padding:2px 8px;border-radius:999px}
+.star{display:grid;grid-template-columns:110px minmax(0,1fr);gap:8px 14px}
+.star b{font:800 14px var(--f-display);color:var(--blue)}
+@media (max-width:560px){.star{grid-template-columns:minmax(0,1fr);gap:2px}.star b{margin-top:8px}}
+.convo{border-left:3px solid var(--green);padding-left:14px;font-style:italic}
+.fill{font:500 13px var(--f-mono);background:var(--amber-soft);color:var(--amber);padding:1px 6px;border-radius:4px;font-style:normal}
+.qa{display:grid;gap:10px}
+.qa details{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:0}
+.qa summary{cursor:pointer;padding:14px 18px;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:12px}
+.qa summary::after{content:"+";font:800 18px var(--f-display);color:var(--blue)}
+.qa details[open] summary::after{content:"\2212"}
+.qa summary:focus-visible{outline:2px solid var(--blue);outline-offset:-2px;border-radius:12px}
+.qa .body{padding:0 18px 16px;display:grid;gap:10px}
+.qa .body .test{font-size:15px;color:var(--muted)}
+.gloss-ctl{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.gloss-ctl input{flex:1 1 240px;font:16px var(--f-body);padding:10px 14px;border-radius:10px;border:1px solid var(--rule);background:var(--card);color:var(--ink)}
+.gloss-ctl button{font:500 13px var(--f-mono);padding:8px 12px;border-radius:999px;border:1px solid var(--rule);background:var(--card);color:var(--ink);cursor:pointer}
+.gloss-ctl button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.gloss{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.gloss .g{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:12px 14px;display:grid;gap:4px}
+.gloss .g b{font:600 17px var(--f-display)}
+.gloss .g small{font:500 11px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.gloss .g p{font-size:15px}
+.count{font:500 13px var(--f-mono);color:var(--muted)}
+.donebtn{justify-self:start;font:700 15px var(--f-body);padding:10px 16px;border-radius:10px;border:2px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer}
+.donebtn[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:var(--paper)}
+.donebtn:focus-visible,.gloss-ctl button:focus-visible,.gloss-ctl input:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.cheat{background:var(--ink);color:var(--paper);border-radius:16px;padding:24px;display:grid;gap:18px}
+.cheat h4{font:500 11px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;opacity:.7}
+.cheat .cg{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
+.cheat ul,.cheat ol{margin:4px 0 0;padding-left:20px;display:grid;gap:4px;font-size:16px}
+.cheat p{font-size:16px}
+a{color:var(--blue)}
+</style>
+</head><body>
+<a class="shelf-back" href="/learn/index.html">← Study Shelf</a>
+
+
+<div class="shell">
+<aside>
+  <div class="brand">TPM Bootcamp</div>
+  <nav aria-label="Modules"><ol id="toc">
+    <li><a href="#m0"><span class="n">00</span>Start here<span class="ck">✓</span></a></li>
+    <li><a href="#m1"><span class="n">01</span>The job, decoded<span class="ck">✓</span></a></li>
+    <li><a href="#m2"><span class="n">02</span>PM foundations<span class="ck">✓</span></a></li>
+    <li><a href="#m3"><span class="n">03</span>Ways of working<span class="ck">✓</span></a></li>
+    <li><a href="#m4"><span class="n">04</span>Requirements<span class="ck">✓</span></a></li>
+    <li><a href="#m5"><span class="n">05</span>Risk, change, launch<span class="ck">✓</span></a></li>
+    <li><a href="#m6"><span class="n">06</span>Modernization<span class="ck">✓</span></a></li>
+    <li><a href="#m7"><span class="n">07</span>Tech for PMs<span class="ck">✓</span></a></li>
+    <li><a href="#m8"><span class="n">08</span>AI vocabulary<span class="ck">✓</span></a></li>
+    <li><a href="#m9"><span class="n">09</span>Mortgage 101<span class="ck">✓</span></a></li>
+    <li><a href="#m10"><span class="n">10</span>Consulting & money<span class="ck">✓</span></a></li>
+    <li><a href="#m11"><span class="n">11</span>Your resume, line by line<span class="ck">✓</span></a></li>
+    <li><a href="#m12"><span class="n">12</span>STAR story bank<span class="ck">✓</span></a></li>
+    <li><a href="#m13"><span class="n">13</span>Recruiter screen<span class="ck">✓</span></a></li>
+    <li><a href="#m14"><span class="n">14</span>Hiring manager rounds<span class="ck">✓</span></a></li>
+    <li><a href="#m15"><span class="n">15</span>Hard questions<span class="ck">✓</span></a></li>
+    <li><a href="#m16"><span class="n">16</span>Word bank<span class="ck">✓</span></a></li>
+    <li><a href="#m17"><span class="n">17</span>Cheat sheet<span class="ck">✓</span></a></li>
+  </ol></nav>
+</aside>
+
+<main>
+<!-- 00 -->
+<section class="mod" id="m0">
+  <div class="hero">
+    <span class="kicker">eLend · Technical Product Manager · Interviews Oct 14–16</span>
+    <h1>Know everything on your resume cold.</h1>
+    <p class="lead">This is your course. Every module explains one part of what you say you do, in plain words first, then in the words interviewers expect to hear. Then it ties each idea back to something you actually did.</p>
+  </div>
+  <div class="read">
+    <h3>How each module works</h3>
+    <ul>
+      <li><b>Plain English</b> boxes (blue) explain the idea like you're ten.</li>
+      <li><mark>Highlighted words</mark> are vocabulary to say out loud in interviews.</li>
+      <li><b>Say it like this</b> boxes (green) are lines you can borrow.</li>
+      <li><b>Your proof</b> boxes point to where you did this on your resume.</li>
+      <li><span class="fill">Fill in</span> tags mark details only you know. Write them down. Numbers and names make stories believable.</li>
+    </ul>
+    <h3>Study plan (about an hour a day)</h3>
+  </div>
+  <div class="tw"><table>
+    <thead><tr><th>Day</th><th>Do this</th></tr></thead>
+    <tbody>
+      <tr><td>Thu Oct 8</td><td>Modules 01–04. Say each "Say it like this" line out loud once.</td></tr>
+      <tr><td>Fri Oct 9</td><td>Modules 05–07, plus Days 1–2 of the <a href="/learn/mermaid.html">Mermaid crash course</a>.</td></tr>
+      <tr><td>Sat Oct 10</td><td>Modules 08–10. Quiz yourself with the word bank (Module 16).</td></tr>
+      <tr><td>Sun Oct 11</td><td>Module 11. Fill in every <span class="fill">Fill in</span> tag.</td></tr>
+      <tr><td>Mon Oct 12</td><td>Module 12. Tell each story out loud in under 2 minutes. Record yourself on your phone.</td></tr>
+      <tr><td>Tue Oct 13</td><td>Modules 13–15, plus a mock interview with me. Mermaid Days 3–5.</td></tr>
+      <tr><td>Interview days</td><td>Module 17 only, 10 minutes before you log on.</td></tr>
+    </tbody>
+  </table></div>
+  <button class="donebtn" type="button" data-done="m0" id="done-m0">Mark module done</button>
+</section>
+
+<!-- 01 -->
+<section class="mod" id="m1">
+  <div class="modhead"><span class="kicker">Module 01</span><h2>The job, decoded</h2></div>
+  <div class="kid"><b class="lbl">Plain English</b><p>eLend is a mortgage lender that works with home buyers and with mortgage brokers. Like most lenders, they run on a pile of older software that was built over many years. They want someone who can stand between the business people and the tech people, figure out what all the old pieces are and how they connect, draw it clearly, and plan how to replace them without breaking anything the business depends on.</p></div>
+  <div class="read">
+    <h3>What they actually need</h3>
+    <p>Reading between the lines of the posting, this company needs someone who can:</p>
+    <ol>
+      <li><b>Untangle the old stuff.</b> Find every <mark>legacy</mark> app, integration, and process, and map what depends on what.</li>
+      <li><b>Write it down well.</b> They say "documentation" in almost every bullet: <mark>PRDs</mark>, <mark>specs</mark>, <mark>architecture docs</mark>, diagrams in <mark>Mermaid</mark>. Writing is the job.</li>
+      <li><b>Plan the move.</b> <mark>Roadmaps</mark>, <mark>migration plans</mark>, <mark>retirement planning</mark> for old systems.</li>
+      <li><b>Keep the lights on while you do it.</b> They say <mark>business continuity</mark>. Mortgages can't stop closing because IT is upgrading.</li>
+      <li><b>Run with engineers.</b> <mark>Sprint planning</mark>, <mark>backlog refinement</mark>, <mark>release planning</mark>, <mark>deployment readiness</mark>.</li>
+      <li><b>Use AI to go faster.</b> They want AI-assisted documentation and dependency mapping, which is exactly how you already work.</li>
+    </ol>
+    <h3>Their four "top skills" (what Roderick is selling)</h3>
+  </div>
+  <div class="grid2">
+    <div class="card"><h4>1. Fintech</h4><p>Mortgage is a plus. Your proof: InvestCloud financial apps, Value Tech financing analysis.</p></div>
+    <div class="card"><h4>2. Technical background</h4><p>Came from architecture or development. Your proof: Dev10 developer, InvestCloud front-end work, BS in IT, your own apps.</p></div>
+    <div class="card"><h4>3. Fluent with AI tools</h4><p>Your proof: Claude Code, MCP, custom GPTs daily, MS in AI.</p></div>
+    <div class="card"><h4>4. Stakeholder management</h4><p>Your proof: 10+ person teams, QBRs, MITER workshops across seven departments.</p></div>
+  </div>
+  <div class="read">
+    <h3>What the interviews will test</h3>
+    <p>They told you exactly what they'll ask you to show: a PRD, a modernization plan, a dependency map, technical writing, architecture docs, a Mermaid diagram, migration and risk planning, and AI-assisted approaches. Modules 04, 06, and 14 cover each one.</p>
+  </div>
+  <div class="say"><b class="lbl">Your one-line pitch</b><p>"I'm a technical product manager who started as a developer, and most of my work has been modernization: getting old systems, processes, and teams moved to something better without stopping the business. I document everything, and I use AI to do it faster."</p></div>
+  <button class="donebtn" type="button" data-done="m1" id="done-m1">Mark module done</button>
+</section>
+
+<!-- 02 -->
+<section class="mod" id="m2">
+  <div class="modhead"><span class="kicker">Module 02</span><h2>PM foundations: who does what</h2></div>
+  <div class="kid"><b class="lbl">Plain English</b><p>Picture building a house. The <b>product manager</b> decides what house to build and why: how many bedrooms, who's going to live there, what they need. The <b>project manager</b> makes sure it gets built on time and on budget: schedules the plumber, orders the wood, tracks the money. The <b>technical product manager</b> is a product manager who can also read the blueprints and talk shop with the engineers about the plumbing and wiring.</p></div>
+  <div class="tw"><table>
+    <thead><tr><th>Role</th><th>Main question</th><th>Owns</th></tr></thead>
+    <tbody>
+      <tr><td>Product Manager</td><td>What should we build, and why?</td><td>The problem, the users, priorities, the roadmap, success metrics</td></tr>
+      <tr><td>Technical PM (TPM)</td><td>What should we build, and how does it fit the systems we have?</td><td>All of the above, plus technical requirements, architecture docs, dependencies, tech debt</td></tr>
+      <tr><td>Project Manager</td><td>Will it get done on time and on budget?</td><td>Schedule, budget, risks, resources, status reporting</td></tr>
+      <tr><td>Program Manager</td><td>How do several related projects land together?</td><td>A group of projects with a shared goal, and the dependencies between them</td></tr>
+      <tr><td>Business Analyst</td><td>What exactly does the business need?</td><td>Requirements, process maps, gap analysis, UAT support</td></tr>
+      <tr><td>Product Owner</td><td>What does the team work on this sprint?</td><td>The backlog (a Scrum role, often played by the PM)</td></tr>
+      <tr><td>Scrum Master</td><td>Is the team working smoothly?</td><td>The Scrum process, removing blockers, running ceremonies</td></tr>
+      <tr><td>Solution Architect</td><td>How should the pieces be designed?</td><td>System design, technology choices, integration patterns</td></tr>
+    </tbody>
+  </table></div>
+  <div class="read">
+    <h3>The product lifecycle (the big loop)</h3>
+  </div>
+  <ol class="steps">
+    <li><div><b>Discovery.</b> Find the real problem. Talk to users and stakeholders, look at data, map the <mark>current state</mark>.</div></li>
+    <li><div><b>Define.</b> Write the <mark>problem statement</mark>, goals, and <mark>success metrics</mark>. Decide what's in and out of <mark>scope</mark>.</div></li>
+    <li><div><b>Plan.</b> Turn it into a <mark>roadmap</mark>, then <mark>epics</mark> and <mark>user stories</mark>. Find dependencies and risks.</div></li>
+    <li><div><b>Build.</b> Engineers work in <mark>sprints</mark>. You answer questions, refine the backlog, and clear blockers.</div></li>
+    <li><div><b>Test.</b> QA tests it, then the business does <mark>UAT</mark> (user acceptance testing) to confirm it does what they need.</div></li>
+    <li><div><b>Launch.</b> <mark>Go-live</mark>, training, <mark>change management</mark>, then <mark>hypercare</mark> (watching it closely right after launch).</div></li>
+    <li><div><b>Measure and iterate.</b> Check the KPIs. Did it work? What's next?</div></li>
+  </ol>
+  <div class="read">
+    <h3>The SDLC</h3>
+    <p><mark>SDLC</mark> means Software Development Life Cycle. It's the same loop from the engineering side: requirements, design, development, testing, deployment, maintenance. When your resume says "full SDLC," it means you've been involved from the first requirement to after launch.</p>
+  </div>
+  <div class="say"><b class="lbl">Say it like this</b><p>"I've played both the product and the project side. At Tampa Electric I was closer to project and portfolio management: schedules, KPIs, governance. At RevStar I owned the product side: discovery, PRDs, priorities, and what the team built next."</p></div>
+  <div class="proof"><b class="lbl">Your proof</b><p>RevStar (product + delivery), Tampa Electric (project + portfolio), MITER (program-style integration across many workstreams), InvestCloud (business analyst).</p></div>
+  <button class="donebtn" type="button" data-done="m2" id="done-m2">Mark module done</button>
+</section>
+
+<!-- 03 -->
+<section class="mod" id="m3">
+  <div class="modhead"><span class="kicker">Module 03</span><h2>Ways of working: Agile, Scrum, Kanban, Waterfall, Hybrid, EOS</h2></div>
+  <div class="kid"><b class="lbl">Plain English</b><p><b>Waterfall</b> is like baking a wedding cake from a fixed recipe: plan everything, then do each step in order, and you only see the cake at the end. <b>Agile</b> is like cooking for friends and tasting as you go: make a small piece, show it, adjust, repeat. <b>Hybrid</b> is planning the big menu up front (Waterfall) but cooking each dish in small tasted batches (Agile).</p></div>
+  <div class="grid2">
+    <div class="card"><h4>Waterfall</h4><p>Phases in order: requirements, design, build, test, deploy. Big upfront plan, formal sign-offs (<mark>stage gates</mark>), fixed scope.</p><p><b>Good for:</b> regulated work, hardware, contracts with fixed scope, big enterprise rollouts.</p></div>
+    <div class="card"><h4>Agile</h4><p>A mindset: deliver small working pieces often, get feedback, adapt. Values working software and collaboration over heavy documents and rigid plans.</p><p><b>Good for:</b> software where needs change as you learn.</p></div>
+    <div class="card"><h4>Scrum</h4><p>The most common Agile framework. Work happens in <mark>sprints</mark> (usually 2 weeks). Has set roles, events, and artifacts (below).</p></div>
+    <div class="card"><h4>Kanban</h4><p>A board with columns (To Do, In Progress, Done). No sprints. Work flows continuously. You limit <mark>WIP</mark> (work in progress) so things finish instead of piling up.</p><p><b>Good for:</b> support, ops, intake queues.</p></div>
+  </div>
+  <div class="read"><h3>Scrum in one table</h3></div>
+  <div class="tw"><table>
+    <thead><tr><th>Piece</th><th>What it is</th></tr></thead>
+    <tbody>
+      <tr><td>Product Owner</td><td>Owns and orders the backlog. Says what matters most.</td></tr>
+      <tr><td>Scrum Master</td><td>Coaches the process and removes blockers.</td></tr>
+      <tr><td>Developers</td><td>The people building it (engineers, QA, designers).</td></tr>
+      <tr><td>Product backlog</td><td>The ranked to-do list for the whole product.</td></tr>
+      <tr><td>Sprint backlog</td><td>What the team committed to this sprint.</td></tr>
+      <tr><td>Sprint planning</td><td>Start of sprint. Pick what to do and how.</td></tr>
+      <tr><td>Daily standup</td><td>15 minutes a day: what I did, what I'll do, what's blocking me.</td></tr>
+      <tr><td>Backlog refinement</td><td>Cleaning up future stories: adding detail, splitting big ones, estimating.</td></tr>
+      <tr><td>Sprint review / demo</td><td>End of sprint. Show what got built to stakeholders.</td></tr>
+      <tr><td>Retrospective</td><td>End of sprint. What went well, what didn't, what we'll change.</td></tr>
+      <tr><td>Story points</td><td>A relative size estimate (often 1, 2, 3, 5, 8, 13). Measures effort and complexity, not hours.</td></tr>
+      <tr><td>Velocity</td><td>How many points a team usually finishes per sprint. Used for planning.</td></tr>
+      <tr><td>Definition of Done</td><td>The checklist a story must meet to count as done (tested, reviewed, documented).</td></tr>
+    </tbody>
+  </table></div>
+  <div class="read">
+    <h3>EOS (Entrepreneurial Operating System)</h3>
+    <p>EOS is a way to run a whole company, not just a dev team. It's popular with small and mid-sized businesses. The pieces you'll mention:</p>
+    <ul>
+      <li><mark>Rocks</mark>: the 3 to 7 most important priorities for the next 90 days.</li>
+      <li><mark>Level 10 (L10) meeting</mark>: a weekly 90-minute leadership meeting with a fixed agenda.</li>
+      <li><mark>Scorecard</mark>: 5 to 15 weekly numbers that show if the business is on track.</li>
+      <li><mark>IDS</mark>: Identify, Discuss, Solve. How issues get handled in the L10.</li>
+      <li><mark>V/TO</mark>: the Vision/Traction Organizer, a two-page company plan.</li>
+      <li><mark>Accountability Chart</mark>: like an org chart, but organized by who owns which outcomes.</li>
+    </ul>
+    <h3>Hybrid, the way you've done it</h3>
+    <p>Most big companies are hybrid. Leadership plans in quarters and phases (Waterfall-style milestones, or EOS rocks), and the teams deliver in sprints (Agile). Your job is translating between the two: turning quarterly goals into sprint work, and sprint progress into the milestone status leadership wants.</p>
+  </div>
+  <div class="say"><b class="lbl">Say it like this</b><p>"I'm not religious about methodology. At RevStar I ran Scrum and Kanban inside an EOS company, so the teams worked in two-week sprints while leadership tracked quarterly rocks. At MITER and Tampa Electric the enterprise side had Waterfall-style milestones and approvals, so I ran Agile inside those gates. I pick what fits the work."</p></div>
+  <button class="donebtn" type="button" data-done="m3" id="done-m3">Mark module done</button>
+</section>
+
+<!-- 04 -->
+<section class="mod" id="m4">
+  <div class="modhead"><span class="kicker">Module 04</span><h2>Requirements: from fuzzy idea to buildable work</h2></div>
+  <div class="kid"><b class="lbl">Plain English</b><p>Requirements are the instructions. If a client says "make loans faster," that's a wish, not something an engineer can build. Your job is asking questions until the wish becomes clear, small, testable pieces like "When a broker uploads a document, the loan file updates within 5 seconds."</p></div>
+  <div class="read"><h3>The document family</h3></div>
+  <div class="tw"><table>
+    <thead><tr><th>Doc</th><th>What it answers</th><th>Who reads it</th></tr></thead>
+    <tbody>
+      <tr><td>BRD</td><td>Business Requirements Document. What the business needs and why.</td><td>Business leaders</td></tr>
+      <tr><td>PRD</td><td>Product Requirements Document. What we're building, for whom, why, how we'll measure success, what's out of scope.</td><td>Everyone</td></tr>
+      <tr><td>Functional spec</td><td>Exactly how the feature behaves: screens, rules, edge cases.</td><td>Engineers, QA</td></tr>
+      <tr><td>Technical spec / design doc</td><td>How engineering will build it: architecture, data, APIs.</td><td>Engineers, architects</td></tr>
+      <tr><td>SOW</td><td>Statement of Work. A contract: scope, deliverables, timeline, price.</td><td>Client, sales, delivery</td></tr>
+    </tbody>
+  </table></div>
+  <div class="read">
+    <h3>What goes in a PRD (they'll ask you to write one)</h3>
+  </div>
+  <ol class="steps">
+    <li><div><b>Problem statement.</b> One or two sentences on the pain, and who feels it.</div></li>
+    <li><div><b>Goals and success metrics.</b> What changes if this works, as numbers (for example, cut loan setup time from 2 days to 2 hours).</div></li>
+    <li><div><b>Users / personas.</b> Who uses it (borrower, broker, processor, underwriter).</div></li>
+    <li><div><b>Scope.</b> In scope, and just as important, <mark>out of scope</mark>.</div></li>
+    <li><div><b>Requirements.</b> Functional (what it does) and <mark>non-functional</mark> (speed, security, uptime, compliance).</div></li>
+    <li><div><b>User stories and acceptance criteria.</b></div></li>
+    <li><div><b>Current vs. future state, plus a diagram.</b> This is where Mermaid shows up.</div></li>
+    <li><div><b>Dependencies, risks, and open questions.</b></div></li>
+    <li><div><b>Rollout plan and milestones.</b></div></li>
+  </ol>
+  <div class="read">
+    <h3>The work breakdown</h3>
+    <p><mark>Initiative</mark> (big goal) → <mark>Epic</mark> (a large chunk of work, weeks to months) → <mark>Feature</mark> → <mark>User story</mark> (fits in a sprint) → <mark>Task</mark> (one person, hours to a day).</p>
+    <h3>User story formula</h3>
+    <p><b>As a</b> [type of user], <b>I want</b> [to do something], <b>so that</b> [I get some benefit].</p>
+    <p>Example: "As a mortgage broker, I want to see my loan's status without calling my account rep, so that I can update my borrower right away."</p>
+    <h3>Acceptance criteria (Given / When / Then)</h3>
+    <p>"<b>Given</b> I'm a logged-in broker, <b>when</b> I open a loan, <b>then</b> I see its current stage and the date it entered that stage."</p>
+    <p>A good story passes <mark>INVEST</mark>: Independent, Negotiable, Valuable, Estimable, Small, Testable.</p>
+    <h3>Prioritization tools</h3>
+    <ul>
+      <li><mark>MoSCoW</mark>: Must have, Should have, Could have, Won't have (this time).</li>
+      <li><mark>RICE</mark>: Reach × Impact × Confidence ÷ Effort. A score for ranking ideas.</li>
+      <li><mark>Value vs. effort</mark>: a 2x2. Do high-value, low-effort things first ("quick wins").</li>
+    </ul>
+    <h3>Requirements-gathering techniques</h3>
+    <p>Stakeholder interviews, workshops, shadowing people doing their jobs, reviewing existing docs and data, process mapping, and prototypes. "Elicitation" is the fancy word for gathering requirements.</p>
+  </div>
+  <div class="say"><b class="lbl">Say it like this</b><p>"When I get a vague ask, I start with the problem, not the solution. I'll ask who's affected, what it costs them today, and how we'd know it's fixed. Then I write that into a PRD with clear scope, break it into epics and stories with acceptance criteria, and walk engineering through it before anyone estimates."</p></div>
+  <div class="proof"><b class="lbl">Your proof</b><p>40+ SOWs and PRDs at RevStar. Acceptance criteria and UAT at Tampa Electric. UAT at InvestCloud.</p></div>
+  <button class="donebtn" type="button" data-done="m4" id="done-m4">Mark module done</button>
+</section>
+
+<!-- 05 -->
+<section class="mod" id="m5">
+  <div class="modhead"><span class="kicker">Module 05</span><h2>Risk, dependencies, change, and launch</h2></div>
+  <div class="kid"><b class="lbl">Plain English</b><p>A <b>risk</b> is something that <i>might</i> go wrong. An <b>issue</b> is something that already went wrong. A <b>dependency</b> is something you're waiting on, like you can't paint the wall until the drywall's up. A PM keeps a list of all three and has a plan for each.</p></div>
+  <div class="read">
+    <h3>Tracking it</h3>
+    <ul>
+      <li><mark>RAID log</mark>: Risks, Assumptions, Issues, Dependencies. One sheet with all four.</li>
+      <li><mark>Risk register</mark>: each risk with its <mark>likelihood</mark>, <mark>impact</mark>, owner, and <mark>mitigation</mark> (how you'll make it less likely or less bad).</li>
+      <li><mark>Critical path</mark>: the chain of tasks that sets the end date. If one slips, the whole project slips.</li>
+      <li><mark>Milestones</mark>: big checkpoints (design approved, UAT complete, go-live).</li>
+      <li><mark>RAG status</mark>: Red, Amber, Green. The simple traffic light for status reports.</li>
+      <li><mark>Escalation</mark>: raising a problem to someone with more authority when you can't solve it at your level. Do it early, with options.</li>
+    </ul>
+    <h3>Stakeholder tools</h3>
+    <ul>
+      <li><mark>RACI</mark>: for each decision or task, who is Responsible (does it), Accountable (owns the outcome, only one person), Consulted (gives input), Informed (gets told).</li>
+      <li><mark>Stakeholder map</mark> (power/interest grid): high power and high interest people you manage closely, and low/low people you keep informed.</li>
+    </ul>
+    <h3>Change management</h3>
+    <p>Software only matters if people use it. <mark>Change management</mark> is helping people move from the old way to the new way. The common model is <mark>ADKAR</mark>: Awareness (why change), Desire (want to), Knowledge (how), Ability (can actually do it), Reinforcement (it sticks). In practice: communication plans, training, champions on each team, office hours, and tracking <mark>adoption</mark>.</p>
+    <h3>Testing and launch words</h3>
+    <ul>
+      <li><mark>QA</mark>: quality assurance, the team or process testing that it works.</li>
+      <li><mark>Unit testing</mark>: engineers test small pieces of code.</li>
+      <li><mark>Regression testing</mark>: checking that new changes didn't break old features.</li>
+      <li><mark>UAT</mark>: real business users test against real scenarios and sign off.</li>
+      <li><mark>Deployment readiness</mark> / <mark>go/no-go</mark>: the checklist and meeting before launch. Testing done? Training done? Rollback plan ready?</li>
+      <li><mark>Cutover</mark>: the moment you switch from old to new.</li>
+      <li><mark>Rollback plan</mark>: how you go back if launch fails.</li>
+      <li><mark>Hypercare</mark>: extra support for the first few weeks after go-live.</li>
+    </ul>
+  </div>
+  <div class="say"><b class="lbl">Say it like this</b><p>"I keep a RAID log from day one and review it weekly. When a risk looks like it's turning into an issue, I escalate early and bring options, not just the problem. Before any go-live I run a go/no-go with a readiness checklist and a rollback plan."</p></div>
+  <div class="proof"><b class="lbl">Your proof</b><p>Risk logs and training docs at Tampa Electric. Change management and adoption at MITER and Tampa Electric. Budget burn and overrun flags at RevStar.</p></div>
+  <button class="donebtn" type="button" data-done="m5" id="done-m5">Mark module done</button>
+</section>
+
+<!-- 06 -->
+<section class="mod" id="m6">
+  <div class="modhead"><span class="kicker">Module 06</span><h2>Modernization: the heart of this job</h2></div>
+  <div class="kid"><b class="lbl">Plain English</b><p>A <b>legacy system</b> is like an old house that still works but has knob-and-tube wiring. Everyone's scared to touch it because nobody's sure what's connected to what. <b>Modernization</b> is renovating it while the family still lives there. You map the wiring first (<b>dependency mapping</b>), decide room by room what to fix, replace, or tear out, and you never cut power to the whole house at once.</p></div>
+  <div class="read">
+    <h3>Core words</h3>
+    <ul>
+      <li><mark>Legacy system</mark>: old software the business still depends on. Often hard to change, poorly documented, and built on old technology.</li>
+      <li><mark>Technical debt</mark>: shortcuts and old code that make every future change slower and riskier, like interest on a loan.</li>
+      <li><mark>Digital transformation</mark>: the bigger umbrella. Changing how the business works using technology, not just swapping tools.</li>
+      <li><mark>Current state / future state</mark>: how it works today vs. how it should work. The difference is the <mark>gap analysis</mark>, and the gap is your plan.</li>
+      <li><mark>Dependency mapping</mark>: finding everything connected to a system. Who uses it, what feeds it data, what it feeds, what reports break if it goes away.</li>
+      <li><mark>Application portfolio</mark>: the list of every app the company runs. <mark>Application portfolio management</mark> means deciding what to keep, invest in, migrate, or kill.</li>
+      <li><mark>Decommission / sunset / retire</mark>: turning an old system off for good, after moving its data and users.</li>
+      <li><mark>Business continuity</mark>: the business keeps running during the change.</li>
+    </ul>
+    <h3>The "7 Rs": what to do with each old app</h3>
+  </div>
+  <div class="tw"><table>
+    <thead><tr><th>R</th><th>Meaning</th><th>House version</th></tr></thead>
+    <tbody>
+      <tr><td>Retire</td><td>Turn it off. Nobody needs it.</td><td>Tear down the shed</td></tr>
+      <tr><td>Retain</td><td>Leave it alone for now.</td><td>That room's fine</td></tr>
+      <tr><td>Rehost</td><td>"Lift and shift." Move it to the cloud as-is.</td><td>Move the furniture to a new house</td></tr>
+      <tr><td>Relocate</td><td>Move it to a different cloud setup with no changes.</td><td>Move it to the house next door</td></tr>
+      <tr><td>Replatform</td><td>Move it with small tweaks (like a managed cloud database).</td><td>Move, and swap the old fridge</td></tr>
+      <tr><td>Repurchase</td><td>Replace it with a SaaS product you buy.</td><td>Buy new furniture instead</td></tr>
+      <tr><td>Refactor / re-architect</td><td>Rebuild it properly, often as cloud-native or microservices.</td><td>Full renovation</td></tr>
+    </tbody>
+  </table></div>
+  <div class="read">
+    <p>Another quick model is <mark>TIME</mark> from Gartner: Tolerate, Invest, Migrate, Eliminate.</p>
+    <h3>Safe ways to migrate</h3>
+    <ul>
+      <li><mark>Phased rollout</mark>: move one group, region, or feature at a time.</li>
+      <li><mark>Parallel run</mark>: old and new run side by side so you can compare results before switching.</li>
+      <li><mark>Strangler fig pattern</mark>: build new pieces around the old system and route traffic to them bit by bit, until the old one does nothing and you turn it off. (Named after a vine that slowly grows over a tree.)</li>
+      <li><mark>Big bang</mark>: switch everything at once. Fast, but risky. Say you'd avoid it for anything customer-facing.</li>
+      <li><mark>Data migration</mark>: moving data from old to new. Steps: <mark>data mapping</mark> (which old field goes to which new field), cleansing, test loads, reconciliation (counts and totals match), final load.</li>
+    </ul>
+    <h3>Documenting it</h3>
+    <ul>
+      <li><mark>Architecture diagram</mark>: boxes for systems, arrows for how they talk.</li>
+      <li><mark>C4 model</mark>: draw architecture at zoom levels. Context (system + users), Containers (apps, databases), Components, Code. Usually you draw the first two.</li>
+      <li><mark>Data flow diagram</mark>: how data moves from system to system.</li>
+      <li><mark>Integration diagram</mark>: which systems connect and how (API, file, batch job).</li>
+      <li><mark>Docs-as-code / diagram-as-code</mark>: docs and diagrams written as text (Markdown, Mermaid), stored in Git next to the code, updated in the same pull request. See the <a href="/learn/mermaid.html">Mermaid crash course</a>.</li>
+      <li><mark>Governance</mark>: the rules for how work gets approved: who signs off, what standards apply, what checkpoints exist.</li>
+      <li><mark>Intake</mark>: the front door where new requests come in, get reviewed, and get prioritized.</li>
+    </ul>
+    <h3>Your modernization plan template (use this in the interview)</h3>
+  </div>
+  <ol class="steps">
+    <li><div><b>Inventory.</b> List the systems, owners, users, and contracts.</div></li>
+    <li><div><b>Map dependencies.</b> Draw the current state. Talk to the people who run it daily, because the scariest dependencies are the undocumented ones.</div></li>
+    <li><div><b>Assess.</b> For each system: business value, technical health, risk, cost. Pick an R.</div></li>
+    <li><div><b>Design the future state</b> with architecture. Draw it.</div></li>
+    <li><div><b>Sequence.</b> Lowest-risk, highest-value first. Build a roadmap with milestones.</div></li>
+    <li><div><b>Migrate safely.</b> Phased or parallel run, data migration with reconciliation, go/no-go, rollback plan.</div></li>
+    <li><div><b>Retire</b> the old system once usage hits zero and data is archived.</div></li>
+    <li><div><b>Keep docs alive.</b> Diagrams in the repo, updated with each change.</div></li>
+  </ol>
+  <div class="say"><b class="lbl">Say it like this</b><p>"Before I touch a legacy system, I want a dependency map I trust. I draw what we know, then I validate it with the people who run it every day, because the integration nobody wrote down is the one that breaks on cutover. Then I sequence the work so we take on low-risk, high-value pieces first and run old and new in parallel where the business can't afford a miss."</p></div>
+  <div class="proof"><b class="lbl">Your proof</b><p>MITER: aligning legacy systems across two acquisitions. Tampa Electric: modernizing request and incident management in ServiceNow, plus the governance layer. RevStar: intake and governance gates.</p></div>
+  <button class="donebtn" type="button" data-done="m6" id="done-m6">Mark module done</button>
+</section>
+
+<!-- 07 -->
+<section class="mod" id="m7">
+  <div class="modhead"><span class="kicker">Module 07</span><h2>Tech for PMs: enough to talk shop</h2></div>
+  <div class="kid"><b class="lbl">Plain English</b><p>Think of a restaurant. The <b>front end</b> is the dining room: what customers see and touch. The <b>back end</b> is the kitchen: where the work happens. The <b>database</b> is the pantry: where everything's stored. An <b>API</b> is the waiter: the dining room never walks into the kitchen, it hands the waiter an order in a set format, and the waiter brings back the food.</p></div>
+  <div class="read">
+    <h3>Architecture basics</h3>
+    <ul>
+      <li><mark>API</mark>: Application Programming Interface. A defined way for one system to ask another for data or an action. <mark>REST API</mark> is the most common style. It sends requests to URLs called <mark>endpoints</mark> and usually gets <mark>JSON</mark> back.</li>
+      <li><mark>Integration</mark>: two systems connected so data flows between them. Could be an API, a <mark>webhook</mark> (system A pings B when something happens), or a <mark>batch file</mark> sent overnight.</li>
+      <li><mark>Middleware</mark>: software that sits between systems and passes messages.</li>
+      <li><mark>Event-driven architecture</mark>: systems announce events ("loan funded") and any system that cares reacts. Like a group chat instead of calling each person.</li>
+      <li><mark>Monolith vs. microservices</mark>: one big app vs. many small apps that each do one job.</li>
+      <li><mark>Cloud</mark>: renting computers from Microsoft (<mark>Azure</mark>), Amazon (AWS), or Google instead of owning servers. <mark>On-prem</mark> means servers in your own building.</li>
+      <li><mark>SaaS</mark>: Software as a Service. Software you subscribe to online (Salesforce, ServiceNow).</li>
+      <li><mark>Environments</mark>: dev (building), test/QA, staging (dress rehearsal), production or "prod" (the real thing).</li>
+      <li><mark>CI/CD</mark>: automatically testing and deploying code whenever it changes.</li>
+      <li><mark>ETL</mark>: Extract, Transform, Load. Pulling data out of one system, cleaning it, loading it into another.</li>
+      <li><mark>Data warehouse / lakehouse</mark>: a central place for reporting data. Microsoft Fabric is one.</li>
+    </ul>
+    <h3>Your own stack, explained</h3>
+  </div>
+  <div class="tw"><table>
+    <thead><tr><th>Tool</th><th>What it is</th><th>How to say you use it</th></tr></thead>
+    <tbody>
+      <tr><td>Python</td><td>A general programming language. Big in data, analytics, AI, and automation scripts.</td><td>"Analytics and automation, and through my MS in AI."</td></tr>
+      <tr><td>JavaScript</td><td>The language of the web. Runs in every browser.</td><td>"Front-end work since InvestCloud, and my own apps today."</td></tr>
+      <tr><td>TypeScript</td><td>JavaScript with types, which catches mistakes before code runs.</td><td>"My current apps are in TypeScript."</td></tr>
+      <tr><td>React</td><td>A JavaScript library for building interfaces from reusable components.</td><td>"My front ends are React."</td></tr>
+      <tr><td>Next.js</td><td>A framework on top of React that handles pages, routing, and server code.</td><td>"I build on Next.js and deploy to Vercel."</td></tr>
+      <tr><td>Node.js</td><td>Lets JavaScript run on a server instead of a browser.</td><td>"Simple Node servers for my sites."</td></tr>
+      <tr><td>Tailwind CSS</td><td>A fast way to style web pages with utility classes.</td><td>"Styling."</td></tr>
+      <tr><td>SQL / PostgreSQL</td><td>SQL is the language for asking databases questions. PostgreSQL is a popular database.</td><td>"My apps use Supabase, which is PostgreSQL."</td></tr>
+      <tr><td>Supabase</td><td>A hosted PostgreSQL database with login and storage built in.</td><td>"Backend for my apps."</td></tr>
+      <tr><td>Git / GitHub</td><td>Git tracks every change to code. GitHub hosts it online. A <mark>repo</mark> is a project, a <mark>commit</mark> is a saved change, a <mark>branch</mark> is a safe copy to work on, and a <mark>pull request (PR)</mark> asks to merge a branch after review.</td><td>"All my projects live in GitHub."</td></tr>
+      <tr><td>Vercel</td><td>A hosting platform that deploys web apps straight from GitHub.</td><td>"Push to GitHub, Vercel deploys it."</td></tr>
+      <tr><td>Docker</td><td>Packages an app with everything it needs so it runs the same anywhere (a "container").</td><td>"Used it at Dev10."</td></tr>
+      <tr><td>Java / Spring Boot</td><td>A long-standing enterprise language, and a popular framework for building Java back ends.</td><td>"My Dev10 training was Java and Spring Boot."</td></tr>
+      <tr><td>Markdown</td><td>Plain text formatting: # for headings, - for bullets. GitHub displays it nicely.</td><td>"I write docs in Markdown in the repo."</td></tr>
+      <tr><td>Jira / Azure DevOps</td><td>Tools for backlogs, sprints, and tickets.</td><td>"Backlog and sprint tracking."</td></tr>
+      <tr><td>ServiceNow</td><td>Enterprise platform for IT service management (<mark>ITSM</mark>): incidents, requests, changes.</td><td>"I led a ServiceNow modernization at Tampa Electric."</td></tr>
+    </tbody>
+  </table></div>
+  <div class="warn"><b class="lbl">Keep it honest</b><p>Say "I can read code and build working apps" rather than "I'm an engineer." Your strength is that engineers can't hand-wave you, not that you'd write their production code. That's exactly what a TPM needs.</p></div>
+  <button class="donebtn" type="button" data-done="m7" id="done-m7">Mark module done</button>
+</section>
+
+<!-- 08 -->
+<section class="mod" id="m8">
+  <div class="modhead"><span class="kicker">Module 08</span><h2>AI vocabulary</h2></div>
+  <div class="kid"><b class="lbl">Plain English</b><p>An AI model like Claude is a very well-read assistant that predicts good next words. It's fast and helpful, but it can sound sure about something wrong. So the rule is: AI drafts, a human checks. Your edge is that you know how to set it up and how to check it.</p></div>
+  <div class="read">
+    <ul>
+      <li><mark>LLM</mark>: Large Language Model. The tech behind Claude and ChatGPT.</li>
+      <li><mark>Generative AI</mark>: AI that creates text, images, or code.</li>
+      <li><mark>Prompt / prompt engineering</mark>: the instructions you give the AI, and the skill of writing them well (context, examples, format).</li>
+      <li><mark>Hallucination</mark>: the AI confidently making something up.</li>
+      <li><mark>Human-in-the-loop</mark>: a person reviews and approves AI output before it's used.</li>
+      <li><mark>AI agent / agentic workflow</mark>: AI that takes multi-step actions with tools (reads files, runs searches, writes drafts), not just answers one question.</li>
+      <li><mark>Claude Code</mark>: Anthropic's coding assistant that can read and change code in a project.</li>
+      <li><mark>MCP</mark>: Model Context Protocol. A standard way to plug AI into other tools and data (Google Drive, GitHub, databases).</li>
+      <li><mark>Custom GPT</mark>: a ChatGPT set up with instructions and files for one job.</li>
+      <li><mark>RAG</mark>: Retrieval-Augmented Generation. The AI looks up your company's documents first, then answers from them.</li>
+      <li><mark>Evals</mark>: tests that check whether AI output is good enough.</li>
+      <li><mark>PII</mark>: Personally Identifiable Information. In mortgage this is huge: SSNs, income, bank data. Never paste real borrower data into a tool that isn't approved.</li>
+    </ul>
+    <h3>How AI helps modernization (their exact ask)</h3>
+    <ul>
+      <li>Draft PRDs, specs, and user stories from meeting notes.</li>
+      <li>Read old code or config and explain what it does, which speeds up dependency mapping.</li>
+      <li>Generate Mermaid diagrams from notes, which you then verify.</li>
+      <li>Summarize interviews and find patterns.</li>
+      <li>Turn a messy spreadsheet of apps into a clean inventory.</li>
+    </ul>
+  </div>
+  <div class="say"><b class="lbl">Say it like this</b><p>"I use AI to get to a strong first draft fast: PRDs from discovery notes, Mermaid from a whiteboard session, a summary of what an old codebase touches. Then I verify everything with the engineers. AI speeds up the documentation. It doesn't replace checking. And with borrower data, I'd only use tools the company has approved."</p></div>
+  <button class="donebtn" type="button" data-done="m8" id="done-m8">Mark module done</button>
+</section>
+
+<!-- 09 -->
+<section class="mod" id="m9">
+  <div class="modhead"><span class="kicker">Module 09</span><h2>Mortgage 101</h2></div>
+  <div class="kid"><b class="lbl">Plain English</b><p>A mortgage is a loan to buy a home. The <b>borrower</b> is the buyer. The <b>lender</b> (eLend) lends the money. A <b>broker</b> is a middleman who shops the borrower's loan to lenders. Lending to borrowers through brokers is called <b>wholesale</b> lending. Lending directly to borrowers is <b>retail</b>. eLend's tagline mentions both borrowers and brokers.</p></div>
+  <div class="read"><h3>The life of a loan</h3></div>
+  <ol class="steps">
+    <li><div><b>Application.</b> The borrower applies (form 1003, the Uniform Residential Loan Application). Credit is pulled.</div></li>
+    <li><div><b>Disclosures.</b> The lender sends a <mark>Loan Estimate</mark> within 3 business days of application.</div></li>
+    <li><div><b>Processing.</b> A <mark>processor</mark> collects documents: pay stubs, bank statements, appraisal, title.</div></li>
+    <li><div><b>Underwriting.</b> An <mark>underwriter</mark> decides if the loan meets the rules. Often runs through an <mark>AUS</mark> (automated underwriting system), like Fannie Mae's Desktop Underwriter or Freddie Mac's Loan Product Advisor. Usually comes back "approved with conditions."</div></li>
+    <li><div><b>Conditions cleared → Clear to Close (CTC).</b></div></li>
+    <li><div><b>Closing.</b> The borrower gets the <mark>Closing Disclosure</mark> at least 3 business days before closing, then signs.</div></li>
+    <li><div><b>Funding.</b> Money goes out.</div></li>
+    <li><div><b>Post-closing and servicing.</b> The loan is often sold on the <mark>secondary market</mark>, and someone collects the monthly payments (<mark>servicing</mark>).</div></li>
+  </ol>
+  <div class="read"><h3>Systems you'll hear about</h3></div>
+  <div class="tw"><table>
+    <thead><tr><th>System</th><th>What it does</th></tr></thead>
+    <tbody>
+      <tr><td>LOS</td><td>Loan Origination System. The main system where the loan lives from application to closing. <mark>Encompass</mark> (by ICE Mortgage Technology) is one of the biggest.</td></tr>
+      <tr><td>POS</td><td>Point of Sale. The borrower- or broker-facing portal where applications start.</td></tr>
+      <tr><td>PPE</td><td>Product and Pricing Engine. Figures out which loan products a borrower qualifies for and at what rate.</td></tr>
+      <tr><td>CRM</td><td>Customer Relationship Management. <mark>Salesforce</mark> often tracks leads, brokers, and relationships.</td></tr>
+      <tr><td>Doc management / e-sign</td><td>Stores loan documents and handles electronic signing.</td></tr>
+      <tr><td>Data / reporting</td><td>Pipelines and dashboards. <mark>Microsoft Fabric</mark> and Power BI on <mark>Azure</mark> fit here.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="read">
+    <h3>Compliance words (know they exist, don't overclaim)</h3>
+    <ul>
+      <li><mark>TRID</mark>: the federal disclosure rule behind the Loan Estimate and Closing Disclosure timing.</li>
+      <li><mark>RESPA</mark> and <mark>TILA</mark>: the two older laws TRID combines.</li>
+      <li><mark>HMDA</mark>: lenders report loan data to regulators to check for fair lending.</li>
+      <li><mark>Fair lending</mark>: you can't discriminate in who gets loans or at what price.</li>
+      <li>Why it matters to you: changes to the LOS or data flows can break disclosure timing or reporting. Compliance is a stakeholder in every modernization decision.</li>
+    </ul>
+    <h3>Things that hurt in mortgage tech (good to ask about)</h3>
+    <ul>
+      <li>Re-keying the same data into several systems.</li>
+      <li>Custom code and plugins piled onto the LOS over years.</li>
+      <li>Batch jobs and spreadsheets holding reporting together.</li>
+      <li>Rate volume swings: when rates drop, volume spikes and systems get stressed.</li>
+    </ul>
+  </div>
+  <div class="warn"><b class="lbl">Keep it honest</b><p>You haven't worked inside a mortgage LOS. Don't pretend you have. Your bridge is fintech plus financing analysis plus fast learning: "I haven't worked in Encompass directly, but I've done UAT on financial applications at InvestCloud and financing analysis for real estate deals, and I've done my homework on how a loan moves from application to funding." Then show you know the lifecycle.</p></div>
+  <button class="donebtn" type="button" data-done="m9" id="done-m9">Mark module done</button>
+</section>
+
+<!-- 10 -->
+<section class="mod" id="m10">
+  <div class="modhead"><span class="kicker">Module 10</span><h2>Consulting and money words</h2></div>
+  <div class="kid"><b class="lbl">Plain English</b><p>At a consulting firm, you're selling people's time to clients. The <b>SOW</b> is the promise of what you'll deliver. <b>Scope creep</b> is when the client keeps asking for "just one more thing" without paying for it. <b>Burn rate</b> is how fast you're using up the hours or budget.</p></div>
+  <div class="read">
+    <ul>
+      <li><mark>Pre-sales / scoping</mark>: conversations before a deal is signed to figure out what the client needs and what it'll cost.</li>
+      <li><mark>SOW</mark>: Statement of Work. Scope, deliverables, timeline, assumptions, price.</li>
+      <li><mark>Fixed bid vs. T&amp;M</mark>: a set price for set scope, vs. time and materials (billed by the hour).</li>
+      <li><mark>Scope creep</mark>: unplanned additions that eat time and margin.</li>
+      <li><mark>Change order / change request</mark>: the formal way to add scope, with more time or money.</li>
+      <li><mark>Burn rate / budget burn</mark>: hours or dollars used vs. planned.</li>
+      <li><mark>Forecasting / capacity</mark>: predicting how many hours you'll need and whether the team has them.</li>
+      <li><mark>Utilization</mark>: the share of someone's time that's billable.</li>
+      <li><mark>Margin</mark>: what's left after costs. Scope creep kills it.</li>
+      <li><mark>QBR</mark>: Quarterly Business Review. A meeting with the client's leaders on results, health, and what's next.</li>
+      <li><mark>KPI</mark>: Key Performance Indicator. A number that shows if you're winning.</li>
+      <li><mark>OKR</mark>: Objectives and Key Results. A goal plus the measurable results that prove it.</li>
+      <li><mark>Portfolio</mark>: the set of projects or clients you oversee together.</li>
+      <li><mark>PMO</mark>: Project Management Office. The group that sets project standards, templates, and reporting.</li>
+    </ul>
+  </div>
+  <div class="say"><b class="lbl">Say it like this</b><p>"I treat the SOW as the source of truth. When something new comes up, I don't say no, I say 'great, let's size it,' and it goes through change control. That kept scope creep from eating our margin, and clients trusted the process because they always knew what they were getting."</p></div>
+  <button class="donebtn" type="button" data-done="m10" id="done-m10">Mark module done</button>
+</section>
+
+<!-- 11 -->
+<section class="mod" id="m11">
+  <div class="modhead"><span class="kicker">Module 11</span><h2>Your resume, line by line</h2></div>
+  <div class="read"><p>Memory cards for every role. Read each one, fill in the <span class="fill">Fill in</span> tags, then try to say the card from memory. If you can explain each bullet in two sentences with one example, you're ready.</p></div>
+
+  <div class="memcard"><header><h3>RevStar</h3><span>Sr. Data and AI Product Manager · Aug 2025 – Aug 2026</span></header><dl>
+    <dt>Situation</dt><dd>A technology consulting startup building software and AI for clients. Many engagements running at once, each with its own client, budget, and team.</dd>
+    <dt>You owned</dt><dd>A $1M+ portfolio of client engagements, from scoping and SOW through delivery and executive reviews. Led 10+ people across full-stack, front-end, back-end, AI, and DevOps.</dd>
+    <dt>Actions</dt><dd>Wrote 40+ SOWs and PRDs. Ran sprint planning, refinement, and release planning across parallel programs. Tracked budget burn. Built intake, scoping, governance, SOPs, and PM training. Prototyped with Claude Code, GPTs, MCP. Presented at QBRs.</dd>
+    <dt>Results</dt><dd>Engagements moved from signed SOW to sprint without rework, and your intake and training docs were adopted across delivery. <span class="fill">Fill in: one client result, like a launch, a saved budget, or a happy client quote</span></dd>
+    <dt>Skills</dt><dd>Requirements, stakeholder management, Agile, budget, people leadership, AI tools</dd>
+    <dt>Why eLend cares</dt><dd>Shows you can translate between business and engineering and write the docs they want.</dd>
+    <dt>Know this</dt><dd>Clients you can name: <span class="fill">Fill in: which client names are OK to share publicly?</span> If not, say "a consumer brand," "a nonprofit," and so on.</dd>
+  </dl></div>
+
+  <div class="memcard"><header><h3>Tampa Electric</h3><span>IT Modernization Transformation Project &amp; Portfolio Manager · 2025 · Contract</span></header><dl>
+    <dt>Situation</dt><dd>A utility's IT team handled requests and incidents with processes that weren't working well. Adoption of the ServiceNow platform was uneven.</dd>
+    <dt>You owned</dt><dd>The ServiceNow STEP modernization program, plus two portfolios: Reporting and Device Management.</dd>
+    <dt>Actions</dt><dd>Mapped current-state intake. Designed catalog items and intake forms. Wrote acceptance criteria. Ran UAT. Built KPI dashboards in Excel and ServiceNow Platform Analytics. Redesigned SOPs and change management. Produced process maps, risk logs, and training docs.</dd>
+    <dt>Results</dt><dd>Higher ServiceNow ITSM adoption across business units. Leadership got delivery visibility they didn't have. <span class="fill">Fill in: any number, like requests moved to the catalog, adoption %, or time saved</span></dd>
+    <dt>Skills</dt><dd>Legacy modernization, process mapping, UAT, governance, dashboards, change management</dd>
+    <dt>Why eLend cares</dt><dd>It's a modernization program in a regulated, can't-go-down industry. That's very close to mortgage.</dd>
+    <dt>Know this</dt><dd>STEP = <span class="fill">Fill in: what did STEP stand for?</span> ITSM = IT Service Management. A catalog item is a pre-built request form, like "request a new laptop."</dd>
+  </dl></div>
+
+  <div class="memcard"><header><h3>MITER Brands</h3><span>IT Transformation Project Manager · 2022 – 2025 · Contract</span></header><dl>
+    <dt>Situation</dt><dd>MITER, a window and door manufacturer, acquired PGT Innovations and NewSouth Window. Three companies with different systems, data, and processes had to run as one.</dd>
+    <dt>You owned</dt><dd>IT and process integration across seven business functions.</dd>
+    <dt>Actions</dt><dd>Ran alignment workshops with IT, Finance, HR, Customer Service, Sales, Production, and Operations. Standardized processes, removed duplicate workflows, aligned legacy systems and data. Built SharePoint automation and dashboards. Ran sprints across concurrent workstreams. Drove adoption through change management.</dd>
+    <dt>Results</dt><dd>Standardized processes and leadership visibility into the integration. <span class="fill">Fill in: which systems got consolidated? How many workflows were cut? How many people were affected?</span></dd>
+    <dt>Skills</dt><dd>M&amp;A integration, legacy alignment, leadership without authority, workshops, change management</dd>
+    <dt>Why eLend cares</dt><dd>This is your best modernization story. Lead with it.</dd>
+  </dl></div>
+
+  <div class="memcard"><header><h3>CornerStone Labs</h3><span>Founder &amp; Forward Deployed Product Engineer · 2020 – Present</span></header><dl>
+    <dt>Situation</dt><dd>Small and mid-sized businesses running on outdated sites and manual processes.</dd>
+    <dt>You owned</dt><dd>The whole practice: discovery, design, build, and delivery.</dd>
+    <dt>Actions</dt><dd>Audit how teams work, map the current state, design future-state workflows with AI and modern web tools. Write requirements and docs, then build and ship with Claude Code, GitHub, and Vercel.</dd>
+    <dt>Results</dt><dd><span class="fill">Fill in: one client or build and what changed for them</span></dd>
+    <dt>Why eLend cares</dt><dd>Proves you're hands-on technically and fluent with AI tools today, not just in theory.</dd>
+    <dt>Know this</dt><dd>"Forward deployed" means you work directly with the customer, inside their problem, and build the solution yourself. If asked: "I sit with the client like a PM would, and then I build it."</dd>
+  </dl></div>
+
+  <div class="grid2">
+    <div class="card"><h4>Dev10 · Software Development Associate · 2023</h4><p>Built full-stack apps in Java, Spring Boot, and JavaScript as part of a team, and shipped a production-ready web app. Components improved efficiency by 20%.</p><p><b>Use it for:</b> "Do you have a technical background?"</p></div>
+    <div class="card"><h4>Value Tech Realty · Data Analyst · 2023</h4><p>Market and valuation analysis for 10+ multifamily and senior housing projects, supporting financing, refinancing, and acquisition decisions. Built JavaScript apps that automated documents, plus Tableau dashboards (20% faster delivery).</p><p><b>Use it for:</b> fintech and real estate finance exposure, and automation.</p></div>
+    <div class="card"><h4>InvestCloud · Business Analyst, Data &amp; UAT · 2020–2021</h4><p>UAT and regression testing on financial applications (20% fewer defects), front-end interfaces and data models, 500+ tickets at a 95% SLA rate.</p><p><b>Use it for:</b> "Have you worked in fintech?"</p></div>
+    <div class="card"><h4>Education</h4><p>MS in AI &amp; Business Analytics (USF, 2025). BS in Information Technology (USF, 2020).</p><p><b>Use it for:</b> AI fluency, Python, analytics.</p></div>
+  </div>
+  <div class="warn"><b class="lbl">Numbers to defend</b><p>$1M+ portfolio, 10+ people, 40+ SOWs and PRDs, seven business functions, 20% (three times), 500+ tickets, 95% SLA. Know where each one came from. If someone asks "how did you measure 20%?", have a one-sentence answer ready.</p></div>
+  <button class="donebtn" type="button" data-done="m11" id="done-m11">Mark module done</button>
+</section>
+
+<!-- 12 -->
+<section class="mod" id="m12">
+  <div class="modhead"><span class="kicker">Module 12</span><h2>STAR story bank</h2></div>
+  <div class="kid"><b class="lbl">Plain English</b><p><b>STAR</b> is a way to tell a work story so it doesn't ramble. <b>S</b>ituation: set the scene in one or two sentences. <b>T</b>ask: what you were responsible for. <b>A</b>ction: what <i>you</i> did, step by step (say "I," not "we"). <b>R</b>esult: what happened, ideally with a number. Aim for 90 seconds to 2 minutes. Spend most of the time on Action.</p></div>
+  <div class="read"><p>Each story has a STAR version for structured questions and a conversational version for when you want to sound natural. These are drafts built only from your resume. Add your <span class="fill">Fill in</span> details and they'll get much stronger.</p></div>
+
+  <div class="story">
+    <h3>1. Merging three companies' systems</h3>
+    <div class="tags"><span>legacy modernization</span><span>cross-functional</span><span>ambiguity</span><span>leadership without authority</span><span>biggest accomplishment</span></div>
+    <div class="star">
+      <b>Situation</b><p>MITER Brands acquired PGT Innovations and NewSouth Window. Each company had its own systems, data, and ways of working across seven business functions.</p>
+      <b>Task</b><p>I owned IT and process integration: getting the legacy systems, data, SOPs, and workflows aligned so the companies could run as one.</p>
+      <b>Action</b><p>I started by running alignment workshops with each function (IT, Finance, HR, Customer Service, Sales, Production, and Operations) to map how work actually happened on each side. I documented the current state, found the duplicate workflows, and got agreement on a standard process. I ran the work in sprints across several workstreams at once, built SharePoint automation and dashboards so leadership could see progress, and led the change management so people adopted the new way. <span class="fill">Fill in: one specific system or process you consolidated</span></p>
+      <b>Result</b><p>Processes were standardized, duplicate workflows were cut, and leadership had real visibility into the integration. <span class="fill">Fill in: a number</span></p>
+      <b>Lesson</b><p>The hardest part of integration isn't the systems, it's getting people to agree on one way of working. Workshops where everyone sees the current state together move that faster than any memo.</p>
+    </div>
+    <p class="convo">"My best modernization story is MITER. They bought two companies, PGT and NewSouth, and suddenly you've got three versions of everything: systems, data, processes. I owned the IT and process integration across seven departments. I didn't have authority over any of those teams, so I ran workshops where each group walked through how they actually worked, and we put it all on the wall together. Once people could see the duplication, agreeing on one standard got a lot easier. I ran it in sprints across several workstreams and built dashboards so leadership could see where we were. In the end we cut duplicate workflows and got everyone on standard processes."</p>
+  </div>
+
+  <div class="story">
+    <h3>2. Modernizing ServiceNow intake at Tampa Electric</h3>
+    <div class="tags"><span>process improvement</span><span>change management</span><span>modernization</span><span>adoption</span></div>
+    <div class="star">
+      <b>Situation</b><p>Tampa Electric's IT request and incident processes weren't working well, and ServiceNow adoption across business units was uneven.</p>
+      <b>Task</b><p>I led the ServiceNow STEP modernization program: redesign intake and get people actually using the platform.</p>
+      <b>Action</b><p>I mapped the current-state intake workflows and found where requests got stuck or bypassed the system. I designed custom catalog items and intake forms, defined acceptance criteria, and ran UAT with the business before go-live. I rewrote SOPs, ran change management and training, and built analytics dashboards so we could track adoption.</p>
+      <b>Result</b><p>ServiceNow ITSM adoption increased across business units, and I left behind process maps, risk logs, and training docs so it stayed supportable after handoff. <span class="fill">Fill in: adoption number or volume</span></p>
+      <b>Lesson</b><p>A better form doesn't fix adoption by itself. People need to understand why it's better for them, and the SOPs have to match.</p>
+    </div>
+    <p class="convo">"At Tampa Electric I led a ServiceNow modernization. People were going around the system, so first I mapped exactly how requests came in today and where they fell apart. Then I designed new catalog items and intake forms, wrote acceptance criteria, and had the business test them in UAT before we launched. The part people forget is the change side, so I rewrote the SOPs and did training, and we tracked adoption on dashboards. Adoption went up across the business units, and I left a full documentation layer so the team could support it after I left."</p>
+  </div>
+
+  <div class="story">
+    <h3>3. Turning a vague client ask into a buildable plan</h3>
+    <div class="tags"><span>requirements</span><span>ambiguity</span><span>PRD</span><span>difficult client</span></div>
+    <div class="star">
+      <b>Situation</b><p>At RevStar, clients often came in with a broad goal (like "we want to use AI") and no clear scope.</p>
+      <b>Task</b><p>Turn that into a signed SOW and a PRD the engineering team could build from without rework.</p>
+      <b>Action</b><p>I led discovery calls focused on the problem: who's affected, what it costs today, and how we'd measure success. I wrote the SOW with clear in-scope and out-of-scope items, then a PRD with epics, user stories, and acceptance criteria. I walked engineering through it before estimating so they could challenge assumptions early. <span class="fill">Fill in: pick one real engagement and name the problem</span></p>
+      <b>Result</b><p>I authored 40+ SOWs and PRDs, and engagements moved from signed contract to sprint without rework.</p>
+      <b>Lesson</b><p>Ten more minutes of "why" in discovery saves weeks of rework later.</p>
+    </div>
+    <p class="convo">"Clients at RevStar usually showed up with a big goal and no scope, like 'we need AI in our workflow.' My job was to turn that into something we could actually sign and build. I'd keep asking about the problem until it was specific and measurable, then write the SOW with a clear out-of-scope list, and a PRD broken into epics and stories with acceptance criteria. I'd always walk the engineers through it before they estimated. I wrote over 40 of those, and it's why our projects could go from signed to sprint without starting over."</p>
+  </div>
+
+  <div class="story">
+    <h3>4. Juggling parallel programs and catching budget overruns early</h3>
+    <div class="tags"><span>competing priorities</span><span>project off track</span><span>risk</span><span>budget</span></div>
+    <div class="star">
+      <b>Situation</b><p>I was running several client programs at once at RevStar, each with its own roadmap, sprints, budget, and stakeholders.</p>
+      <b>Task</b><p>Keep every program on track without one slipping to cover another, and protect budgets.</p>
+      <b>Action</b><p>I tracked burn against contracted hours every week and forecast capacity across the portfolio. When one program started burning faster than planned, I flagged it early, explained why, and brought the client options: trim scope, re-sequence, or a change order. <span class="fill">Fill in: the real example. Which option did they choose?</span></p>
+      <b>Result</b><p><span class="fill">Fill in: what happened to the budget and the relationship</span></p>
+      <b>Lesson</b><p>Bad news early is a plan. Bad news late is a crisis.</p>
+    </div>
+    <p class="convo">"I ran multiple programs at once, so I watched budget burn every week. On one engagement I saw hours running ahead of plan pretty early. Instead of hoping it'd even out, I went to the client with the numbers and three options: trim scope, re-sequence, or a change order. [What they chose and what happened.] Raising it early is what kept the relationship good."</p>
+  </div>
+
+  <div class="story">
+    <h3>5. Building the delivery playbook nobody had</h3>
+    <div class="tags"><span>initiative</span><span>innovation</span><span>process improvement</span><span>leadership</span></div>
+    <div class="star">
+      <b>Situation</b><p>RevStar was growing fast, and every PM was running intake and delivery their own way.</p>
+      <b>Task</b><p>Nobody assigned this. I saw the gap and took it on.</p>
+      <b>Action</b><p>I built standard intake and scoping workflows, governance and quality gates, SOPs, and PM onboarding and training docs. I also built internal apps and automations where the process needed tooling. <span class="fill">Fill in: one tool or template you're proudest of</span></p>
+      <b>Result</b><p>These were adopted across the delivery organization.</p>
+      <b>Lesson</b><p>When the same problem keeps coming up, fix the system, not just the instance.</p>
+    </div>
+    <p class="convo">"When I joined RevStar, every PM ran projects differently, which made quality hard to predict. Nobody asked me to, but I built the playbook: intake and scoping workflows, quality gates, SOPs, and training for new PMs, plus some internal tools. It got adopted across the whole delivery team."</p>
+  </div>
+
+  <div class="story">
+    <h3>6. Using AI to move faster</h3>
+    <div class="tags"><span>AI tools</span><span>innovation</span><span>technical</span></div>
+    <div class="star">
+      <b>Situation</b><p>Clients wanted to see AI concepts quickly, and engineering capacity was expensive.</p>
+      <b>Task</b><p>Validate ideas before committing engineering time.</p>
+      <b>Action</b><p>I used Claude Code, custom GPTs, and MCP integrations to build quick prototypes and draft requirements and documentation, then reviewed them with engineering. <span class="fill">Fill in: one prototype and what it proved or disproved</span></p>
+      <b>Result</b><p>Faster validation, and engineering time went to ideas that held up.</p>
+      <b>Lesson</b><p>AI gets you a first draft fast, but a human has to verify it.</p>
+    </div>
+    <p class="convo">"I use AI the way I'd use a really fast junior analyst. At RevStar I'd prototype concepts with Claude Code and MCP integrations, and draft PRDs and docs with AI, so clients could react to something real before we spent engineering hours. I still verified everything with the engineers. Today I build my own client tools the same way."</p>
+  </div>
+
+  <div class="story">
+    <h3>7. Catching defects in financial software</h3>
+    <div class="tags"><span>fintech</span><span>quality</span><span>technical</span><span>detail</span></div>
+    <div class="star">
+      <b>Situation</b><p>At InvestCloud, a fintech company, financial applications needed careful testing before releases.</p>
+      <b>Task</b><p>I ran UAT and regression testing and supported clients.</p>
+      <b>Action</b><p>I built and ran test scenarios, logged and tracked defects with the dev team, built front-end interfaces and data models, and worked client tickets. <span class="fill">Fill in: what kind of financial app? What was a defect you caught?</span></p>
+      <b>Result</b><p>Defects dropped 20%, and I resolved 500+ tickets at a 95% SLA rate.</p>
+      <b>Lesson</b><p>In financial software, small errors are expensive. Testing has to reflect how real users work.</p>
+    </div>
+    <p class="convo">"My fintech roots are at InvestCloud. I did UAT and regression testing on their financial applications, built some front-end and data model pieces, and handled client tickets. We cut defects about 20%, and I closed over 500 tickets at a 95% SLA. It taught me how unforgiving financial software is."</p>
+  </div>
+
+  <div class="story">
+    <h3>8. Templates for the stories only you can tell</h3>
+    <div class="tags"><span>conflict</span><span>difficult stakeholder</span><span>failure</span><span>feedback</span></div>
+    <div class="read">
+      <p>Interviewers almost always ask these. Pick a real moment for each and fill in the STAR:</p>
+      <ul>
+        <li><b>Conflict / difficult stakeholder:</b> Who pushed back? What did they want? How did you find common ground (data, a workshop, a compromise)? What happened? <span class="fill">Possible source: a MITER department head resisting the standard process</span></li>
+        <li><b>Failure or mistake:</b> Something real that went wrong because of you, what you did right after, and what you changed for next time. Keep it real but not catastrophic.</li>
+        <li><b>Giving tough feedback:</b> A direct report at RevStar who wasn't meeting the bar. What you said, how you supported them, the outcome.</li>
+        <li><b>Tight deadline:</b> A go-live or client date you had to hit. What you cut or re-sequenced.</li>
+      </ul>
+    </div>
+  </div>
+  <button class="donebtn" type="button" data-done="m12" id="done-m12">Mark module done</button>
+</section>
+
+<!-- 13 -->
+<section class="mod" id="m13">
+  <div class="modhead"><span class="kicker">Module 13</span><h2>Recruiter and first-round answers</h2></div>
+  <div class="read"><p>No STAR here. Talk like you're explaining your background to a smart friend at dinner. Short, warm, confident.</p></div>
+  <div class="qa">
+    <details open><summary>Tell me about yourself (60–90 seconds)</summary><div class="body">
+      <p class="convo">"I'm a technical product manager, and most of my career has been modernization work. I started on the technical side, as a business analyst at a fintech company called InvestCloud and then as a developer, so I can sit with engineers and actually follow the conversation. From there I moved into transformation work. At MITER Brands I led IT and process integration through two acquisitions, and at Tampa Electric I led a ServiceNow modernization program. Most recently I was a senior product manager at a tech consultancy, owning a portfolio of software and AI engagements and writing the PRDs and SOWs that turned vague asks into buildable work. I also run my own practice, CornerStone Labs, where I build AI workflows for small businesses myself. This role is basically the center of everything I like doing: untangling legacy systems, documenting them really well, and using AI to move faster, in an industry close to my fintech roots."</p>
+    </div></details>
+    <details><summary>Why this role?</summary><div class="body">
+      <p class="convo">"Because it's the work I'm best at. It's modernization, heavy documentation, dependency mapping, and working right between the business and engineering. And they want someone who uses AI tools to do it faster, which is how I already work. Mortgage is also close to where I started in fintech, so it feels like the right next step."</p>
+    </div></details>
+    <details><summary>Why did you leave your last role?</summary><div class="body">
+      <p class="test">What they're testing: is there drama? Keep it short, true, and forward-looking.</p>
+      <p class="convo">"That role ended in August. Since then I've been doing consulting through my own practice, and I'm looking for my next full-time team. This one's a strong fit because it's exactly the modernization and documentation work I want to be doing."</p>
+      <div class="warn"><b class="lbl">Rule</b><p>Never say anything negative about RevStar. One sentence on why it ended, then pivot.</p></div>
+    </div></details>
+    <details><summary>Availability and start date</summary><div class="body">
+      <p class="test">This is your hardest question. See the warning below.</p>
+      <div class="warn"><b class="lbl">Talk to Roderick before interviews</b><p>You ship to Basic Training on November 3. The posting says "start ASAP," so you'd have about three weeks before leaving for several months. Tell Roderick before you interview. He may know whether eLend is open to a short start and return, or whether the contract can be set up another way. If you hide it and they find out after an offer, it burns your name with Kforce and eLend. Under USERRA, employers generally have to protect your job during military service. For a contractor, how that applies depends on the setup, so ask Roderick.</p></div>
+      <p class="convo">Draft once Roderick knows: "I can start right away. I do want to be upfront that I'm in the National Guard and I report for training on November 3. I've already talked with Roderick about how to handle that, and I'm happy to talk through it with you."</p>
+    </div></details>
+    <details><summary>Rate / salary</summary><div class="body">
+      <p>The posting lists $65/hour. "3rd party: No" means no corp-to-corp. You'd be on Kforce's payroll. Rate conversations usually happen with Roderick, not eLend. If eLend asks: "I've talked rate with Roderick and I'm comfortable with where we are. I'm focused on whether this is the right fit."</p>
+    </div></details>
+    <details><summary>Are you interviewing elsewhere?</summary><div class="body">
+      <p class="convo">"I'm having a few conversations, but this one's at the top of my list because of how closely it matches what I've been doing."</p>
+    </div></details>
+  </div>
+  <button class="donebtn" type="button" data-done="m13" id="done-m13">Mark module done</button>
+</section>
+
+<!-- 14 -->
+<section class="mod" id="m14">
+  <div class="modhead"><span class="kicker">Module 14</span><h2>Hiring manager rounds</h2></div>
+  <div class="read"><p>Three virtual rounds. Expect behavioral questions, a scenario ("we have an old system..."), and live work: a PRD outline, a dependency map, a Mermaid diagram. Tap a question to see what they're testing and how to answer.</p></div>
+  <div class="qa">
+    <details><summary>Walk me through how you'd modernize a legacy application.</summary><div class="body">
+      <p class="test">Testing: do you have a method, and do you think about risk and the business?</p>
+      <p>Use the 8-step template in Module 06: inventory, map dependencies, assess, design the future state, sequence, migrate safely, retire, keep docs alive. Draw it in Mermaid while you talk. Mention business continuity, a parallel run, and a rollback plan.</p>
+    </div></details>
+    <details><summary>How do you build a dependency map when nothing is documented?</summary><div class="body">
+      <p class="test">Testing: are you resourceful and thorough?</p>
+      <p class="convo">"I start with what I can find: architecture docs, integration configs, the database, network diagrams, even old tickets. I'll use AI to help read code and configs and list what talks to what. Then I validate it with the people who run it, because they know about the nightly file transfer nobody wrote down. I draw it in Mermaid, mark which dependencies are confirmed and which are assumed, and keep it in the repo so it stays current."</p>
+    </div></details>
+    <details><summary>Tell me about a time you worked with engineers and business stakeholders who disagreed.</summary><div class="body">
+      <p class="test">Testing: stakeholder management, communication.</p>
+      <p>Use Story 1 (MITER) or your filled-in conflict story. Show how you got both sides looking at the same facts.</p>
+    </div></details>
+    <details><summary>How do you write a PRD? What goes in it?</summary><div class="body">
+      <p>Use the 9-part list in Module 04. Emphasize the problem statement, success metrics, out-of-scope, and a diagram.</p>
+    </div></details>
+    <details><summary>How do you handle technical debt vs. new features?</summary><div class="body">
+      <p class="convo">"I make tech debt visible in business terms, like 'this slows every release by two days' or 'this is a security risk.' Then it competes in the backlog like everything else. Often I'll protect a set share of each sprint for debt so it doesn't keep getting pushed."</p>
+    </div></details>
+    <details><summary>How do you use AI in your work?</summary><div class="body">
+      <p>Use Story 6 plus the "Say it like this" from Module 08. Mention verifying outputs and protecting PII.</p>
+    </div></details>
+    <details><summary>How do you keep releases from breaking the business?</summary><div class="body">
+      <p class="convo">"Deployment readiness is a checklist, not a feeling. UAT signed off, regression run, training done, support ready, rollback tested, and a go/no-go with the right people. After launch I run hypercare and watch the KPIs closely."</p>
+    </div></details>
+    <details><summary>What would your first 30, 60, 90 days look like?</summary><div class="body">
+      <p class="convo">"First 30 days: learn the business and the systems. Meet stakeholders, read every doc that exists, start the application inventory, and understand the loan lifecycle end to end. By 60: a current-state map and dependency map I trust, plus a draft roadmap with priorities and risks. By 90: the first modernization work moving through sprints, with docs living in the repo."</p>
+    </div></details>
+    <details><summary>Live exercise: write a PRD in 20 minutes</summary><div class="body">
+      <p>Practice prompt: "Brokers can't see loan status without emailing their account rep. Write a PRD." Use the template headings, write one user story with Given/When/Then, add a sequence diagram (broker portal → API → LOS), list three risks. Talk out loud as you go. Say what you'd ask if this were real.</p>
+    </div></details>
+  </div>
+  <div class="read"><h3>Questions to ask them</h3>
+    <ul>
+      <li>Which legacy systems are first in line for modernization, and what's driving the timing?</li>
+      <li>How is architecture and system documentation handled today? Is there a docs-as-code practice yet, or would I be helping build it?</li>
+      <li>What does success look like for this role at 90 days?</li>
+      <li>How do product, architecture, and engineering split decisions here?</li>
+      <li>Which AI tools are approved for use with company data?</li>
+      <li>What's the biggest dependency or risk you're worried about right now?</li>
+    </ul>
+  </div>
+  <button class="donebtn" type="button" data-done="m14" id="done-m14">Mark module done</button>
+</section>
+
+<!-- 15 -->
+<section class="mod" id="m15">
+  <div class="modhead"><span class="kicker">Module 15</span><h2>Hard questions, honest answers</h2></div>
+  <div class="qa">
+    <details><summary>"Have you worked in mortgage?"</summary><div class="body"><p class="convo">"Not inside a lender. My fintech experience is UAT on financial applications at InvestCloud and financing analysis for real estate deals. I've studied how a loan moves from application to funding and where systems like the LOS and pricing engine fit, and I learn domains fast. Modernization problems look a lot alike across industries: tangled systems, undocumented dependencies, and people who need the business to keep running."</p></div></details>
+    <details><summary>"Have you used Encompass, Azure, or Fabric?"</summary><div class="body"><p class="convo">"Not hands-on. I know what each does and where it fits. I've worked with ServiceNow, SharePoint, and cloud-hosted tools, and I build apps on cloud platforms myself. I'd be partnering with the engineers who own those systems and documenting them, which is exactly the work I've done before."</p></div></details>
+    <details><summary>"How much Mermaid have you done?"</summary><div class="body"><p class="convo">"I've done process maps and system diagrams for years in other tools, and I've moved to Mermaid because it keeps diagrams next to the code. Want me to show you?" Then draw one.</p><div class="warn"><b class="lbl">Make it true</b><p>Finish the Mermaid practice plan before your interviews.</p></div></div></details>
+    <details><summary>"Lots of contract roles. Why so many?"</summary><div class="body"><p class="convo">"Transformation work is often contract-based by nature. Companies bring someone in for an acquisition or a platform change. Each one gave me a different modernization problem to solve, which is why I'm strong at this."</p></div></details>
+    <details><summary>"You were at RevStar about a year. Why so short?"</summary><div class="body"><p class="convo">"The role ended in August. I'm proud of what I built there, especially the delivery playbook and the engagements I led."</p></div></details>
+    <details><summary>"You run your own business. Will you stay?"</summary><div class="body"><p class="convo">"CornerStone is small, project-based work. It's also how I stay hands-on with AI tools. A role like this gets my full attention."</p></div></details>
+  </div>
+  <div class="read"><h3>Mistakes to avoid</h3>
+    <ul>
+      <li><b>Saying "we" the whole time.</b> Wrong: "We redesigned intake." Right: "I mapped the current intake and designed the new forms."</li>
+      <li><b>No result.</b> Always land the story: "...and adoption went up across the business units."</li>
+      <li><b>Rambling backstory.</b> Situation is two sentences, max.</li>
+      <li><b>Overclaiming tools.</b> "I know what it does and where it fits" beats pretending.</li>
+      <li><b>Going too technical with a business interviewer</b>, or too vague with an engineer. Read the room.</li>
+    </ul>
+  </div>
+  <button class="donebtn" type="button" data-done="m15" id="done-m15">Mark module done</button>
+</section>
+
+<!-- 16 -->
+<section class="mod" id="m16">
+  <div class="modhead"><span class="kicker">Module 16</span><h2>Word bank</h2></div>
+  <div class="read"><p>Every term from this course in one place. Search it, filter it, or cover the definitions and quiz yourself.</p></div>
+  <div class="gloss-ctl">
+    <label for="gq" class="count" style="position:absolute;left:-9999px">Search terms</label>
+    <input id="gq" type="search" placeholder="Search a word, like RAID or cutover">
+    <div id="gf" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+    <button type="button" id="quiz" aria-pressed="false">Quiz mode</button>
+  </div>
+  <p class="count" id="gcount"></p>
+  <div class="gloss" id="gl"></div>
+  <button class="donebtn" type="button" data-done="m16" id="done-m16">Mark module done</button>
+</section>
+
+<!-- 17 -->
+<section class="mod" id="m17">
+  <div class="modhead"><span class="kicker">Module 17</span><h2>Cheat sheet: read 10 minutes before</h2></div>
+  <div class="cheat">
+    <div><h4>The role in one sentence</h4><p>Map eLend's legacy systems, document them clearly, and plan their modernization with engineering, without disrupting the mortgage business.</p></div>
+    <div class="cg">
+      <div><h4>My top 3 selling points</h4><ol><li>Modernization track record (MITER, Tampa Electric)</li><li>Technical roots: developer and BA, plus apps I build now</li><li>AI-fluent documentation: PRDs, diagrams, specs, fast</li></ol></div>
+      <div><h4>My 5 best stories</h4><ol><li>Merging three companies' systems (MITER)</li><li>ServiceNow intake modernization (TECO)</li><li>Vague ask to buildable PRD (RevStar)</li><li>Catching budget burn early (RevStar)</li><li>Defects down 20% in financial apps (InvestCloud)</li></ol></div>
+      <div><h4>Words to use</h4><p>legacy modernization · dependency map · current/future state · business continuity · parallel run · cutover · tech debt · PRD · acceptance criteria · RAID · go/no-go · docs-as-code · Mermaid · LOS</p></div>
+      <div><h4>Weak spots and my answer</h4><ul><li>No mortgage: fintech plus fast learning plus loan lifecycle knowledge</li><li>Encompass/Azure: know what they do, partner with owners</li><li>Nov 3: already discussed with Roderick, upfront</li></ul></div>
+      <div><h4>Why me</h4><p>I've done modernization in regulated, can't-go-down environments, I came from the technical side, and I already document with AI.</p></div>
+      <div><h4>Remember</h4><ul><li>Say "I," not "we"</li><li>Land every story with a result</li><li>Draw while you talk</li><li>Ask questions before solving</li></ul></div>
+    </div>
+  </div>
+  <button class="donebtn" type="button" data-done="m17" id="done-m17">Mark module done</button>
+</section>
+</main>
+</div>
+
+<script>
+var G=[
+["Product manager","Decides what to build and why. Owns the problem, priorities, roadmap.","Roles"],
+["Technical product manager","A PM who also handles technical requirements, architecture docs, and dependencies.","Roles"],
+["Project manager","Makes sure work lands on time and on budget.","Roles"],
+["Program manager","Coordinates several related projects toward one goal.","Roles"],
+["Business analyst","Gathers and documents what the business needs.","Roles"],
+["Product owner","Scrum role that owns and orders the backlog.","Roles"],
+["Scrum master","Coaches the Scrum process and removes blockers.","Roles"],
+["Stakeholder","Anyone affected by or with a say in the work.","Roles"],
+["SDLC","Software Development Life Cycle: requirements, design, build, test, deploy, maintain.","Delivery"],
+["Agile","Deliver small working pieces often and adapt based on feedback.","Delivery"],
+["Waterfall","Do phases in order with a big upfront plan and sign-offs.","Delivery"],
+["Hybrid","Waterfall-style milestones on top, Agile sprints underneath.","Delivery"],
+["Scrum","Agile framework with sprints, set roles, and ceremonies.","Delivery"],
+["Kanban","Continuous flow on a board, with limits on work in progress.","Delivery"],
+["Sprint","A fixed work cycle, usually two weeks.","Delivery"],
+["Backlog","The ranked list of work to be done.","Delivery"],
+["Backlog refinement","Adding detail to, splitting, and estimating upcoming stories.","Delivery"],
+["Sprint planning","Picking what the team commits to this sprint.","Delivery"],
+["Retrospective","End-of-sprint look at what to keep and change.","Delivery"],
+["Story points","Relative size estimate for effort and complexity.","Delivery"],
+["Velocity","Points a team usually finishes per sprint.","Delivery"],
+["Definition of Done","Checklist a story must meet to count as finished.","Delivery"],
+["WIP limit","Cap on how many items can be in progress at once.","Delivery"],
+["Release planning","Deciding what ships when, across sprints.","Delivery"],
+["EOS","Entrepreneurial Operating System, a framework for running a company.","Delivery"],
+["Rocks","EOS: the top 3 to 7 priorities for the next 90 days.","Delivery"],
+["L10 meeting","EOS: weekly 90-minute leadership meeting.","Delivery"],
+["IDS","EOS: Identify, Discuss, Solve.","Delivery"],
+["Scorecard","EOS: weekly numbers that show if you're on track.","Delivery"],
+["BRD","Business Requirements Document.","Requirements"],
+["PRD","Product Requirements Document: problem, goals, scope, requirements, metrics.","Requirements"],
+["Functional spec","Exactly how a feature behaves.","Requirements"],
+["Non-functional requirements","Speed, security, uptime, compliance needs.","Requirements"],
+["Epic","A large body of work broken into stories.","Requirements"],
+["User story","As a [user], I want [action], so that [benefit].","Requirements"],
+["Acceptance criteria","Testable conditions a story must meet. Often Given/When/Then.","Requirements"],
+["INVEST","Good story test: Independent, Negotiable, Valuable, Estimable, Small, Testable.","Requirements"],
+["MoSCoW","Must, Should, Could, Won't.","Requirements"],
+["RICE","Reach × Impact × Confidence ÷ Effort.","Requirements"],
+["Scope","What's included. Out of scope is what's not.","Requirements"],
+["Elicitation","The fancy word for gathering requirements.","Requirements"],
+["Gap analysis","Comparing current state to future state to find what has to change.","Requirements"],
+["Roadmap","Plan of what's coming and roughly when.","Requirements"],
+["RAID log","Risks, Assumptions, Issues, Dependencies.","Risk & launch"],
+["Risk register","Risks with likelihood, impact, owner, mitigation.","Risk & launch"],
+["Mitigation","Action that makes a risk less likely or less bad.","Risk & launch"],
+["Dependency","Something your work is waiting on, or that waits on you.","Risk & launch"],
+["Critical path","The chain of tasks that sets the end date.","Risk & launch"],
+["Milestone","A major checkpoint.","Risk & launch"],
+["RAG status","Red, Amber, Green.","Risk & launch"],
+["Escalation","Raising an issue to someone with more authority, early, with options.","Risk & launch"],
+["RACI","Responsible, Accountable, Consulted, Informed.","Risk & launch"],
+["Change management","Helping people adopt a new way of working.","Risk & launch"],
+["ADKAR","Awareness, Desire, Knowledge, Ability, Reinforcement.","Risk & launch"],
+["Adoption","How many people actually use the new thing.","Risk & launch"],
+["UAT","User Acceptance Testing: business users confirm it works for them.","Risk & launch"],
+["Regression testing","Checking new changes didn't break old features.","Risk & launch"],
+["Go/no-go","Decision meeting before launch.","Risk & launch"],
+["Deployment readiness","Everything needed before launch is done.","Risk & launch"],
+["Cutover","The switch from old system to new.","Risk & launch"],
+["Rollback plan","How to undo a launch if it fails.","Risk & launch"],
+["Hypercare","Extra support right after go-live.","Risk & launch"],
+["Legacy system","Old software the business still depends on.","Modernization"],
+["Technical debt","Shortcuts and old code that slow future change.","Modernization"],
+["Digital transformation","Changing how the business works using technology.","Modernization"],
+["Current state","How things work today.","Modernization"],
+["Future state","How things should work after the change.","Modernization"],
+["Dependency mapping","Finding everything connected to a system.","Modernization"],
+["Application portfolio management","Deciding what to keep, invest in, migrate, or retire across all apps.","Modernization"],
+["7 Rs","Retire, Retain, Rehost, Relocate, Replatform, Repurchase, Refactor.","Modernization"],
+["TIME model","Tolerate, Invest, Migrate, Eliminate.","Modernization"],
+["Lift and shift","Rehost: move to the cloud as-is.","Modernization"],
+["Strangler fig","Replace an old system piece by piece until it can be turned off.","Modernization"],
+["Parallel run","Old and new run side by side to compare.","Modernization"],
+["Phased rollout","Move one group or feature at a time.","Modernization"],
+["Big bang","Switch everything at once. Risky.","Modernization"],
+["Data migration","Moving data from old to new: mapping, cleansing, loading, reconciling.","Modernization"],
+["Reconciliation","Checking counts and totals match after a data move.","Modernization"],
+["Decommission","Turning an old system off for good.","Modernization"],
+["Business continuity","Keeping the business running during change.","Modernization"],
+["M&A","Mergers and acquisitions: companies combining or buying each other.","Modernization"],
+["Governance","Rules, approvals, and checkpoints for how work gets done.","Modernization"],
+["Intake","The front door where new requests are reviewed and prioritized.","Modernization"],
+["C4 model","Architecture at zoom levels: Context, Containers, Components, Code.","Modernization"],
+["Docs-as-code","Docs written as text and stored in Git with the code.","Modernization"],
+["Mermaid","Text-based diagram tool that renders in Markdown.","Modernization"],
+["PlantUML","Older text-to-diagram tool, wordier than Mermaid.","Modernization"],
+["Front end","What users see and touch.","Tech"],
+["Back end","Server-side logic and processing.","Tech"],
+["Database","Where data is stored.","Tech"],
+["API","A defined way for systems to request data or actions from each other.","Tech"],
+["REST","The most common API style, using URLs and JSON.","Tech"],
+["Endpoint","A specific API address that does one thing.","Tech"],
+["JSON","A common text format for data.","Tech"],
+["Webhook","A system pings another when something happens.","Tech"],
+["Middleware","Software that passes messages between systems.","Tech"],
+["Event-driven architecture","Systems publish events and others react.","Tech"],
+["Microservices","Many small services, each doing one job.","Tech"],
+["Monolith","One big application doing everything.","Tech"],
+["Azure","Microsoft's cloud platform.","Tech"],
+["Microsoft Fabric","Microsoft's data and analytics platform, with Power BI.","Tech"],
+["SaaS","Software you subscribe to online.","Tech"],
+["On-prem","Servers in your own building.","Tech"],
+["Environments","Dev, test, staging, production.","Tech"],
+["CI/CD","Automatic testing and deployment when code changes.","Tech"],
+["ETL","Extract, Transform, Load.","Tech"],
+["Repo","A project's code in Git.","Tech"],
+["Pull request","Asking to merge a branch after review.","Tech"],
+["Markdown","Plain-text formatting with # and -.","Tech"],
+["Docker","Packages an app to run the same anywhere.","Tech"],
+["ITSM","IT Service Management, like incidents and requests in ServiceNow.","Tech"],
+["LLM","Large Language Model, the tech behind Claude.","AI"],
+["Prompt engineering","Writing good instructions for AI.","AI"],
+["Hallucination","AI confidently making something up.","AI"],
+["Human-in-the-loop","A person reviews AI output before use.","AI"],
+["AI agent","AI that takes multi-step actions using tools.","AI"],
+["MCP","Model Context Protocol: plugs AI into tools and data.","AI"],
+["RAG","AI looks up your documents before answering.","AI"],
+["Evals","Tests that check AI output quality.","AI"],
+["PII","Personally identifiable information.","AI"],
+["Borrower","The person getting the loan.","Mortgage"],
+["Broker","Middleman who shops a borrower's loan to lenders.","Mortgage"],
+["Wholesale lending","Lending to borrowers through brokers.","Mortgage"],
+["Retail lending","Lending directly to borrowers.","Mortgage"],
+["LOS","Loan Origination System, like Encompass.","Mortgage"],
+["Encompass","Major LOS by ICE Mortgage Technology.","Mortgage"],
+["POS","Point of Sale: the portal where applications start.","Mortgage"],
+["PPE","Product and Pricing Engine.","Mortgage"],
+["AUS","Automated Underwriting System, like Desktop Underwriter or Loan Product Advisor.","Mortgage"],
+["Underwriting","Deciding if a loan meets the rules.","Mortgage"],
+["Conditions","Items needed before closing.","Mortgage"],
+["Clear to close","Approved and ready to close.","Mortgage"],
+["Funding","Loan money goes out.","Mortgage"],
+["Servicing","Collecting payments after closing.","Mortgage"],
+["Secondary market","Where lenders sell loans after closing.","Mortgage"],
+["Loan Estimate","Disclosure sent within 3 business days of application.","Mortgage"],
+["Closing Disclosure","Final terms, sent at least 3 business days before closing.","Mortgage"],
+["TRID","Federal rule combining TILA and RESPA disclosures.","Mortgage"],
+["HMDA","Loan data reporting for fair lending.","Mortgage"],
+["SOW","Statement of Work: scope, deliverables, timeline, price.","Business"],
+["Scope creep","Unplanned additions that eat time and money.","Business"],
+["Change order","Formal way to add scope with more time or money.","Business"],
+["Burn rate","How fast hours or budget get used.","Business"],
+["T&M","Time and materials, billed hourly.","Business"],
+["Fixed bid","A set price for set scope.","Business"],
+["Margin","What's left after costs.","Business"],
+["Utilization","Share of time that's billable.","Business"],
+["QBR","Quarterly Business Review.","Business"],
+["KPI","Key Performance Indicator.","Business"],
+["OKR","Objectives and Key Results.","Business"],
+["PMO","Project Management Office.","Business"],
+["SLA","Service Level Agreement: promised response or fix times.","Business"],
+["STAR","Situation, Task, Action, Result.","Interview"]
+];
+var cats=["All"].concat(G.map(function(g){return g[2]}).filter(function(c,i,a){return a.indexOf(c)===i}));
+var cur="All",q="",quiz=false;
+var gf=document.getElementById('gf'),gl=document.getElementById('gl'),gc=document.getElementById('gcount');
+cats.forEach(function(c){var b=document.createElement('button');b.type='button';b.textContent=c;b.setAttribute('aria-pressed',c===cur);b.onclick=function(){cur=c;[].forEach.call(gf.children,function(x){x.setAttribute('aria-pressed',x.textContent===c)});draw()};gf.appendChild(b)});
+function draw(){
+  var list=G.filter(function(g){return (cur==="All"||g[2]===cur)&&(!q||(g[0]+" "+g[1]).toLowerCase().indexOf(q)>-1)});
+  gc.textContent=list.length+" terms";
+  gl.innerHTML="";
+  list.forEach(function(g){var d=document.createElement('div');d.className='g';
+    var s=document.createElement('small');s.textContent=g[2];var b=document.createElement('b');b.textContent=g[0];var p=document.createElement('p');p.textContent=g[1];
+    if(quiz){p.style.filter='blur(5px)';p.style.cursor='pointer';p.title='Tap to reveal';p.tabIndex=0;var rv=function(){p.style.filter='none'};p.onclick=rv;p.onkeydown=function(e){if(e.key==='Enter'||e.key===' ')rv()}}
+    d.appendChild(s);d.appendChild(b);d.appendChild(p);gl.appendChild(d)});
+}
+document.getElementById('gq').addEventListener('input',function(e){q=e.target.value.toLowerCase().trim();draw()});
+var qb=document.getElementById('quiz');qb.onclick=function(){quiz=!quiz;qb.setAttribute('aria-pressed',quiz);draw()};
+draw();
+// progress
+var KEY='tpm-bootcamp-done',done={};
+try{done=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){done={}}
+function sync(){document.querySelectorAll('.donebtn').forEach(function(b){var id=b.dataset.done,on=!!done[id];b.setAttribute('aria-pressed',on);b.textContent=on?'Done ✓':'Mark module done';var a=document.querySelector('#toc a[href="#'+id+'"]');if(a)a.classList.toggle('done',on)})}
+document.querySelectorAll('.donebtn').forEach(function(b){b.onclick=function(){var id=b.dataset.done;done[id]=!done[id];try{localStorage.setItem(KEY,JSON.stringify(done))}catch(e){}sync()}});
+sync();
+</script>
+
+</body></html>
