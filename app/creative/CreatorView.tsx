@@ -4,10 +4,50 @@ import { useColorMode } from "../components/ColorModeProvider"
 import { themeClasses } from "../components/theme"
 
 const crafts = [
-  { verb: "I sing", line: "Music and worship", color: "var(--accent-red)" },
-  { verb: "I dance", line: "Movement and rhythm", color: "var(--accent-pink)" },
-  { verb: "I model", line: "Style and presence", color: "var(--accent-green)" },
-  { verb: "I paint", line: "Color and canvas", color: "var(--accent-red)" },
+  {
+    name: "Music",
+    color: "var(--accent-red)",
+    text: "I've been singing since I was five or six, and I haven't stopped. I played cello in fifth grade, I've made beats, and I love every kind of music there is. Literally every genre.",
+    tags: ["Singing", "Beat making", "Cello"],
+  },
+  {
+    name: "Stage",
+    color: "var(--accent-pink)",
+    text: "Musical theater and Broadway have my whole heart. I love acting, and I love anything that puts a story on a stage.",
+    tags: ["Musical theater", "Broadway", "Acting"],
+  },
+  {
+    name: "Runway",
+    color: "var(--accent-green)",
+    text: "My favorite part of modeling isn't the photos. It's the walk. Give me a runway and I'm going to shred it.",
+    tags: ["Runway", "Modeling", "Fashion"],
+  },
+  {
+    name: "Making",
+    color: "var(--accent-red)",
+    text: "In high school I'd pick up anything. I customized shoes, and I've knitted, crocheted, and painted in watercolor and acrylic. If it creates something, I'm in.",
+    tags: ["Custom shoes", "Knitting", "Crochet", "Watercolor", "Acrylic"],
+  },
+  {
+    name: "Movement",
+    color: "var(--accent-pink)",
+    text: "Dancing, skating, anything that moves. It's one more way I express myself.",
+    tags: ["Dance", "Skating"],
+  },
+]
+
+const gallery = [
+  { src: "/creative-1.jpg", alt: "Zayviana in a styled group fashion shoot, everyone in black against a green backdrop", label: "Fashion shoot" },
+  { src: "/creative-3.jpg", alt: "Zayviana smiling while an artist paints a design on her shoulder", label: "Body art session" },
+  { src: "/creative-2.jpg", alt: "Purple and pink waist beads in Zayviana's hand at the beach", label: "Beads at the beach" },
+]
+
+const comingSoon = [
+  "Singing videos",
+  "My hair journey",
+  "Runway and modeling",
+  "Art and custom pieces",
+  "Behind the scenes",
 ]
 
 export default function CreatorView() {
@@ -17,32 +57,74 @@ export default function CreatorView() {
 
   return (
     <main className={t.main}>
-      <section className="mx-auto max-w-5xl px-6 pt-24 pb-16">
-        <span className="mb-5 inline-block rounded-full bg-[var(--accent-green)] px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-white">
-          The Creator
-        </span>
-        <h1 className={t.h1}>
-          Made to create<span className="text-[var(--accent-red)]">.</span>
-        </h1>
-        <p className={`mt-6 max-w-2xl text-lg leading-relaxed ${t.lead}`}>
-          Creativity is a gift, and I don&apos;t take it for granted. It shows up in how I build and how I teach, and it shows up here too.
-        </p>
+      {/* INTRO */}
+      <section className="px-6 pt-24 pb-16">
+        <div className="mx-auto max-w-5xl">
+          <span className="mb-5 inline-block rounded-full bg-[var(--accent-green)] px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-white">
+            The Creator
+          </span>
+          <h1 className={t.h1}>
+            Made to create<span className="text-[var(--accent-red)]">.</span>
+          </h1>
+          <p className={`mt-6 max-w-3xl text-lg leading-relaxed ${t.lead}`}>
+            I don&apos;t fit in one creative box, and I don&apos;t want to. I sing, I act, I walk runways, I paint, I make things with my hands. I just love expressing myself in every way I can, and every one of those gifts came from God.
+          </p>
+        </div>
       </section>
 
-      <section className="mx-auto max-w-5xl px-6 pb-20">
-        <div className="grid gap-5 sm:grid-cols-2">
-          {crafts.map(({ verb, line, color }) => (
-            <div key={verb} className={`${t.card} flex min-h-[200px] flex-col justify-end`}>
-              <p className={`text-xs font-semibold uppercase tracking-[0.2em] ${t.faint}`}>{line}</p>
-              <h2 className="mt-2 font-display text-4xl font-extrabold tracking-tight md:text-5xl" style={{ color }}>
-                {verb}<span className={dark ? "text-white" : "text-[#0e0e10]"}>.</span>
-              </h2>
-            </div>
+      {/* GALLERY */}
+      <section className="px-6 pb-20">
+        <div className="mx-auto grid max-w-5xl gap-4 md:grid-cols-3">
+          {gallery.map(({ src, alt, label }) => (
+            <figure key={src} className="flex flex-col">
+              <div className="aspect-[4/5] w-full overflow-hidden">
+                <img src={src} alt={alt} className="h-full w-full object-cover" />
+              </div>
+              <figcaption className={`mt-2 text-xs font-semibold uppercase tracking-[0.15em] ${t.faint}`}>{label}</figcaption>
+            </figure>
           ))}
         </div>
-        <p className={`mt-10 text-center text-sm ${t.muted}`}>
-          Photos, videos, and pieces are on the way. Check back soon.
-        </p>
+      </section>
+
+      {/* CRAFTS */}
+      <section className={`px-6 py-20 ${t.band}`}>
+        <div className="mx-auto max-w-5xl">
+          <p className={`mb-2 ${t.kicker}`}>All The Ways I Create</p>
+          <h2 className={`mb-10 ${t.h2}`}>A little bit of everything</h2>
+          <div className="grid gap-5 md:grid-cols-2">
+            {crafts.map(({ name, color, text, tags }, i) => (
+              <div key={name} className={`${t.card} flex flex-col ${i === crafts.length - 1 && crafts.length % 2 === 1 ? "md:col-span-2" : ""}`}>
+                <h3 className="font-display text-3xl font-extrabold tracking-tight" style={{ color }}>
+                  {name}<span className={dark ? "text-white" : "text-[#0e0e10]"}>.</span>
+                </h3>
+                <p className={`mt-3 flex-1 text-sm leading-relaxed ${t.muted}`}>{text}</p>
+                <div className="mt-5 flex flex-wrap gap-1.5">
+                  {tags.map(tag => (
+                    <span key={tag} className={`rounded-full border px-2.5 py-1 text-[11px] font-medium ${t.pill}`}>{tag}</span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* COMING SOON */}
+      <section className="px-6 py-20">
+        <div className="mx-auto max-w-5xl">
+          <div className={`border border-dashed p-8 md:p-12 ${dark ? "border-white/20" : "border-black/15"}`}>
+            <p className={`mb-2 ${t.kicker}`}>Content Coming Soon</p>
+            <h2 className={`${t.h2}`}>There&apos;s more on the way</h2>
+            <p className={`mt-3 max-w-2xl text-base leading-relaxed ${t.muted}`}>
+              I&apos;m putting together content so you can see the creative side of me for yourself. Here&apos;s what&apos;s coming.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-2">
+              {comingSoon.map(item => (
+                <span key={item} className={`rounded-full border px-4 py-2 text-sm font-medium ${t.pill}`}>{item}</span>
+              ))}
+            </div>
+          </div>
+        </div>
       </section>
     </main>
   )
