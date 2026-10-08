@@ -59,7 +59,7 @@ const ventures: Venture[] = [
   {
     name: "CornerStone Labs",
     forWho: "Need help with your business",
-    desc: "AI and technology consulting that helps businesses work smarter, with AI workflows, better processes, and modern websites. In person across the Greater Tampa Bay area, online worldwide.",
+    desc: "AI and technology consulting that helps businesses work smarter, with AI workflows, better processes, and modern websites. In person across Tampa Bay, online worldwide.",
     color: "var(--accent-red)",
     href: "https://cstonelabs.com",
     cta: "Visit CornerStone Labs",
@@ -68,7 +68,7 @@ const ventures: Venture[] = [
   {
     name: "The Good Tutor",
     forWho: "Looking for a tutor",
-    desc: "Math, science, coding, and test prep for middle schoolers through adults. In person across the Greater Tampa Bay area, online worldwide.",
+    desc: "Math, science, coding, and test prep for middle schoolers through adults. In person across Tampa Bay, online worldwide.",
     color: "var(--accent-green)",
     href: "https://learnwithtgt.com",
     cta: "Visit The Good Tutor",
@@ -132,13 +132,13 @@ export default function Home() {
           </p>
 
           <p className={`mt-6 max-w-xl text-lg ${dark ? "text-gray-300" : "text-gray-700"}`}>
-            Hi, I&apos;m Zayviana. This is where you&apos;ll find my story, my work, and everything I&apos;m building.
+            A believer who builds. Faith-led technologist, founder, and creator, building at the intersection of faith, technology, and creativity.
           </p>
 
           <div className="mt-9 flex flex-wrap gap-3">
             <a href="#ventures"
               className="rounded-full bg-[var(--accent-red)] px-7 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-white transition hover:opacity-90">
-              Find what you&apos;re looking for
+              Explore my world
             </a>
             <a href="/connect"
               className={`rounded-full border px-7 py-3 text-sm font-semibold uppercase tracking-[0.12em] transition ${

@@ -16,8 +16,8 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: "Zayviana Singletary · Believer, Builder, Creator",
-  description: "Zayviana Singletary is a founder, product manager, and teacher in Tampa Bay. Find her ventures, her work, and her story.",
+  title: "Zayviana Singletary · A believer who builds",
+  description: "Believer · Builder · Creator. Faith-led technologist, founder, and creator building at the intersection of faith, technology, and creativity.",
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
