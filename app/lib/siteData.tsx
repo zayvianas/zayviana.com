@@ -105,46 +105,58 @@ export const clients = [
 export type Build = {
   name: string
   type: string
-  status: "Live" | "Active" | "Available" | "Building"
+  status: "Live" | "Building" | "Waitlist open"
   color: string
   desc: string
   href: string | null
   cta?: string
 }
 
-export const builds: Build[] = [
+export const builtLive: Build[] = [
+  {
+    name: "CornerStone Labs",
+    type: "Company",
+    status: "Live",
+    color: "#e11d48",
+    desc: "My AI and technology consulting firm. We help businesses work smarter with AI workflows, better processes, and modern websites.",
+    href: "https://cstonelabs.com",
+    cta: "Visit CornerStone Labs →",
+  },
   {
     name: "The Good Tutor",
     type: "Service",
-    status: "Available",
-    color: "#10b981",
-    desc: "A tutoring service for people who think differently, rooted in ADHD, dyslexia, and a love of learning.",
-    href: "https://calendar.app.google/ifYoVPjNkCwU39Qm6",
-    cta: "Book a session →",
-  },
-  {
-    name: "Nest Egg",
-    type: "Product",
     status: "Live",
-    color: "#e11d48",
-    desc: "A financial wellness product helping people, especially underrepresented communities, build sustainable habits and wealth. V1 is live.",
-    href: "https://nestegg.cstonelabs.com/",
-    cta: "Visit Nest Egg →",
+    color: "#10b981",
+    desc: "Tutoring and tech classes for middle school through college students and adults: math, science, coding, and test prep.",
+    href: "https://learnwithtgt.com",
+    cta: "Visit The Good Tutor →",
   },
-  {
-    name: "Nearby",
-    type: "App",
-    status: "Building",
-    color: "#f472b6",
-    desc: "A location-aware app connecting people to what's around them: local events, businesses, and opportunities hiding in plain sight.",
-    href: null,
-  },
+]
+
+export const building: Build[] = [
   {
     name: "Christians Anonymous",
     type: "App & Community",
     status: "Building",
+    color: "#f472b6",
+    desc: "An events calendar and community for Christians in Tampa Bay. Churches and ministries post events, and people RSVP, share where they went, and help others find a church home.",
+    href: null,
+  },
+  {
+    name: "NearBy",
+    type: "App",
+    status: "Waitlist open",
+    color: "#10b981",
+    desc: "An AI-powered local discovery app that ranks the best places near you in any category.",
+    href: "https://nearbyapp.io",
+    cta: "Join the waitlist →",
+  },
+  {
+    name: "Nest Egg",
+    type: "App",
+    status: "Building",
     color: "#e11d48",
-    desc: "An app and community for Christians who are honest about doubt, struggle, and growth. A place to belong, with no performance required.",
+    desc: "Your whole financial life in one place: connected accounts, credit, printable reports, and an AI guide that helps you plan and learn about money.",
     href: null,
   },
 ]

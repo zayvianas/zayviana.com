@@ -1,61 +1,69 @@
 "use client"
 
 import { useColorMode } from "../components/ColorModeProvider"
-import { techCategories, clients, builds } from "../lib/siteData"
+import { themeClasses } from "../components/theme"
+import { techCategories, clients, builtLive, building, type Build } from "../lib/siteData"
 
 const LINKEDIN = "https://www.linkedin.com/in/zayviana/"
-const BOOKING = "https://calendar.app.google/6SxperZ148UqN4vz9"
 
-const focus = ["Senior Product Management", "People Leadership", "AI & Data", "Delivery & Execution", "Stakeholder Alignment", "Agile / Scrum"]
+const focus = [
+  "Technical Product Management",
+  "AI-Assisted Delivery",
+  "Legacy Modernization",
+  "Requirements & Roadmaps",
+  "Hybrid Delivery (Agile, Waterfall, EOS)",
+  "Stakeholder Alignment",
+]
 
 const experience = [
   {
-    company: "RevStar",
-    role: "Senior Data & AI Product Manager & Delivery Manager",
-    period: "2025 - Present",
+    company: "CornerStone Labs",
+    role: "Founder & Forward Deployed Product Engineer",
+    period: "2020 - Present",
     bullets: [
-      "Manage an active client portfolio exceeding $500K with 12+ retained accounts, serving as the primary contact across the full engagement lifecycle from pre-sales and scoping through delivery and executive reporting.",
-      "Lead cross-functional teams with direct reports spanning full-stack, front-end, back-end, AI engineering, and DevOps across distributed locations and time zones.",
-      "Own the full pre-sales cycle including SOW authoring and PRD development, translating client needs into clearly scoped, billable engagements.",
-      "Present portfolio performance at quarterly business reviews and executive briefings; run parallel sprints across EOS and Agile (Scrum/Kanban).",
-      "Apply Claude Code, custom GPTs, and MCP integrations to accelerate discovery and prototype concepts before engineering handoff.",
+      "Founded and run an AI workflow and technology consulting practice for small and mid-sized businesses, and do the discovery, design, and build work myself.",
+      "Audit how client teams actually get work done, map the current state, and design future-state workflows that replace manual steps and outdated systems with AI automation and modern web tools.",
+      "Write the requirements, diagrams, and documentation for each build, then ship it with Claude Code, GitHub, and Vercel.",
     ],
   },
   {
-    company: "CornerStone Labs",
-    role: "Builder & Product Lead",
-    period: "2024 - Present",
+    company: "RevStar",
+    role: "Sr. Data and AI Product Manager",
+    period: "2025 - 2026",
     bullets: [
-      "Building CornerStone Labs from scratch: an AI-powered tools company focused on productivity and financial clarity. First product, Nest Egg, is live.",
-      "Own all product strategy, roadmap, and customer discovery end-to-end, applying AI throughout the build to move fast and validate before committing to full development.",
+      "Served as the bridge between client stakeholders and engineering across a $1M+ portfolio of software and AI engagements, leading 10+ people across full-stack, front-end, back-end, AI engineering, and DevOps.",
+      "Authored 40+ SOWs and PRDs, turning ambiguous business asks into scoped epics, user stories, and acceptance criteria that moved from signed contract to sprint without rework.",
+      "Ran sprint planning, backlog refinement, and release planning across parallel programs, tracking risks, dependencies, and budget burn against contracted hours.",
+      "Built intake and scoping workflows, governance gates, SOPs, and PM training documentation adopted across the delivery organization.",
+      "Used Claude Code, custom GPTs, and MCP integrations to prototype concepts and speed up requirements and documentation before committing engineering capacity.",
     ],
   },
   {
     company: "Tampa Electric",
-    role: "IT Modernization Project & Portfolio Manager (Contract, via Insight Global)",
+    role: "IT Modernization Transformation Project & Portfolio Manager (Contract via Insight Global)",
     period: "2025",
     bullets: [
-      "Led a ServiceNow STEP transformation in a B2B enterprise environment: defined acceptance criteria, managed UAT cycles, and delivered KPI dashboards that gave leadership measurable delivery visibility across two portfolios.",
-      "Redesigned intake workflows, SOPs, and change management processes to reduce friction and improve adoption across enterprise business units.",
+      "Led the ServiceNow STEP modernization program, introducing custom catalog items, intake forms, and analytics dashboards that modernized incident and request lifecycle management.",
+      "Mapped current-state intake workflows and redesigned SOPs and change management processes, increasing ServiceNow ITSM adoption across business units.",
+      "Managed two enterprise portfolios (Reporting and Device Management), building KPI tracking and executive dashboards in Excel and ServiceNow Platform Analytics.",
     ],
   },
   {
-    company: "Miter Brands",
-    role: "IT Transformation Project Manager (Contract, via Kelly SET&T)",
+    company: "MITER Brands",
+    role: "IT Transformation Project Manager, Business & Process Integration (Contract via Kelly SET&T)",
     period: "2022 - 2025",
     bullets: [
-      "Directed IT and process integration programs across major acquisitions using Agile, leading cross-functional delivery across IT, Finance, HR, Sales, and Operations with full end-to-end ownership.",
-      "Translated complex technical programs into executive-ready communication and drove enterprise-wide adoption through structured change management.",
+      "Directed IT and process integration through the PGT Innovations and NewSouth Window acquisitions, aligning legacy systems, data, SOPs, and workflows across seven business functions.",
+      "Facilitated alignment workshops with IT, Finance, HR, Customer Service, Sales, Production, and Operations to standardize processes and remove duplicate workflows.",
+      "Designed SharePoint automation, reporting dashboards, and process documentation that gave leadership real visibility into transformation progress.",
     ],
   },
-  {
-    company: "Earlier Background",
-    role: "Software Dev Associate · Data Analyst · Business Analyst · Jr. Project Manager",
-    period: "2018 - 2022",
-    bullets: [
-      "Dev10, Value Tech Realty, InvestCloud, and Puelo's Concrete. Built the technical foundation across full-stack development (Java, JavaScript), data modeling, UAT, and project coordination before moving into product and delivery.",
-    ],
-  },
+]
+
+const earlier = [
+  { company: "Dev10", role: "Software Development Associate", period: "2023", text: "Built full-stack applications with Java, Spring Boot, and JavaScript, and delivered a production-ready web app as part of a team." },
+  { company: "Value Tech Realty Services", role: "Data Analyst & Project Associate", period: "2023", text: "Ran market and valuation analysis for 10+ multifamily and senior housing projects, and built web apps and Tableau dashboards that cut delivery time by 20%." },
+  { company: "InvestCloud", role: "Business Analyst, Data & UAT", period: "2020 - 2021", text: "Ran UAT and regression testing on financial applications, cutting defects by 20%, and resolved 500+ client tickets at a 95% SLA rate." },
 ]
 
 const education = [
@@ -63,90 +71,97 @@ const education = [
   { school: "University of South Florida", degree: "BS, Information Technology", year: "2020" },
 ]
 
+const certificates = "Project Management Foundations · Agile Foundations · AI Foundations: Machine Learning · Wireshark Essential Training"
+
 const skills = [
-  { label: "Leadership", items: "Direct reports, cross-functional & distributed team management, client retention, executive communication, QBRs, stakeholder alignment, change management" },
-  { label: "Product Management", items: "PRD & spec writing, SOW authoring, roadmapping, prioritization, sprint planning, backlog management, budget & burn tracking, EOS, Agile" },
-  { label: "Data & Analytics", items: "KPI definition & tracking, data-driven prioritization, Python (Pandas, NumPy, Matplotlib), SQL, ServiceNow Platform Analytics, Tableau, Power BI, Excel" },
-  { label: "AI & Technology", items: "Claude Code, MCP integrations, custom GPTs & agents, agentic workflow design, prompt engineering, SDLC, UAT, ServiceNow, SharePoint" },
+  { label: "Product & Requirements", items: "Technical product management, business and technical requirements, PRDs, epics and user stories, functional specs, acceptance criteria, roadmap planning, prioritization" },
+  { label: "Modernization & Architecture", items: "Legacy modernization, system and process integration through M&A, platform migration, current-state and future-state mapping, dependency mapping, Mermaid diagrams, process maps, governance and intake design" },
+  { label: "Hybrid Delivery", items: "Agile (Scrum and Kanban), Waterfall for enterprise programs, EOS rocks and weekly cadence, sprint planning, backlog refinement, release and go-live readiness, UAT, full SDLC" },
+  { label: "AI & Data", items: "Claude Code, MCP integrations, custom GPTs and agents, agentic workflow design, AI-assisted documentation and prototyping, KPI definition, Tableau, ServiceNow Platform Analytics" },
+  { label: "Technical", items: "Python, TypeScript, JavaScript, React, Next.js, Node.js, HTML/CSS, Tailwind CSS, SQL and PostgreSQL (Supabase), REST APIs, data modeling, Java, Docker, GitHub, Vercel" },
+  { label: "Stakeholder Management", items: "Executive briefings and QBRs, alignment workshops, change management, translating technical work for business leaders" },
 ]
 
 export default function BuilderView() {
   const { colorMode } = useColorMode()
   const dark = colorMode === "dark"
+  const t = themeClasses(dark)
 
-  const muted = dark ? "text-gray-400" : "text-gray-600"
-  const h2 = `font-display text-3xl font-semibold tracking-tight ${dark ? "text-white" : "text-[#0e0e10]"}`
-  const kicker = "text-xs font-semibold uppercase tracking-[0.25em] text-[var(--accent-pink)]"
-  const card = dark
-    ? "rounded-2xl border border-white/10 bg-white/5 p-7 transition duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-white/10"
-    : "rounded-2xl border border-black/10 bg-white p-7 transition duration-300 hover:-translate-y-1 hover:shadow-md"
+  function BuildCard({ name, type, status, color, desc, href, cta }: Build) {
+    return (
+      <div className={`${href ? t.cardHover : t.card} flex flex-col`}>
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-white" style={{ backgroundColor: color }}>
+            {status}
+          </span>
+          <span className={`rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] ${t.pill}`}>{type}</span>
+        </div>
+        <h3 className="mt-5 font-display text-xl font-bold">{name}</h3>
+        <p className={`mt-2 flex-1 text-sm leading-relaxed ${t.muted}`}>{desc}</p>
+        {href && (
+          <a href={href} target="_blank" rel="noopener noreferrer"
+            className="mt-4 inline-block text-xs font-semibold uppercase tracking-[0.15em] text-[var(--accent-red)] hover:opacity-70">
+            {cta || "Visit →"}
+          </a>
+        )}
+      </div>
+    )
+  }
 
   return (
-    <main className={dark ? "min-h-screen bg-[#0e0e10] text-white" : "min-h-screen bg-[var(--paper)] text-[#0e0e10]"}>
+    <main className={t.main}>
 
       {/* INTRO */}
-      <section className="mx-auto max-w-5xl px-6 pt-24 pb-16">
-        <span className="gradient-tag mb-5 inline-block rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-white">
-          Portfolio
-        </span>
-        <h1 className="font-display text-5xl font-extrabold tracking-tight md:text-6xl">The Builder</h1>
-        <p className="mt-4 font-display text-lg font-bold">
-          <span className="text-[var(--accent-red)]">Product</span>
-          <span className={dark ? "text-white/30" : "text-black/25"}> · </span>
-          <span className="text-[var(--accent-pink)]">People</span>
-          <span className={dark ? "text-white/30" : "text-black/25"}> · </span>
-          <span className="text-[var(--accent-green)]">Data</span>
-          <span className={dark ? "text-white/30" : "text-black/25"}> · </span>
-          <span className="text-[var(--accent-red)]">AI</span>
-        </p>
-        <p className={`mt-2 text-sm font-medium uppercase tracking-[0.15em] ${dark ? "text-gray-500" : "text-gray-500"}`}>
-          Senior Data &amp; AI Product Manager &amp; People Leader · Tampa Bay, FL
-        </p>
-        <p className={`mt-6 max-w-2xl text-lg ${dark ? "text-gray-300" : "text-gray-700"}`}>
-A senior product manager and people leader, fluent in both the business and the technical side. At RevStar I own a $500K+ client portfolio and manage direct reports across every engineering discipline, from full-stack to AI. As comfortable leading a team as building hands-on, with a decade spanning software development, enterprise IT transformation, and AI. Master's in AI &amp; Business Analytics from USF.
-        </p>
-
-        <div className="mt-8 flex flex-wrap gap-3">
-          <a href={BOOKING} target="_blank" rel="noopener noreferrer"
-            className="gradient-tag rounded-full px-8 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-white transition hover:opacity-90">
-            Book a 30-min call
-          </a>
-          <a href={LINKEDIN} target="_blank" rel="noopener noreferrer"
-            className={`rounded-full border px-8 py-3 text-sm font-semibold uppercase tracking-[0.12em] transition ${
-              dark ? "border-white/30 text-white hover:bg-white hover:text-[#0e0e10]"
-                   : "border-black/20 text-[#0e0e10] hover:bg-[#0e0e10] hover:text-white"
-            }`}>
-            View LinkedIn
-          </a>
+      <section className="mx-auto grid max-w-5xl items-center gap-12 px-6 pt-24 pb-16 md:grid-cols-[1fr_300px]">
+        <div>
+          <span className="gradient-tag mb-5 inline-block rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-white">
+            Portfolio
+          </span>
+          <h1 className={t.h1}>The Builder</h1>
+          <p className={`mt-3 text-sm font-medium uppercase tracking-[0.15em] ${t.faint}`}>
+            Technical Product Manager · Founder · Tampa Bay, FL
+          </p>
+          <p className={`mt-6 text-lg leading-relaxed ${t.lead}`}>
+            I&apos;m a technical product manager who started out as a developer and data analyst, so I&apos;m comfortable in the room with engineers and just as comfortable translating for business leaders. I&apos;ve guided legacy systems through two acquisitions, modernized service management for a utility, and turned vague asks into requirements and roadmaps teams could actually build. Today I run CornerStone Labs, where I help businesses work smarter with AI workflows and modern websites.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <a href="/connect" className={t.btnPrimary}>Book a call</a>
+            <a href={LINKEDIN} target="_blank" rel="noopener noreferrer" className={t.btnGhost}>View LinkedIn</a>
+          </div>
         </div>
+        <img
+          src="/zayviana-grad.jpg"
+          alt="Zayviana in her cap and gown at her USF graduation"
+          className="mx-auto aspect-[4/5] w-full max-w-[300px] rounded-3xl object-cover object-[45%_center]"
+        />
+      </section>
 
-        <div className="mt-10 flex flex-wrap gap-2">
+      <section className="mx-auto max-w-5xl px-6 pb-16">
+        <div className="flex flex-wrap gap-2">
           {focus.map(f => (
-            <span key={f} className={`rounded-full border px-4 py-1.5 text-xs font-medium ${dark ? "border-white/15 text-gray-300" : "border-black/10 text-gray-600"}`}>
-              {f}
-            </span>
+            <span key={f} className={`rounded-full border px-4 py-1.5 text-xs font-medium ${t.pill}`}>{f}</span>
           ))}
         </div>
       </section>
 
       {/* EXPERIENCE */}
-      <section id="experience" className={`scroll-mt-20 px-6 py-16 ${dark ? "bg-white/5" : "bg-black/[0.02]"}`}>
+      <section id="experience" className={`scroll-mt-20 px-6 py-16 ${t.band}`}>
         <div className="mx-auto max-w-5xl">
-          <p className={`mb-2 ${kicker}`}>Experience</p>
-          <h2 className={`mb-10 ${h2}`}>Where I've worked</h2>
+          <p className={`mb-2 ${t.kicker}`}>Experience</p>
+          <h2 className={`mb-10 ${t.h2}`}>Where I&apos;ve worked</h2>
 
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-10">
             {experience.map(({ company, role, period, bullets }) => (
               <div key={company} className={`border-l-2 pl-6 ${dark ? "border-white/15" : "border-black/10"}`}>
                 <div className="flex flex-wrap items-baseline justify-between gap-x-4">
                   <h3 className="font-display text-xl font-bold">{company}</h3>
-                  <span className={`text-xs font-semibold uppercase tracking-[0.15em] ${dark ? "text-gray-500" : "text-gray-400"}`}>{period}</span>
+                  <span className={`text-xs font-semibold uppercase tracking-[0.15em] ${t.faint}`}>{period}</span>
                 </div>
                 <p className="mt-1 text-sm font-medium text-[var(--accent-pink)]">{role}</p>
                 <ul className="mt-4 flex flex-col gap-2">
                   {bullets.map((b, i) => (
-                    <li key={i} className={`flex gap-3 text-sm leading-relaxed ${muted}`}>
-                      <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-[var(--accent-red)]" />
+                    <li key={i} className={`flex gap-3 text-sm leading-relaxed ${t.muted}`}>
+                      <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-[var(--accent-red)]" />
                       <span>{b}</span>
                     </li>
                   ))}
@@ -155,24 +170,37 @@ A senior product manager and people leader, fluent in both the business and the 
             ))}
           </div>
 
+          <div className={`mt-12 border-t pt-8 ${t.rule}`}>
+            <p className={`mb-5 ${t.kicker}`}>Earlier Technical & Fintech Work</p>
+            <div className="grid gap-6 md:grid-cols-3">
+              {earlier.map(({ company, role, period, text }) => (
+                <div key={company}>
+                  <p className="font-display text-base font-semibold">{company}</p>
+                  <p className={`mt-0.5 text-xs font-semibold uppercase tracking-[0.12em] ${t.faint}`}>{role} · {period}</p>
+                  <p className={`mt-2 text-sm leading-relaxed ${t.muted}`}>{text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className={`mt-12 border-t pt-8 ${t.rule}`}>
+            <p className={`mb-5 ${t.kicker}`}>Education</p>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {education.map(({ school, degree, year }) => (
+                <div key={degree}>
+                  <p className="font-display text-base font-semibold">{degree}</p>
+                  <p className={`mt-1 text-sm ${t.muted}`}>{school} · {year}</p>
+                </div>
+              ))}
+            </div>
+            <p className={`mt-6 text-sm ${t.muted}`}><span className="font-semibold">Certificates:</span> {certificates}</p>
+          </div>
+
           <div className="mt-10">
             <a href={LINKEDIN} target="_blank" rel="noopener noreferrer"
               className="text-sm font-semibold uppercase tracking-[0.15em] text-[var(--accent-red)] hover:opacity-70">
               See the full career on LinkedIn →
             </a>
-          </div>
-
-          {/* Education */}
-          <div className={`mt-12 border-t pt-8 ${dark ? "border-white/10" : "border-black/10"}`}>
-            <p className={`mb-5 ${kicker}`}>Education</p>
-            <div className="grid gap-4 sm:grid-cols-2">
-              {education.map(({ school, degree, year }) => (
-                <div key={degree}>
-                  <p className="font-display text-base font-semibold">{degree}</p>
-                  <p className={`mt-1 text-sm ${muted}`}>{school} · {year}</p>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </section>
@@ -180,13 +208,13 @@ A senior product manager and people leader, fluent in both the business and the 
       {/* SKILLS */}
       <section className="px-6 py-16">
         <div className="mx-auto max-w-5xl">
-          <p className={`mb-2 ${kicker}`}>Core Skills</p>
-          <h2 className={`mb-10 ${h2}`}>What I bring</h2>
+          <p className={`mb-2 ${t.kicker}`}>Core Skills</p>
+          <h2 className={`mb-10 ${t.h2}`}>What I bring</h2>
           <div className="grid gap-5 sm:grid-cols-2">
             {skills.map(({ label, items }) => (
-              <div key={label} className={card}>
+              <div key={label} className={t.card}>
                 <h3 className="font-display text-base font-bold text-[var(--accent-red)]">{label}</h3>
-                <p className={`mt-2 text-sm leading-relaxed ${muted}`}>{items}</p>
+                <p className={`mt-2 text-sm leading-relaxed ${t.muted}`}>{items}</p>
               </div>
             ))}
           </div>
@@ -194,31 +222,30 @@ A senior product manager and people leader, fluent in both the business and the 
       </section>
 
       {/* WHAT I'VE BUILT */}
-      <section id="built" className={`scroll-mt-20 px-6 py-16 ${dark ? "bg-white/5" : "bg-black/[0.02]"}`}>
+      <section id="built" className={`scroll-mt-20 px-6 py-16 ${t.band}`}>
         <div className="mx-auto max-w-5xl">
-          <p className={`mb-2 ${kicker}`}>Apps, Products & Ventures</p>
-          <h2 className={`mb-10 ${h2}`}>What I've built</h2>
+          <p className={`mb-2 ${t.kicker}`}>Apps, Products & Ventures</p>
+          <h2 className={`mb-10 ${t.h2}`}>What I&apos;ve built</h2>
           <div className="grid gap-5 sm:grid-cols-2">
-            {builds.map(({ name, type, status, color, desc, href, cta }) => (
-              <div key={name} className={card}>
-                <div className="flex items-center gap-2">
-                  <span className="rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-white" style={{ backgroundColor: color }}>
-                    {status}
-                  </span>
-                  <span className={`rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] ${dark ? "border-white/20 text-gray-300" : "border-black/15 text-gray-600"}`}>
-                    {type}
-                  </span>
-                </div>
-                <h3 className="mt-5 font-display text-xl font-bold">{name}</h3>
-                <p className={`mt-2 text-sm leading-relaxed ${muted}`}>{desc}</p>
-                {href && (
-                  <a href={href} target="_blank" rel="noopener noreferrer"
-                    className="mt-4 inline-block text-xs font-semibold uppercase tracking-[0.15em] text-[var(--accent-red)] hover:opacity-70">
-                    {cta || "Visit →"}
-                  </a>
-                )}
-              </div>
-            ))}
+            {builtLive.map(b => <BuildCard key={b.name} {...b} />)}
+          </div>
+
+          <h2 className={`mt-16 mb-10 ${t.h2}`}>What I&apos;m building</h2>
+          <div className="grid gap-5 md:grid-cols-3">
+            {building.map(b => <BuildCard key={b.name} {...b} />)}
+          </div>
+
+          {/* BUILD WITH ME */}
+          <div className={`mt-12 rounded-3xl border border-dashed p-8 md:p-10 ${dark ? "border-white/20" : "border-black/15"}`}>
+            <p className={`mb-2 ${t.kicker}`}>Build With Me</p>
+            <h3 className="font-display text-2xl font-bold">Want real project experience?</h3>
+            <p className={`mt-3 max-w-2xl text-sm leading-relaxed ${t.muted}`}>
+              If you&apos;re a student or early in your career and want to help build these apps, I&apos;d love to hear from you. You&apos;d work on a real product, come away with something solid for your portfolio, and learn alongside me. Send a note about what you want to learn and what you&apos;re good at.
+            </p>
+            <a href="mailto:hello@zayviana.com?subject=I%27d%20like%20to%20build%20with%20you"
+              className={`mt-6 ${t.btnPrimary}`}>
+              Raise your hand
+            </a>
           </div>
         </div>
       </section>
@@ -226,8 +253,8 @@ A senior product manager and people leader, fluent in both the business and the 
       {/* TECH STACK */}
       <section id="tech" className="scroll-mt-20 px-6 py-16">
         <div className="mx-auto max-w-5xl">
-          <p className={`mb-2 ${kicker}`}>Tools & Technologies</p>
-          <h2 className={`mb-10 ${h2}`}>Tech stack</h2>
+          <p className={`mb-2 ${t.kicker}`}>Tools & Technologies</p>
+          <h2 className={`mb-10 ${t.h2}`}>Tech stack</h2>
           <div className="flex flex-col gap-8">
             {techCategories.map((cat) => (
               <div key={cat.label}>
@@ -237,11 +264,11 @@ A senior product manager and people leader, fluent in both the business and the 
                     <div key={name}
                       className={
                         dark
-                          ? "flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm transition hover:border-white/20 hover:bg-white/10"
-                          : "flex items-center gap-2 rounded-full border border-black/10 bg-white px-4 py-2 text-sm transition hover:border-black/20"
+                          ? "flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm"
+                          : "flex items-center gap-2 rounded-full border border-black/10 bg-white px-4 py-2 text-sm"
                       }>
                       {Icon && <Icon style={{ color }} className="text-base shrink-0" />}
-                      {!Icon && img && <img src={img} alt={name} className="h-4 w-4 shrink-0 object-contain" />}
+                      {!Icon && img && <img src={img} alt="" className="h-4 w-4 shrink-0 object-contain" />}
                       {!Icon && !img && <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ backgroundColor: color }} />}
                       <span>{name}</span>
                     </div>
@@ -254,10 +281,10 @@ A senior product manager and people leader, fluent in both the business and the 
       </section>
 
       {/* BRANDS */}
-      <section className={`px-6 py-16 ${dark ? "bg-white/5" : "bg-black/[0.02]"}`}>
+      <section className={`px-6 py-16 ${t.band}`}>
         <div className="mx-auto max-w-5xl">
-          <p className={`mb-2 ${kicker}`}>Work & Collaboration</p>
-          <h2 className={`mb-10 ${h2}`}>Brands I've worked with</h2>
+          <p className={`mb-2 ${t.kicker}`}>Work & Collaboration</p>
+          <h2 className={`mb-10 ${t.h2}`}>Brands I&apos;ve worked with</h2>
           <div className="flex flex-wrap gap-2.5">
             {clients.map(({ name }) => (
               <span key={name} className={`rounded-full border px-4 py-2 text-sm font-medium ${dark ? "border-white/15 text-gray-200" : "border-black/10 text-gray-700"}`}>
@@ -272,23 +299,14 @@ A senior product manager and people leader, fluent in both the business and the 
       <section className="px-6 py-20">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className={`mb-4 font-display text-3xl font-extrabold tracking-tight ${dark ? "text-white" : "text-[#0e0e10]"}`}>
-            Let's build something
+            Let&apos;s work together
           </h2>
-          <p className={`mx-auto mb-8 max-w-xl text-base ${muted}`}>
-            Open to roles, consulting, and collaborations at the intersection of product, AI, and impact.
+          <p className={`mx-auto mb-8 max-w-xl text-base ${t.muted}`}>
+            Open to product roles and collaborations. If your business needs help, CornerStone Labs is the place to start.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
-            <a href={BOOKING} target="_blank" rel="noopener noreferrer"
-              className="gradient-tag inline-block rounded-full px-8 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-white transition hover:opacity-90">
-              Book a 30-min call
-            </a>
-            <a href={LINKEDIN} target="_blank" rel="noopener noreferrer"
-              className={`inline-block rounded-full border px-8 py-3 text-sm font-semibold uppercase tracking-[0.12em] transition ${
-                dark ? "border-white/30 text-white hover:bg-white hover:text-[#0e0e10]"
-                     : "border-black/20 text-[#0e0e10] hover:bg-[#0e0e10] hover:text-white"
-              }`}>
-              View LinkedIn
-            </a>
+            <a href="/connect" className={t.btnPrimary}>Book a call</a>
+            <a href="https://cstonelabs.com" target="_blank" rel="noopener noreferrer" className={t.btnGhost}>Visit CornerStone Labs</a>
           </div>
         </div>
       </section>

@@ -1,95 +1,109 @@
 "use client"
 
 import { useColorMode } from "../components/ColorModeProvider"
+import { themeClasses } from "../components/theme"
+import { FaLinkedin, FaEnvelope } from "react-icons/fa"
 
-const ways = [
+// Booking links from Google Calendar appointment schedules.
+// Set a link to null to hide that option.
+const calls: { length: string; label: string; desc: string; href: string | null; color: string }[] = [
   {
-    label: "Book a 30-min chat",
-    desc: "A quick intro call. Perfect for recruiters, collaborators, or just to connect.",
-    href: "https://calendar.app.google/6SxperZ148UqN4vz9",
-    cta: "Book 30 minutes",
-    color: "#e11d48",
-    external: true,
-  },
-  {
-    label: "Book a 1-hour session",
-    desc: "For a deeper conversation: consulting, a project, or mentorship.",
-    href: "https://calendar.app.google/wZpM17NFu1f9cUTp7",
-    cta: "Book an hour",
-    color: "#10b981",
-    external: true,
-  },
-  {
-    label: "LinkedIn",
-    desc: "Professional connection, collabs, or consulting inquiries.",
-    href: "https://linkedin.com/in/zayviana",
-    cta: "Connect on LinkedIn",
-    color: "#e11d48",
-    external: true,
-  },
-  {
-    label: "Email",
-    desc: "For detailed inquiries, partnerships, or anything that needs a real conversation.",
-    href: "mailto:hello@zayviana.com",
-    cta: "Send an email",
+    length: "15 min",
+    label: "Quick hello",
+    desc: "Say hi, ask a quick question, or see if we should talk longer.",
+    href: null,
     color: "#f472b6",
-    external: false,
   },
   {
-    label: "The Good Tutor",
-    desc: "Looking for tutoring or educational support? Book a session directly.",
-    href: "https://calendar.app.google/ifYoVPjNkCwU39Qm6",
-    cta: "Book a session",
+    length: "30 min",
+    label: "Intro chat",
+    desc: "Get to know each other. Great for recruiters, collaborators, and new connections.",
+    href: "https://calendar.app.google/6SxperZ148UqN4vz9",
+    color: "#e11d48",
+  },
+  {
+    length: "1 hour",
+    label: "Deep conversation",
+    desc: "Room to dig in: a project, an idea, career advice, or mentorship.",
+    href: "https://calendar.app.google/wZpM17NFu1f9cUTp7",
     color: "#10b981",
-    external: true,
   },
 ]
 
 export default function ConnectView() {
   const { colorMode } = useColorMode()
   const dark = colorMode === "dark"
-
-  const card = dark
-    ? "rounded-2xl border border-white/10 bg-white/5 p-8 transition duration-200 hover:-translate-y-1 hover:border-white/20 hover:bg-white/10"
-    : "rounded-2xl border border-black/10 p-8 transition duration-200 hover:-translate-y-1 hover:shadow-md"
+  const t = themeClasses(dark)
+  const liveCalls = calls.filter(c => c.href)
 
   return (
-    <main className={dark ? "min-h-screen bg-[#0e0e10] text-white" : "min-h-screen bg-[var(--paper)] text-[#0e0e10]"}>
-      <div className="mx-auto max-w-3xl px-6 py-24">
-        <p className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--accent-pink)]">Let's Talk</p>
-        <h1 className="font-display text-5xl font-extrabold tracking-tight">Connect</h1>
-        <p className={`mt-4 max-w-xl text-lg ${dark ? "text-gray-400" : "text-gray-500"}`}>
-          Whether it's a project, a question, or just a conversation, I'm here for it.
+    <main className={t.main}>
+      <div className="mx-auto max-w-4xl px-6 py-24">
+        <p className={`mb-2 ${t.kicker}`}>Let&apos;s Talk</p>
+        <h1 className={t.h1}>
+          Connect<span className="text-[var(--accent-red)]">.</span>
+        </h1>
+        <p className={`mt-4 max-w-xl text-lg ${t.lead}`}>
+          Whether it&apos;s a project, a question, or just a conversation, I&apos;d love to hear from you. Pick whatever works best.
         </p>
 
-        <div className="mt-16 flex flex-col gap-6">
-          {ways.map(({ label, desc, href, cta, color, external }) => (
-            <div key={label} className={card}>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em]" style={{ color }}>{label}</p>
-              <p className={`mt-3 text-base leading-relaxed ${dark ? "text-gray-400" : "text-gray-500"}`}>{desc}</p>
-              <a
-                href={href}
-                {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                className="mt-5 inline-block rounded-full px-6 py-2.5 text-sm font-semibold uppercase tracking-[0.15em] text-white transition hover:opacity-90"
-                style={{ backgroundColor: color }}
-              >
-                {cta}
-              </a>
-            </div>
+        {/* CALLS */}
+        <h2 className={`mt-16 mb-6 ${t.h2}`}>Book a call</h2>
+        <div className={`grid gap-5 ${liveCalls.length === 3 ? "md:grid-cols-3" : "md:grid-cols-2"}`}>
+          {liveCalls.map(({ length, label, desc, href, color }) => (
+            <a key={length} href={href!} target="_blank" rel="noopener noreferrer" className={`${t.cardHover} flex flex-col`}>
+              <span className="font-display text-3xl font-extrabold tracking-tight" style={{ color }}>{length}</span>
+              <span className="mt-1 text-xs font-semibold uppercase tracking-[0.18em]">{label}</span>
+              <p className={`mt-3 flex-1 text-sm leading-relaxed ${t.muted}`}>{desc}</p>
+              <span className="mt-5 text-xs font-semibold uppercase tracking-[0.15em]" style={{ color }}>Pick a time →</span>
+            </a>
           ))}
         </div>
 
-        <div className={`mt-16 rounded-2xl border border-dashed p-10 text-center ${dark ? "border-white/15" : "border-gray-200"}`}>
-          <p className="font-display text-2xl font-bold tracking-tight">Got a big idea?</p>
-          <p className={`mx-auto mt-3 max-w-md text-sm ${dark ? "text-gray-400" : "text-gray-400"}`}>
-            I work with founders, brands, and teams at the intersection of AI, product, and impact. If something's brewing, let's build it.
-          </p>
-          <a
-            href="mailto:hello@zayviana.com"
-            className="mt-6 inline-block rounded-full bg-[var(--accent-red)] px-8 py-3 text-sm font-semibold uppercase tracking-[0.15em] text-white transition hover:opacity-90"
-          >
-            Start the conversation
+        {/* OTHER WAYS */}
+        <h2 className={`mt-16 mb-6 ${t.h2}`}>Or reach out</h2>
+        <div className="grid gap-5 md:grid-cols-2">
+          <a href="https://linkedin.com/in/zayviana" target="_blank" rel="noopener noreferrer" className={`${t.cardHover} flex items-start gap-4`}>
+            <FaLinkedin className="mt-1 shrink-0 text-2xl text-[#0a66c2]" />
+            <div>
+              <p className="font-display text-lg font-bold">LinkedIn</p>
+              <p className={`mt-1 text-sm ${t.muted}`}>Connect professionally or send me a message.</p>
+            </div>
           </a>
+          <a href="mailto:hello@zayviana.com" className={`${t.cardHover} flex items-start gap-4`}>
+            <FaEnvelope className="mt-1 shrink-0 text-2xl text-[var(--accent-red)]" />
+            <div>
+              <p className="font-display text-lg font-bold">Email</p>
+              <p className={`mt-1 text-sm ${t.muted}`}>hello@zayviana.com. I read every note.</p>
+            </div>
+          </a>
+        </div>
+
+        {/* LOOKING FOR SOMETHING SPECIFIC */}
+        <div className={`mt-16 rounded-3xl border border-dashed p-8 md:p-10 ${dark ? "border-white/20" : "border-black/15"}`}>
+          <p className={`mb-6 ${t.kicker}`}>Looking for something specific?</p>
+          <div className="grid gap-8 md:grid-cols-2">
+            <div>
+              <p className="font-display text-xl font-bold">Help for your business</p>
+              <p className={`mt-2 text-sm leading-relaxed ${t.muted}`}>
+                AI workflows, better processes, and modern websites go through CornerStone Labs.
+              </p>
+              <a href="https://cstonelabs.com" target="_blank" rel="noopener noreferrer"
+                className="mt-4 inline-block text-xs font-semibold uppercase tracking-[0.15em] text-[var(--accent-red)] hover:opacity-70">
+                Visit CornerStone Labs →
+              </a>
+            </div>
+            <div>
+              <p className="font-display text-xl font-bold">Tutoring</p>
+              <p className={`mt-2 text-sm leading-relaxed ${t.muted}`}>
+                Math, science, coding, and test prep sessions are booked through The Good Tutor.
+              </p>
+              <a href="https://learnwithtgt.com" target="_blank" rel="noopener noreferrer"
+                className="mt-4 inline-block text-xs font-semibold uppercase tracking-[0.15em] text-[var(--accent-green)] hover:opacity-70">
+                Visit The Good Tutor →
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </main>

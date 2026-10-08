@@ -38,7 +38,7 @@ const pillarData = [
   {
     name: "Creator",
     color: "var(--accent-green)",
-    href: null,
+    href: "/creative",
     desc: "I sing, I dance, I model, I paint. Creativity runs through everything I do, and it's all rooted in gratitude.",
     evidence: "Music · Movement · Art · Design",
   },
@@ -58,8 +58,8 @@ type Venture = {
 const ventures: Venture[] = [
   {
     name: "CornerStone Labs",
-    forWho: "You run a business",
-    desc: "My company. We refresh outdated websites and build AI workflows that take the busywork off your plate. Tampa Bay in person, remote anywhere.",
+    forWho: "Need help with your business",
+    desc: "My AI and technology consulting firm. We help businesses work smarter with AI workflows, better processes, and modern websites. In person across Tampa Bay, remote worldwide.",
     color: "var(--accent-red)",
     href: "https://cstonelabs.com",
     cta: "Visit CornerStone Labs",
@@ -67,30 +67,21 @@ const ventures: Venture[] = [
   },
   {
     name: "The Good Tutor",
-    forWho: "You or your kid need tutoring",
-    desc: "Tutoring for people who think differently, rooted in patience, creativity, and the belief that everyone can learn.",
+    forWho: "Looking for a tutor",
+    desc: "Tutoring and tech classes for middle school through college students and adults. Math, science, coding, and test prep, in person around Riverview or online.",
     color: "var(--accent-green)",
-    href: "https://calendar.app.google/ifYoVPjNkCwU39Qm6",
-    cta: "Book a session",
+    href: "https://learnwithtgt.com",
+    cta: "Visit The Good Tutor",
     external: true,
   },
   {
     name: "Christians Anonymous",
-    forWho: "You're looking for Christian community",
-    desc: "A home for Christians in Tampa Bay: find events, find a church through other people's experiences, and find your people.",
+    forWho: "Looking for Christian community",
+    desc: "A home for Christians in Tampa Bay. Find events, find a church home through other people's experiences, and find your people.",
     color: "var(--accent-pink)",
     status: "Coming soon",
-    href: "/believer",
+    href: "/believer#community",
     cta: "Learn more",
-  },
-  {
-    name: "Nearby",
-    forWho: "You want to know what's around you",
-    desc: "An app that connects you to local events, businesses, and opportunities hiding in plain sight.",
-    color: "var(--accent-green)",
-    status: "In the works",
-    href: null,
-    cta: "",
   },
 ]
 
@@ -141,7 +132,7 @@ export default function Home() {
           </p>
 
           <p className={`mt-6 max-w-xl text-lg ${dark ? "text-gray-300" : "text-gray-700"}`}>
-            A believer who builds. I&apos;m a founder, product manager, and teacher in Tampa Bay, and everything I make starts with faith.
+            I&apos;m a founder, product manager, and teacher in Tampa Bay. I build businesses, apps, and better ways to work, and my faith is behind all of it.
           </p>
 
           <div className="mt-9 flex flex-wrap gap-3">
@@ -192,10 +183,10 @@ export default function Home() {
           <p className={`mb-2 text-center ${kicker}`}>What Brought You Here?</p>
           <h2 className={`mb-3 text-center ${h2}`}>Which Zayviana did you meet?</h2>
           <p className={`mx-auto mb-12 max-w-xl text-center text-base ${dark ? "text-gray-400" : "text-gray-500"}`}>
-            Maybe it was the business owner, the tutor, or someone from church. Here&apos;s where to find each one.
+            Maybe you met the business owner, the tutor, or someone from church. Here&apos;s where to find each one.
           </p>
 
-          <div className="grid gap-5 md:grid-cols-2">
+          <div className="grid gap-5 md:grid-cols-3">
             {ventures.map(({ name, forWho, desc, color, status, href, cta, external }) => (
               <div key={name} className={`${href ? cardBase : cardStatic} flex flex-col p-8`}>
                 <div className="flex flex-wrap items-center gap-2">
