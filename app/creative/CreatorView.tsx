@@ -74,35 +74,37 @@ export default function CreatorView() {
 
       {/* CRAFTS */}
       <section className={`px-6 py-20 ${t.band}`}>
-        <div className="mx-auto flex max-w-5xl flex-col gap-16">
-          {crafts.map(({ name, color, text, tags, photo }) => {
-            const flip = photo ? photoIndex++ % 2 === 1 : false
-            const body = (
-              <div className="flex flex-col justify-center">
-                <h2 className="font-display text-4xl font-extrabold tracking-tight md:text-5xl" style={{ color }}>
-                  {name}<span className={dark ? "text-white" : "text-[#0e0e10]"}>.</span>
-                </h2>
-                <p className={`mt-4 max-w-xl text-base leading-relaxed md:text-lg ${t.lead}`}>{text}</p>
-                <div className="mt-5 flex flex-wrap gap-1.5">
-                  {tags.map(tag => (
-                    <span key={tag} className={`rounded-full border px-2.5 py-1 text-[11px] font-medium ${t.pill}`}>{tag}</span>
-                  ))}
-                </div>
-              </div>
-            )
-            if (!photo) return <div key={name}>{body}</div>
-            return (
-              <div key={name} className="grid items-center gap-8 md:grid-cols-2 md:gap-12">
-                <figure className={flip ? "md:order-2" : ""}>
-                  <div className="aspect-[4/5] w-full overflow-hidden">
-                    <img src={photo.src} alt={photo.alt} className="h-full w-full object-cover" />
+        <div className="mx-auto max-w-5xl">
+          <p className={`mb-2 ${t.kicker}`}>All The Ways I Create</p>
+          <h2 className={`mb-10 ${t.h2}`}>A little bit of everything</h2>
+          <div className="flex flex-col gap-6">
+            {crafts.map(({ name, color, text, tags, photo }) => {
+              const flip = photo ? photoIndex++ % 2 === 1 : false
+              return (
+                <div key={name} className={`${t.card} md:p-10 ${photo ? "grid items-center gap-8 md:grid-cols-2 md:gap-12" : ""}`}>
+                  <div className={flip ? "md:order-2" : ""}>
+                    <h3 className="font-display text-4xl font-extrabold tracking-tight md:text-5xl" style={{ color }}>
+                      {name}<span className={dark ? "text-white" : "text-[#0e0e10]"}>.</span>
+                    </h3>
+                    <p className={`mt-4 max-w-xl text-base leading-relaxed md:text-lg ${t.lead}`}>{text}</p>
+                    <div className="mt-5 flex flex-wrap gap-1.5">
+                      {tags.map(tag => (
+                        <span key={tag} className={`rounded-full border px-2.5 py-1 text-[11px] font-medium ${t.pill}`}>{tag}</span>
+                      ))}
+                    </div>
                   </div>
-                  <figcaption className={`mt-2 text-xs font-semibold uppercase tracking-[0.15em] ${t.faint}`}>{photo.caption}</figcaption>
-                </figure>
-                <div className={flip ? "md:order-1" : ""}>{body}</div>
-              </div>
-            )
-          })}
+                  {photo && (
+                    <figure className={flip ? "md:order-1" : ""}>
+                      <div className="aspect-[4/5] w-full overflow-hidden">
+                        <img src={photo.src} alt={photo.alt} className="h-full w-full object-cover" />
+                      </div>
+                      <figcaption className={`mt-2 text-xs font-semibold uppercase tracking-[0.15em] ${t.faint}`}>{photo.caption}</figcaption>
+                    </figure>
+                  )}
+                </div>
+              )
+            })}
+          </div>
         </div>
       </section>
 
