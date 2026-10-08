@@ -7,12 +7,13 @@ import { techCategories, clients, builtLive, building, type Build } from "../lib
 const LINKEDIN = "https://www.linkedin.com/in/zayviana/"
 
 const focus = [
-  "Technical Product Management",
-  "AI-Assisted Delivery",
-  "Legacy Modernization",
-  "Requirements & Roadmaps",
+  "Product Management",
+  "Program & Project Management",
+  "Forward Deployed Engineering",
+  "AI & Automation",
+  "Modernization & Transformation",
+  "Team Leadership",
   "Hybrid Delivery (Agile, Waterfall, EOS)",
-  "Stakeholder Alignment",
 ]
 
 const experience = [
@@ -112,28 +113,21 @@ export default function BuilderView() {
     <main className={t.main}>
 
       {/* INTRO */}
-      <section className="mx-auto grid max-w-5xl items-center gap-12 px-6 pt-24 pb-16 md:grid-cols-[1fr_300px]">
-        <div>
-          <span className="gradient-tag mb-5 inline-block rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-white">
-            Portfolio
-          </span>
-          <h1 className={t.h1}>The Builder</h1>
-          <p className={`mt-3 text-sm font-medium uppercase tracking-[0.15em] ${t.faint}`}>
-            Technical Product Manager · Founder · Tampa Bay, FL
-          </p>
-          <p className={`mt-6 text-lg leading-relaxed ${t.lead}`}>
-            I&apos;m a technical product manager who started out as a developer and data analyst, so I&apos;m comfortable in the room with engineers and just as comfortable translating for business leaders. I&apos;ve guided legacy systems through two acquisitions, modernized service management for a utility, and turned vague asks into requirements and roadmaps teams could actually build. Today I run CornerStone Labs, where I help businesses work smarter with AI workflows and modern websites.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <a href="/connect" className={t.btnPrimary}>Book a call</a>
-            <a href={LINKEDIN} target="_blank" rel="noopener noreferrer" className={t.btnGhost}>View LinkedIn</a>
-          </div>
+      <section className="mx-auto max-w-5xl px-6 pt-24 pb-10">
+        <span className="gradient-tag mb-5 inline-block rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-white">
+          Portfolio
+        </span>
+        <h1 className={t.h1}>The Builder</h1>
+        <p className={`mt-3 text-sm font-medium uppercase tracking-[0.15em] ${t.faint}`}>
+          Product · Program · Project Manager · Forward Deployed Product Engineer · Founder
+        </p>
+        <p className={`mt-6 max-w-3xl text-lg leading-relaxed ${t.lead}`}>
+          I lead the work that turns ideas into things people use. For about a decade I&apos;ve managed products, programs, and projects across enterprise IT, financial services, SaaS, and AI, from modernizing legacy systems through acquisitions to launching new products from scratch. I started as a developer and data analyst, so I can build alongside engineers and explain the work to leadership just as easily. I founded CornerStone Labs, I teach through The Good Tutor, and I serve in the Army National Guard.
+        </p>
+        <div className="mt-8 flex flex-wrap gap-3">
+          <a href="/connect" className={t.btnPrimary}>Book a call</a>
+          <a href={LINKEDIN} target="_blank" rel="noopener noreferrer" className={t.btnGhost}>View LinkedIn</a>
         </div>
-        <img
-          src="/zayviana-grad.jpg"
-          alt="Zayviana in her cap and gown at her USF graduation"
-          className="mx-auto aspect-[4/5] w-full max-w-[300px] rounded-3xl object-cover object-[45%_center]"
-        />
       </section>
 
       <section className="mx-auto max-w-5xl px-6 pb-16">
@@ -183,17 +177,24 @@ export default function BuilderView() {
             </div>
           </div>
 
-          <div className={`mt-12 border-t pt-8 ${t.rule}`}>
-            <p className={`mb-5 ${t.kicker}`}>Education</p>
-            <div className="grid gap-4 sm:grid-cols-2">
-              {education.map(({ school, degree, year }) => (
-                <div key={degree}>
-                  <p className="font-display text-base font-semibold">{degree}</p>
-                  <p className={`mt-1 text-sm ${t.muted}`}>{school} · {year}</p>
-                </div>
-              ))}
+          <div className={`mt-12 grid items-center gap-8 border-t pt-8 md:grid-cols-[1fr_220px] ${t.rule}`}>
+            <div>
+              <p className={`mb-5 ${t.kicker}`}>Education</p>
+              <div className="flex flex-col gap-4">
+                {education.map(({ school, degree, year }) => (
+                  <div key={degree}>
+                    <p className="font-display text-base font-semibold">{degree}</p>
+                    <p className={`mt-1 text-sm ${t.muted}`}>{school} · {year}</p>
+                  </div>
+                ))}
+              </div>
+              <p className={`mt-6 text-sm ${t.muted}`}><span className="font-semibold">Certificates:</span> {certificates}</p>
             </div>
-            <p className={`mt-6 text-sm ${t.muted}`}><span className="font-semibold">Certificates:</span> {certificates}</p>
+            <img
+              src="/zayviana-grad.jpg"
+              alt="Zayviana in her cap and gown at her USF graduation"
+              className="mx-auto aspect-[4/5] w-full max-w-[220px] rounded-3xl object-cover object-[45%_center]"
+            />
           </div>
 
           <div className="mt-10">

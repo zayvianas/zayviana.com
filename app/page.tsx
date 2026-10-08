@@ -59,7 +59,7 @@ const ventures: Venture[] = [
   {
     name: "CornerStone Labs",
     forWho: "Need help with your business",
-    desc: "My AI and technology consulting firm. We help businesses work smarter with AI workflows, better processes, and modern websites. In person across Tampa Bay, remote worldwide.",
+    desc: "AI and technology consulting that helps businesses work smarter, with AI workflows, better processes, and modern websites. In person across the Greater Tampa Bay area, online worldwide.",
     color: "var(--accent-red)",
     href: "https://cstonelabs.com",
     cta: "Visit CornerStone Labs",
@@ -68,7 +68,7 @@ const ventures: Venture[] = [
   {
     name: "The Good Tutor",
     forWho: "Looking for a tutor",
-    desc: "Tutoring and tech classes for middle school through college students and adults. Math, science, coding, and test prep, in person around Riverview or online.",
+    desc: "Math, science, coding, and test prep for middle schoolers through adults. In person across the Greater Tampa Bay area, online worldwide.",
     color: "var(--accent-green)",
     href: "https://learnwithtgt.com",
     cta: "Visit The Good Tutor",
@@ -132,7 +132,7 @@ export default function Home() {
           </p>
 
           <p className={`mt-6 max-w-xl text-lg ${dark ? "text-gray-300" : "text-gray-700"}`}>
-            I&apos;m a founder, product manager, and teacher in Tampa Bay. I build businesses, apps, and better ways to work, and my faith is behind all of it.
+            Hi, I&apos;m Zayviana. This is where you&apos;ll find my story, my work, and everything I&apos;m building.
           </p>
 
           <div className="mt-9 flex flex-wrap gap-3">
