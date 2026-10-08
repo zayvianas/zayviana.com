@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Study Shelf">
+<meta name="theme-color" content="#f7f6f2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#12151c" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" href="/learn/icon-180.png">
+<link rel="manifest" href="/learn/manifest.webmanifest">
+<!-- TITLE: the guide's name, 2-4 words. Same as "title" in shelf.json. -->
+<title>GUIDE TITLE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="/learn/guide.css">
+</head><body>
+<!--
+  STUDY SHELF GUIDE TEMPLATE
+  - Copy this file to /learn/<slug>.html and replace every UPPERCASE placeholder.
+  - Keep the module order. A "quick lesson" can merge modules 02-04 into one and use fewer concepts,
+    but it still has: big picture, foundations, examples, think like a pro, practice, quiz, word bank, cheat sheet, sources.
+  - Every <section class="mod"> needs a unique id and a data-title (that's what shows in the module index).
+  - Box types: .kid (plain English, explain like I'm 5), .deeper (the real explanation), .example (worked example),
+    .say (lines to say out loud), .pro (how a pro thinks), .warn (watch out), .risk (money/safety risk, red).
+  - Wrap key vocabulary in <mark>. Every marked word should also be in the word bank.
+  - No em dashes anywhere. Plain words. Contractions are fine.
+-->
+<div class="shell">
+<aside class="toc">
+  <a class="shelf-back" href="/learn/index.html">← Study Shelf</a>
+  <div class="brand">GUIDE TITLE</div>
+  <nav aria-label="Modules"><ol id="toc"></ol></nav>
+</aside>
+
+<main>
+<!-- 00 START HERE -->
+<section class="mod" id="start" data-title="Start here">
+  <div class="hero">
+    <span class="kicker">Study Shelf · ABOUT N MINUTES</span>
+    <div class="tags"><span class="tag">TAG ONE</span></div>
+    <h1>HEADLINE THAT STATES WHAT YOU'LL BE ABLE TO DO</h1>
+    <p class="lead">ONE OR TWO SENTENCES: WHAT THIS IS, WHY IT MATTERS TO ZAYVIANA, WHAT SHE'LL BE ABLE TO DO AFTER.</p>
+  </div>
+  <div class="read">
+    <h3>By the end you'll be able to</h3>
+    <ul>
+      <li>OUTCOME 1 (an action, not "understand")</li>
+      <li>OUTCOME 2</li>
+      <li>OUTCOME 3</li>
+    </ul>
+    <h3>How to use this</h3>
+    <p>Read or tap ▶ Listen at the bottom. Each idea goes in the same order: plain English first, then the real explanation, then an example, then how a pro thinks about it. Do the practice in Module 05 before the quiz.</p>
+  </div>
+</section>
+
+<!-- 01 THE BIG PICTURE -->
+<section class="mod" id="big-picture" data-title="The big picture">
+  <div class="modhead"><span class="kicker"></span><h2>The big picture</h2></div>
+  <div class="box kid"><b class="lbl">Like you're five</b><p>ONE SIMPLE ANALOGY FROM EVERYDAY LIFE THAT EXPLAINS THE WHOLE TOPIC.</p></div>
+  <div class="read">
+    <p>WHAT IT IS IN ONE PARAGRAPH. WHY PEOPLE CARE. WHERE IT SHOWS UP IN REAL LIFE OR ON THE JOB.</p>
+    <h3>The map</h3>
+    <p>THE 3 TO 6 MAIN PARTS OF THIS TOPIC, AND HOW THEY CONNECT. (Use .steps if it's a sequence, a table if it's a comparison.)</p>
+  </div>
+</section>
+
+<!-- 02 FOUNDATIONS: one .concept block per core idea, always kid -> deeper -> example -> say -->
+<section class="mod" id="foundations" data-title="Foundations">
+  <div class="modhead"><span class="kicker"></span><h2>Foundations</h2></div>
+  <div class="concept">
+    <h3>CONCEPT NAME</h3>
+    <div class="box kid"><b class="lbl">Like you're five</b><p>SIMPLE ANALOGY.</p></div>
+    <div class="box deeper"><b class="lbl">The real explanation</b><p>WHAT IT ACTUALLY IS, WITH THE CORRECT <mark>VOCABULARY</mark>.</p></div>
+    <div class="box example"><b class="lbl">Example</b><p>A CONCRETE, REALISTIC EXAMPLE WITH NAMES AND NUMBERS.</p></div>
+    <div class="box say"><b class="lbl">Say it like this</b><p>"ONE LINE SHE COULD SAY OUT LOUD TO SOUND FLUENT."</p></div>
+  </div>
+</section>
+
+<!-- 03 GOING DEEPER -->
+<section class="mod" id="deeper" data-title="Going deeper">
+  <div class="modhead"><span class="kicker"></span><h2>Going deeper</h2></div>
+  <div class="read"><p>HOW IT WORKS UNDER THE HOOD: FRAMEWORKS, PROCESSES, TRADEOFFS, THE NUMBERS THAT MATTER.</p></div>
+</section>
+
+<!-- 04 REAL EXAMPLES -->
+<section class="mod" id="examples" data-title="Real examples">
+  <div class="modhead"><span class="kicker"></span><h2>Real examples</h2></div>
+  <div class="read"><p>2 TO 4 WORKED WALKTHROUGHS, START TO FINISH. SHOW EACH STEP AND WHY.</p></div>
+</section>
+
+<!-- 05 THINK LIKE A PRO + PRACTICE -->
+<section class="mod" id="pro" data-title="Think like a pro">
+  <div class="modhead"><span class="kicker"></span><h2>Think like a pro</h2></div>
+  <div class="box pro"><b class="lbl">How a pro thinks</b><p>THE QUESTIONS AN EXPERIENCED PERSON ASKS FIRST, AND HOW THEY DECIDE.</p></div>
+  <div class="read">
+    <h3>Common mistakes</h3>
+    <ul><li>MISTAKE: WHAT IT LOOKS LIKE, AND WHAT TO DO INSTEAD.</li></ul>
+    <h3>Practice (school + on-the-job)</h3>
+  </div>
+  <ul class="drills">
+    <li><input type="checkbox" id="d1"><label for="d1"><strong>DRILL TITLE · 15 MIN</strong><small>EXACT STEPS. SOMETHING SHE CAN DO TODAY.</small></label></li>
+  </ul>
+</section>
+
+<!-- 06 QUIZ + FLASHCARDS: fill #quiz-data. "answer" is the index of the right option (0-based). -->
+<section class="mod" id="quiz-mod" data-title="Quiz &amp; flashcards">
+  <div class="modhead"><span class="kicker"></span><h2>Quiz &amp; flashcards</h2></div>
+  <p class="read tts-skip">Test yourself, then switch to flashcards to review.</p>
+  <div id="quiz"></div>
+  <script type="application/json" id="quiz-data">
+  [
+    {"q": "QUESTION?", "options": ["RIGHT ANSWER", "PLAUSIBLE WRONG", "PLAUSIBLE WRONG"], "answer": 0, "why": "WHY THE RIGHT ANSWER IS RIGHT."}
+  ]
+  </script>
+</section>
+
+<!-- 07 WORD BANK: fill #words-data as [term, plain-English definition, category] -->
+<section class="mod" id="words" data-title="Word bank">
+  <div class="modhead"><span class="kicker"></span><h2>Word bank</h2></div>
+  <div id="wordbank"></div>
+  <script type="application/json" id="words-data">
+  [
+    ["TERM", "PLAIN-ENGLISH DEFINITION.", "CATEGORY"]
+  ]
+  </script>
+</section>
+
+<!-- 08 CHEAT SHEET -->
+<section class="mod" id="cheat" data-title="Cheat sheet">
+  <div class="modhead"><span class="kicker"></span><h2>Cheat sheet</h2></div>
+  <div class="cheat">
+    <div><h4>In one sentence</h4><p>THE WHOLE TOPIC IN ONE SENTENCE.</p></div>
+    <div class="cg">
+      <div><h4>Remember these</h4><ol><li>KEY POINT</li></ol></div>
+      <div><h4>Words to use</h4><p>TERM · TERM · TERM</p></div>
+      <div><h4>Watch out for</h4><ul><li>MISTAKE</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 SOURCES: only pages actually opened. -->
+<section class="mod" id="sources" data-title="Sources" data-nodone>
+  <div class="modhead"><span class="kicker"></span><h2>Sources</h2></div>
+  <ol class="sources">
+    <li><a href="https://example.com" target="_blank" rel="noopener">SOURCE TITLE</a> · PUBLISHER, YEAR</li>
+  </ol>
+  <p class="meta">Last checked MONTH YEAR. Prices, rules, and numbers change, so double-check anything you act on.</p>
+</section>
+</main>
+</div>
+<script src="/learn/guide.js" defer></script>
+<script src="/learn/reader.js" defer></script>
+</body></html>
