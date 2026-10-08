@@ -161,10 +161,36 @@ export default function Home() {
         </div>
       </section>
 
+      {/* PILLARS */}
+      <section ref={pillars.ref} className={`fade-up ${pillars.visible ? "visible" : ""} px-6 pt-24 pb-20`}>
+        <div className="mx-auto max-w-6xl">
+          <p className={`mb-2 text-center ${kicker}`}>Who I Am</p>
+          <h2 className={`mb-3 text-center ${h2}`}>Three things, one foundation</h2>
+          <p className={`mb-12 text-center text-base ${dark ? "text-gray-400" : "text-gray-500"}`}>
+            Different passions. One root: faith.
+          </p>
+
+          <div className="grid gap-5 md:grid-cols-3">
+            {pillarData.map(({ name, color, href, desc, evidence }) => {
+              const inner = (
+                <>
+                  <h3 className="font-display text-2xl font-bold" style={{ color }}>{name}</h3>
+                  <p className={`mt-4 text-sm leading-relaxed ${muted}`}>{desc}</p>
+                  <p className={`mt-5 text-xs font-semibold uppercase tracking-[0.12em] ${faint}`}>{evidence}</p>
+                </>
+              )
+              return href
+                ? <a key={name} href={href} className={`${cardBase} block p-8`}>{inner}</a>
+                : <div key={name} className={`${cardStatic} p-8`}>{inner}</div>
+            })}
+          </div>
+        </div>
+      </section>
+
       {/* ABOUT ME */}
-      <section className="px-6 pt-24">
+      <section className="px-6 pt-4 pb-24">
         <div className="mx-auto grid max-w-6xl items-center gap-10 md:grid-cols-2 md:gap-16">
-          <div className="aspect-[4/5] w-full overflow-hidden rounded-3xl">
+          <div className="aspect-[4/5] w-full overflow-hidden">
             <img
               src="/zayviana-grad.jpg"
               alt="Zayviana in her cap and gown at her USF graduation"
@@ -189,32 +215,6 @@ export default function Home() {
                 <span key={x} className={`rounded-full border px-3.5 py-1.5 text-xs font-medium ${dark ? "border-white/15 text-gray-300" : "border-black/10 text-gray-600"}`}>{x}</span>
               ))}
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* PILLARS */}
-      <section ref={pillars.ref} className={`fade-up ${pillars.visible ? "visible" : ""} px-6 pt-24 pb-20`}>
-        <div className="mx-auto max-w-6xl">
-          <p className={`mb-2 text-center ${kicker}`}>Who I Am</p>
-          <h2 className={`mb-3 text-center ${h2}`}>Three things, one foundation</h2>
-          <p className={`mb-12 text-center text-base ${dark ? "text-gray-400" : "text-gray-500"}`}>
-            Different passions. One root: faith.
-          </p>
-
-          <div className="grid gap-5 md:grid-cols-3">
-            {pillarData.map(({ name, color, href, desc, evidence }) => {
-              const inner = (
-                <>
-                  <h3 className="font-display text-2xl font-bold" style={{ color }}>{name}</h3>
-                  <p className={`mt-4 text-sm leading-relaxed ${muted}`}>{desc}</p>
-                  <p className={`mt-5 text-xs font-semibold uppercase tracking-[0.12em] ${faint}`}>{evidence}</p>
-                </>
-              )
-              return href
-                ? <a key={name} href={href} className={`${cardBase} block p-8`}>{inner}</a>
-                : <div key={name} className={`${cardStatic} p-8`}>{inner}</div>
-            })}
           </div>
         </div>
       </section>
