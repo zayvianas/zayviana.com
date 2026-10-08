@@ -1,11 +1,20 @@
 {
-  "tags": ["Tech & AI", "Career & Interview Prep", "Money & Trading", "Business & Faith/Life"],
+  "tags": [
+    "Tech & AI",
+    "Career & Interview Prep",
+    "Money & Trading",
+    "Business & Faith/Life",
+    "Military Career"
+  ],
   "guides": [
     {
       "slug": "bootcamp",
       "title": "TPM Bootcamp",
       "desc": "Product and project management, Agile, modernization, tech, AI, and mortgage basics. Plus my resume line by line, STAR stories, and interview answers.",
-      "tags": ["Career & Interview Prep", "Tech & AI"],
+      "tags": [
+        "Career & Interview Prep",
+        "Tech & AI"
+      ],
       "added": "2026-10-07",
       "size": "18 modules"
     },
@@ -13,9 +22,22 @@
       "slug": "mermaid",
       "title": "Mermaid Crash Course",
       "desc": "Diagram-as-code from zero: flowcharts, dependency maps, sequence diagrams, Gantt plans, and a 5-day practice plan.",
-      "tags": ["Tech & AI", "Career & Interview Prep"],
+      "tags": [
+        "Tech & AI",
+        "Career & Interview Prep"
+      ],
       "added": "2026-10-07",
       "size": "5 diagrams"
+    },
+    {
+      "slug": "army-basic",
+      "title": "Basic Training Blue Book",
+      "desc": "Soldier's Creed, Army Values, General Orders, every rank with insignia, phonetic alphabet, military time, the Army Song, and how to carry yourself in basic.",
+      "tags": [
+        "Military Career"
+      ],
+      "added": "2026-10-08",
+      "size": "9 modules"
     }
   ]
 }
