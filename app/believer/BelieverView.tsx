@@ -6,15 +6,15 @@ import { themeClasses } from "../components/theme"
 const faithFirst = [
   {
     title: "How I carry myself",
-    text: "My faith should show up in my character before it ever shows up in my words. You should be able to see it in how I treat people.",
+    text: "I try to let my faith show up in my character before it ever shows up in my words, especially in how I treat people.",
   },
   {
     title: "What I say",
-    text: "I want the words that come out of my mouth to build people up and point them back to Him.",
+    text: "I try to speak with kindness, and to let my words build people up and point them back to Him.",
   },
   {
     title: "What I build",
-    text: "Every business and app I make is meant to serve people well. Honesty, integrity, and generosity come first, even when it costs me something.",
+    text: "I try to build businesses and apps that serve people well, with honesty, integrity, and generosity first.",
   },
 ]
 
@@ -26,7 +26,8 @@ export default function BelieverView() {
   return (
     <main className={t.main}>
       {/* INTRO */}
-      <section className="mx-auto max-w-5xl px-6 pt-24 pb-16">
+      <section className="px-6 pt-24 pb-16">
+        <div className="mx-auto max-w-5xl">
         <span className="mb-5 inline-block rounded-full bg-[var(--accent-red)] px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-white">
           The Believer
         </span>
@@ -36,6 +37,7 @@ export default function BelieverView() {
         <p className={`mt-6 max-w-3xl text-lg leading-relaxed ${t.lead}`}>
           Everything I am starts here. My faith in God isn&apos;t a side note. It&apos;s the reason behind everything I do and everything I build.
         </p>
+        </div>
       </section>
 
       {/* STORY */}
@@ -60,10 +62,6 @@ export default function BelieverView() {
             <p>
               I don&apos;t want to keep those to myself. I want to use them to help as many people as I can, to share the good news, and to be a light for anyone who&apos;s watching. That&apos;s my purpose, and it shapes every other part of my life.
             </p>
-            <p className={t.muted}>
-              There&apos;s more to my story, and I&apos;ll be sharing it in{" "}
-              <a href="/testaments" className="font-semibold text-[var(--accent-red)] underline-offset-4 hover:underline">Testaments</a>.
-            </p>
           </div>
 
           <blockquote className={`mt-12 border-l-2 border-[var(--accent-red)] pl-6`}>
@@ -80,9 +78,9 @@ export default function BelieverView() {
       <section className="px-6 py-16">
         <div className="mx-auto max-w-5xl">
           <p className={`mb-2 ${t.kicker}`}>What Faith First Means</p>
-          <h2 className={`mb-3 ${t.h2}`}>Not preachy. Just present.</h2>
+          <h2 className={`mb-3 ${t.h2}`}>Living it out</h2>
           <p className={`mb-10 max-w-2xl text-base ${t.muted}`}>
-            I bring my faith into whatever I&apos;m doing. Not by preaching at people, but by letting it show in three places.
+            I try to bring my faith into everything I do, and to let it show in a few different ways.
           </p>
           <div className="grid gap-5 md:grid-cols-3">
             {faithFirst.map(({ title, text }) => (
@@ -91,6 +89,11 @@ export default function BelieverView() {
                 <p className={`mt-3 text-sm leading-relaxed ${t.muted}`}>{text}</p>
               </div>
             ))}
+          </div>
+          <div className={`mt-10 max-w-3xl border-l-2 border-[var(--accent-red)] pl-6`}>
+            <p className={`text-base leading-relaxed md:text-lg ${t.lead}`}>
+              But I&apos;m not perfect. I fall short of the glory of God every single day. I&apos;m still growing, still learning, and still working toward Him, and I&apos;m grateful for His grace along the way.
+            </p>
           </div>
         </div>
       </section>
