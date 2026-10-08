@@ -88,7 +88,6 @@ export const clients = [
   { name: "Miter Brands",             domain: "miterbrands.com" },
   { name: "New South Windows",        domain: "newsouthwindow.com" },
   { name: "PGT Innovations",          domain: "pgtinnovations.com" },
-  { name: "Upmeals / Demi",           domain: "getdemi.co" },
   { name: "Data For Inclusion",       domain: "dataforinclusion.com" },
   { name: "Atunwa Digital",           domain: "atunwadigital.com" },
   { name: "Positronix",               domain: "uspositronix.com" },
@@ -97,54 +96,69 @@ export const clients = [
   { name: "Klerk",                    domain: "klerk.ca" },
   { name: "Word Collections",         domain: "wordcollections.com" },
   { name: "Lima Compost",             domain: "limacompost.com" },
-  { name: "Sumeera",                  domain: "sumeerasolutions.com" },
+  { name: "Sumeera Solutions",        domain: "sumeerasolutions.com" },
   { name: "HomeCare Hub",             domain: "homecarehub.com" },
   { name: "Ready Set Surgical",       domain: "readysetsurgical.com" },
+  { name: "Hillsborough County Schools", domain: "hcps.net" },
+  { name: "AWS",                      domain: "aws.amazon.com" },
+  { name: "Black Men's Health Clinic", domain: "" },
 ]
 
 export type Build = {
   name: string
   type: string
-  status: "Live" | "Active" | "Available" | "Building"
+  status: "Live" | "Building" | "Waitlist open"
   color: string
   desc: string
   href: string | null
   cta?: string
 }
 
-export const builds: Build[] = [
+export const builtLive: Build[] = [
+  {
+    name: "CornerStone Labs",
+    type: "Company",
+    status: "Live",
+    color: "#e11d48",
+    desc: "AI and technology consulting that helps businesses work smarter, with AI workflows, better processes, and modern websites. In person across Tampa Bay, online worldwide.",
+    href: "https://cstonelabs.com",
+    cta: "Visit CornerStone Labs →",
+  },
   {
     name: "The Good Tutor",
     type: "Service",
-    status: "Available",
-    color: "#10b981",
-    desc: "A tutoring service for people who think differently, rooted in ADHD, dyslexia, and a love of learning.",
-    href: "https://calendar.app.google/ifYoVPjNkCwU39Qm6",
-    cta: "Book a session →",
-  },
-  {
-    name: "Nest Egg",
-    type: "Product",
     status: "Live",
-    color: "#e11d48",
-    desc: "A financial wellness product helping people, especially underrepresented communities, build sustainable habits and wealth. V1 is live.",
-    href: "https://nestegg.cstonelabs.com/",
-    cta: "Visit Nest Egg →",
+    color: "#10b981",
+    desc: "Math, science, coding, and test prep for all ages. In person across Tampa Bay, online worldwide.",
+    href: "https://learnwithtgt.com",
+    cta: "Visit The Good Tutor →",
   },
-  {
-    name: "Nearby",
-    type: "App",
-    status: "Building",
-    color: "#f472b6",
-    desc: "A location-aware app connecting people to what's around them: local events, businesses, and opportunities hiding in plain sight.",
-    href: null,
-  },
+]
+
+export const building: Build[] = [
   {
     name: "Christians Anonymous",
     type: "App & Community",
     status: "Building",
+    color: "#f472b6",
+    desc: "An events calendar and community for Christians in Tampa Bay. Churches and ministries post events, and people RSVP, share where they went, and help others find a church home.",
+    href: null,
+  },
+  {
+    name: "NearBy",
+    type: "App",
+    status: "Waitlist open",
+    color: "#10b981",
+    desc: "An AI-powered local discovery app that ranks the best places near you in any category.",
+    href: "https://nearbyapp.io",
+    cta: "Join the waitlist →",
+  },
+  {
+    name: "Nest Egg",
+    type: "App",
+    status: "Building",
     color: "#e11d48",
-    desc: "An app and community for Christians who are honest about doubt, struggle, and growth. A place to belong, with no performance required.",
+    desc: "Your whole financial life in one place: connected accounts, credit, printable reports, and an AI guide that helps you plan and learn about money.",
     href: null,
   },
 ]
