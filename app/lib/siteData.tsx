@@ -129,7 +129,7 @@ export const builtLive: Build[] = [
     type: "Service",
     status: "Live",
     color: "#10b981",
-    desc: "Math, science, coding, and test prep for middle schoolers through adults. In person across Tampa Bay, online worldwide.",
+    desc: "Math, science, coding, and test prep for all ages. In person across Tampa Bay, online worldwide.",
     href: "https://learnwithtgt.com",
     cta: "Visit The Good Tutor →",
   },

@@ -31,7 +31,7 @@ export const posts: Post[] = [
     body: [
       { type: "p", text: "This is a sample post. It's here so you can see how a Testament looks and sounds before the first real one goes up. Everything below is a placeholder written from things you've already said, so feel free to tear it up." },
       { type: "h2", text: "Where it started" },
-      { type: "p", text: "I gave my life to Jesus on February 4, 2004. I didn't understand everything that meant back then, but I understand more of it every year. God has been there through every season, and when I look back, I can see His hand on all of it." },
+      { type: "p", text: "I grew up in the church, wandered for a while, and came back. On February 4, 2024, I was baptized as an adult and rededicated my life to Jesus. When I look back now, I can see His hand on all of it, even the years I wasn't looking for Him." },
       { type: "p", text: "He's given me gifts I could never have given myself. And the longer I live, the more convinced I am that gifts aren't meant to be kept. They're meant to be used for other people." },
       { type: "h2", text: "What faith first actually looks like" },
       { type: "p", text: "Faith first doesn't mean I put a Bible verse on everything I make. Not everything needs a label. It means my faith shows up in the decisions nobody sees: how I price, how I treat a client who can't pay much, whether I tell the truth when a lie would close the deal faster." },

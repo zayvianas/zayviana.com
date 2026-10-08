@@ -43,10 +43,19 @@ export default function BelieverView() {
         <div className="mx-auto max-w-5xl">
           <div className="max-w-3xl">
           <p className={`mb-2 ${t.kicker}`}>My Story</p>
-          <h2 className={`mb-8 ${t.h2}`}>February 4, 2004</h2>
+          <h2 className={`mb-8 ${t.h2}`}>February 4, 2024</h2>
           <div className={`flex flex-col gap-5 text-base leading-relaxed md:text-lg ${t.lead}`}>
             <p>
-              That&apos;s the day I gave my life to Jesus Christ, and He&apos;s been with me through every season since. When I look back, I can see His hand on my life the whole way. He gave me a purpose, and He&apos;s given me gifts and talents I could never have given myself.
+              That&apos;s the day I was baptized as an adult and rededicated my life to Jesus Christ. But my story with God started long before that. I grew up in the church, and faith was always around me.
+            </p>
+            <p>
+              Then high school happened. I lost friends to gun violence and to suicide, and I didn&apos;t know how to carry that kind of loss. I started questioning everything, including God.
+            </p>
+            <p>
+              So I went looking. I explored Islam and Buddhism, crystals, sage, and all kinds of spiritual practices. I tried just about everything, searching for something that could make sense of the pain.
+            </p>
+            <p>
+              Nothing filled that space the way He did. When I came back to Jesus, I came back for real. Looking back, I can see His hand on my life the whole time, even in the years I wasn&apos;t looking for Him. He gave me a purpose, and He&apos;s given me gifts and talents I could never have given myself.
             </p>
             <p>
               I don&apos;t want to keep those to myself. I want to use them to help as many people as I can, to share the good news, and to be a light for anyone who&apos;s watching. That&apos;s my purpose, and it shapes every other part of my life.

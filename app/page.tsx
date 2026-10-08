@@ -53,6 +53,7 @@ type Venture = {
   href: string | null
   cta: string
   external?: boolean
+  pills?: string[]
 }
 
 const ventures: Venture[] = [
@@ -68,7 +69,7 @@ const ventures: Venture[] = [
   {
     name: "The Good Tutor",
     forWho: "Looking for a tutor",
-    desc: "Math, science, coding, and test prep for middle schoolers through adults. In person across Tampa Bay, online worldwide.",
+    desc: "Math, science, coding, and test prep for all ages. In person across Tampa Bay, online worldwide.",
     color: "var(--accent-green)",
     href: "https://learnwithtgt.com",
     cta: "Visit The Good Tutor",
@@ -82,6 +83,15 @@ const ventures: Venture[] = [
     status: "Coming soon",
     href: "/believer#community",
     cta: "Learn more",
+  },
+  {
+    name: "My Portfolio",
+    forWho: "Looking to hire me",
+    desc: "A decade of experience leading products, programs, and teams across enterprise IT, financial services, SaaS, and AI.",
+    color: "var(--accent-pink)",
+    href: "/professional",
+    cta: "See my portfolio",
+    pills: ["Product Manager", "Program Manager", "Project Manager", "Forward Deployed Product Engineer", "Founder"],
   },
 ]
 
@@ -186,8 +196,8 @@ export default function Home() {
             Maybe you met the business owner, the tutor, or someone from church. Here&apos;s where to find each one.
           </p>
 
-          <div className="grid gap-5 md:grid-cols-3">
-            {ventures.map(({ name, forWho, desc, color, status, href, cta, external }) => (
+          <div className="grid gap-5 md:grid-cols-2">
+            {ventures.map(({ name, forWho, desc, color, status, href, cta, external, pills }) => (
               <div key={name} className={`${href ? cardBase : cardStatic} flex flex-col p-8`}>
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="text-xs font-semibold uppercase tracking-[0.15em]" style={{ color }}>{forWho}</span>
@@ -199,6 +209,13 @@ export default function Home() {
                 </div>
                 <h3 className="mt-3 font-display text-2xl font-bold">{name}</h3>
                 <p className={`mt-3 flex-1 text-sm leading-relaxed ${muted}`}>{desc}</p>
+                {pills && (
+                  <div className="mt-4 flex flex-wrap gap-1.5">
+                    {pills.map(p => (
+                      <span key={p} className={`rounded-full border px-2.5 py-1 text-[11px] font-medium ${dark ? "border-white/15 text-gray-300" : "border-black/10 text-gray-600"}`}>{p}</span>
+                    ))}
+                  </div>
+                )}
                 {href && (
                   <a href={href}
                     {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
@@ -211,10 +228,6 @@ export default function Home() {
             ))}
           </div>
 
-          <p className={`mt-10 text-center text-sm ${muted}`}>
-            Here for my professional background?{" "}
-            <a href="/professional" className="font-semibold text-[var(--accent-red)] underline-offset-4 hover:underline">See my portfolio</a>
-          </p>
         </div>
       </section>
 
