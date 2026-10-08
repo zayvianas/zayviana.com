@@ -8,11 +8,12 @@ const LINKEDIN = "https://www.linkedin.com/in/zayviana/"
 
 const focus = [
   "Product Management",
+  "People Leadership",
   "Program & Project Management",
+  "Founder & Entrepreneur",
+  "AI & Data",
   "Forward Deployed Engineering",
-  "AI & Automation",
-  "Modernization & Transformation",
-  "Team Leadership",
+  "Stakeholder Alignment",
   "Hybrid Delivery (Agile, Waterfall, EOS)",
 ]
 
@@ -25,6 +26,14 @@ const experience = [
       "Founded and run an AI workflow and technology consulting practice for small and mid-sized businesses, and do the discovery, design, and build work myself.",
       "Audit how client teams actually get work done, map the current state, and design future-state workflows that replace manual steps and outdated systems with AI automation and modern web tools.",
       "Write the requirements, diagrams, and documentation for each build, then ship it with Claude Code, GitHub, and Vercel.",
+    ],
+  },
+  {
+    company: "Army National Guard",
+    role: "IT Systems Specialist (25H)",
+    period: "2026 - Present",
+    bullets: [
+      "Serve as an IT Systems Specialist in a mission-critical military environment, maintaining network infrastructure and applying IT security protocols in support of operational readiness.",
     ],
   },
   {
@@ -65,6 +74,7 @@ const earlier = [
   { company: "Dev10", role: "Software Development Associate", period: "2023", text: "Built full-stack applications with Java, Spring Boot, and JavaScript, and delivered a production-ready web app as part of a team." },
   { company: "Value Tech Realty Services", role: "Data Analyst & Project Associate", period: "2023", text: "Ran market and valuation analysis for 10+ multifamily and senior housing projects, and built web apps and Tableau dashboards that cut delivery time by 20%." },
   { company: "InvestCloud", role: "Business Analyst, Data & UAT", period: "2020 - 2021", text: "Ran UAT and regression testing on financial applications, cutting defects by 20%, and resolved 500+ client tickets at a 95% SLA rate." },
+  { company: "Puelo's Concrete | Carja Construction", role: "Junior Project Manager", period: "2018 - 2020", text: "Coordinated multiple concrete construction projects, optimized labor and material scheduling to cut delays, and served as the liaison between field crews, vendors, and leadership to keep projects on time and on budget." },
 ]
 
 const education = [
@@ -113,25 +123,34 @@ export default function BuilderView() {
     <main className={t.main}>
 
       {/* INTRO */}
-      <section className="mx-auto max-w-5xl px-6 pt-24 pb-10">
+      <section className="mx-auto max-w-5xl px-6 pt-24 pb-16">
         <span className="gradient-tag mb-5 inline-block rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-white">
           Portfolio
         </span>
-        <h1 className={t.h1}>The Builder</h1>
-        <p className={`mt-3 text-sm font-medium uppercase tracking-[0.15em] ${t.faint}`}>
-          Product · Program · Project Manager · Forward Deployed Product Engineer · Founder
+        <h1 className="font-display text-5xl font-extrabold tracking-tight md:text-6xl">The Builder</h1>
+        <p className="mt-4 font-display text-lg font-bold">
+          <span className="text-[var(--accent-red)]">Product</span>
+          <span className={dark ? "text-white/30" : "text-black/25"}> · </span>
+          <span className="text-[var(--accent-pink)]">People</span>
+          <span className={dark ? "text-white/30" : "text-black/25"}> · </span>
+          <span className="text-[var(--accent-green)]">Founder</span>
+          <span className={dark ? "text-white/30" : "text-black/25"}> · </span>
+          <span className="text-[var(--accent-red)]">AI</span>
+        </p>
+        <p className={`mt-2 text-sm font-medium uppercase tracking-[0.15em] ${t.faint}`}>
+          Product, Program &amp; Project Leader · Forward Deployed Product Engineer · Founder · Tampa Bay
         </p>
         <p className={`mt-6 max-w-3xl text-lg leading-relaxed ${t.lead}`}>
-          I lead the work that turns ideas into things people use. For about a decade I&apos;ve managed products, programs, and projects across enterprise IT, financial services, SaaS, and AI, from modernizing legacy systems through acquisitions to launching new products from scratch. I started as a developer and data analyst, so I can build alongside engineers and explain the work to leadership just as easily. I founded CornerStone Labs, I teach through The Good Tutor, and I serve in the Army National Guard.
+          A product leader, people leader, and founder who has sat in a lot of chairs. Over the past decade I&apos;ve managed products, programs, and projects across enterprise IT, financial services, SaaS, and AI, led cross-functional teams across every engineering discipline, and built businesses of my own. I started as a developer and data analyst, so I&apos;m as comfortable building hands-on as I am leading a team or briefing executives. I founded CornerStone Labs, teach through The Good Tutor, and serve in the Army National Guard. Master&apos;s in AI &amp; Business Analytics from USF.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
-          <a href="/connect" className={t.btnPrimary}>Book a call</a>
+          <a href="/connect"
+            className="gradient-tag rounded-full px-8 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-white transition hover:opacity-90">
+            Book a call
+          </a>
           <a href={LINKEDIN} target="_blank" rel="noopener noreferrer" className={t.btnGhost}>View LinkedIn</a>
         </div>
-      </section>
-
-      <section className="mx-auto max-w-5xl px-6 pb-16">
-        <div className="flex flex-wrap gap-2">
+        <div className="mt-10 flex flex-wrap gap-2">
           {focus.map(f => (
             <span key={f} className={`rounded-full border px-4 py-1.5 text-xs font-medium ${t.pill}`}>{f}</span>
           ))}
@@ -165,8 +184,8 @@ export default function BuilderView() {
           </div>
 
           <div className={`mt-12 border-t pt-8 ${t.rule}`}>
-            <p className={`mb-5 ${t.kicker}`}>Earlier Technical & Fintech Work</p>
-            <div className="grid gap-6 md:grid-cols-3">
+            <p className={`mb-5 ${t.kicker}`}>Earlier Experience</p>
+            <div className="grid gap-6 md:grid-cols-2">
               {earlier.map(({ company, role, period, text }) => (
                 <div key={company}>
                   <p className="font-display text-base font-semibold">{company}</p>
@@ -177,7 +196,7 @@ export default function BuilderView() {
             </div>
           </div>
 
-          <div className={`mt-12 grid items-center gap-8 border-t pt-8 md:grid-cols-[1fr_220px] ${t.rule}`}>
+          <div className={`mt-12 border-t pt-8 ${t.rule}`}>
             <div>
               <p className={`mb-5 ${t.kicker}`}>Education</p>
               <div className="flex flex-col gap-4">
@@ -190,11 +209,6 @@ export default function BuilderView() {
               </div>
               <p className={`mt-6 text-sm ${t.muted}`}><span className="font-semibold">Certificates:</span> {certificates}</p>
             </div>
-            <img
-              src="/zayviana-grad.jpg"
-              alt="Zayviana in her cap and gown at her USF graduation"
-              className="mx-auto aspect-[4/5] w-full max-w-[220px] rounded-3xl object-cover object-[45%_center]"
-            />
           </div>
 
           <div className="mt-10">

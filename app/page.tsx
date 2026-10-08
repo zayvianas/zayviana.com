@@ -161,6 +161,38 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ABOUT ME */}
+      <section className="px-6 pt-24">
+        <div className="mx-auto grid max-w-6xl items-center gap-10 md:grid-cols-2 md:gap-16">
+          <div className="aspect-[4/5] w-full overflow-hidden rounded-3xl">
+            <img
+              src="/zayviana-grad.jpg"
+              alt="Zayviana in her cap and gown at her USF graduation"
+              className="h-full w-full scale-[1.08] object-cover object-[45%_center]"
+            />
+          </div>
+          <div>
+            <p className={`mb-2 ${kicker}`}>About Me</p>
+            <h2 className={`font-display text-4xl font-extrabold tracking-tight ${dark ? "text-white" : "text-[#0e0e10]"}`}>
+              Hey, I&apos;m Zayviana<span className="text-[var(--accent-red)]">.</span>
+            </h2>
+            <div className={`mt-6 flex flex-col gap-4 text-base leading-relaxed md:text-lg ${dark ? "text-gray-300" : "text-gray-700"}`}>
+              <p>
+                I&apos;m a New York native who grew up in St. Pete, and I&apos;m a two-time USF Bull. Florida has been home for a long time now.
+              </p>
+              <p>
+                I love building things, whether that&apos;s a business, an app, or a better way to get work done. When I&apos;m not working, you&apos;ll find me watching anime, at the beach, riding horses, at the range, or chasing my next adventure. I&apos;m a thrill seeker at heart, and God is at the center of all of it.
+              </p>
+            </div>
+            <div className="mt-6 flex flex-wrap gap-2">
+              {["Faith", "Building things", "Anime", "The beach", "Horses", "The range", "Adventures", "Thrill seeking"].map(x => (
+                <span key={x} className={`rounded-full border px-3.5 py-1.5 text-xs font-medium ${dark ? "border-white/15 text-gray-300" : "border-black/10 text-gray-600"}`}>{x}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* PILLARS */}
       <section ref={pillars.ref} className={`fade-up ${pillars.visible ? "visible" : ""} px-6 pt-24 pb-20`}>
         <div className="mx-auto max-w-6xl">
