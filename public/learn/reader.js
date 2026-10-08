@@ -10,7 +10,7 @@
     "h1", "h2", "h3", "h4", "p", "li", "dt", "dd", "summary", "blockquote",
     "tbody tr", ".star b", ".g", ".lead"
   ].join(",");
-  var SKIP_SEL = ".tts-skip, aside, nav, footer, button, pre, script, style, .codecol, .render, .gloss-ctl, .count, .shelf-back, #tts-bar, .donebtn, input, select";
+  var SKIP_SEL = ".tts-skip, aside, nav, button, pre, script, style, .codecol, .render, .gloss-ctl, .count, .shelf-back, #tts-bar, .donebtn, input, select";
   var KEY = "tts-pos:" + location.pathname;
 
   /* ---------- styles ---------- */

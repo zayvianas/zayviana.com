@@ -1,0 +1,21 @@
+{
+  "tags": ["Tech & AI", "Career & Interview Prep", "Money & Trading", "Business & Faith/Life"],
+  "guides": [
+    {
+      "slug": "bootcamp",
+      "title": "TPM Bootcamp",
+      "desc": "Product and project management, Agile, modernization, tech, AI, and mortgage basics. Plus my resume line by line, STAR stories, and interview answers.",
+      "tags": ["Career & Interview Prep", "Tech & AI"],
+      "added": "2026-10-07",
+      "size": "18 modules"
+    },
+    {
+      "slug": "mermaid",
+      "title": "Mermaid Crash Course",
+      "desc": "Diagram-as-code from zero: flowcharts, dependency maps, sequence diagrams, Gantt plans, and a 5-day practice plan.",
+      "tags": ["Tech & AI", "Career & Interview Prep"],
+      "added": "2026-10-07",
+      "size": "5 diagrams"
+    }
+  ]
+}
