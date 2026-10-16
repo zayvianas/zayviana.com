@@ -15,9 +15,26 @@ const inter = Inter({
   variable: "--font-inter",
 })
 
+const SITE_DESCRIPTION = "Believer · Builder · Creator. Faith-led technologist, founder, and creator building at the intersection of faith, technology, and creativity."
+
 export const metadata: Metadata = {
+  metadataBase: new URL("https://zayviana.com"),
   title: "Zayviana Singletary · A believer who builds",
-  description: "Believer · Builder · Creator. Faith-led technologist, founder, and creator building at the intersection of faith, technology, and creativity.",
+  description: SITE_DESCRIPTION,
+  openGraph: {
+    title: "Zayviana Singletary · A believer who builds",
+    description: SITE_DESCRIPTION,
+    url: "https://zayviana.com",
+    siteName: "Zayviana Singletary",
+    type: "website",
+    images: [{ url: "/og-zayviana.png", width: 1200, height: 630, alt: "Zayviana Singletary · Believer, Builder, Creator" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Zayviana Singletary · A believer who builds",
+    description: SITE_DESCRIPTION,
+    images: ["/og-zayviana.png"],
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
