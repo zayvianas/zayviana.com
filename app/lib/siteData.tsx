@@ -125,13 +125,13 @@ export const builtLive: Build[] = [
     cta: "Visit CornerStone Labs →",
   },
   {
-    name: "The Good Tutor",
+    name: "TGT Academy",
     type: "Service",
     status: "Live",
     color: "#10b981",
     desc: "Math, science, coding, and test prep for all ages. In person across Tampa Bay, online worldwide.",
     href: "https://learnwithtgt.com",
-    cta: "Visit The Good Tutor →",
+    cta: "Visit TGT Academy →",
   },
 ]
 

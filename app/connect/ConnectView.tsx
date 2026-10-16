@@ -96,11 +96,11 @@ export default function ConnectView() {
             <div>
               <p className="font-display text-xl font-bold">Tutoring</p>
               <p className={`mt-2 text-sm leading-relaxed ${t.muted}`}>
-                Math, science, coding, and test prep sessions are booked through The Good Tutor.
+                Math, science, coding, and test prep sessions are booked through TGT Academy.
               </p>
               <a href="https://learnwithtgt.com" target="_blank" rel="noopener noreferrer"
                 className="mt-4 inline-block text-xs font-semibold uppercase tracking-[0.15em] text-[var(--accent-green)] hover:opacity-70">
-                Visit The Good Tutor →
+                Visit TGT Academy →
               </a>
             </div>
           </div>

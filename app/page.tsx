@@ -67,12 +67,12 @@ const ventures: Venture[] = [
     external: true,
   },
   {
-    name: "The Good Tutor",
+    name: "TGT Academy",
     forWho: "Looking for a tutor",
     desc: "Math, science, coding, and test prep for all ages. In person across Tampa Bay, online worldwide.",
     color: "var(--accent-green)",
     href: "https://learnwithtgt.com",
-    cta: "Visit The Good Tutor",
+    cta: "Visit TGT Academy",
     external: true,
   },
   {

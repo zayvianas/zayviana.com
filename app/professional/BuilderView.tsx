@@ -141,7 +141,7 @@ export default function BuilderView() {
           Product, Program &amp; Project Leader · Forward Deployed Product Engineer · Founder · Tampa Bay
         </p>
         <p className={`mt-6 max-w-3xl text-lg leading-relaxed ${t.lead}`}>
-          A product leader, people leader, and founder who has sat in a lot of chairs. Over the past decade I&apos;ve managed products, programs, and projects across enterprise IT, financial services, SaaS, and AI, led cross-functional teams across every engineering discipline, and built businesses of my own. I started as a developer and data analyst, so I&apos;m as comfortable building hands-on as I am leading a team or briefing executives. I founded CornerStone Labs, teach through The Good Tutor, and serve in the Army National Guard. Master&apos;s in AI &amp; Business Analytics from USF.
+          A product leader, people leader, and founder who has sat in a lot of chairs. Over the past decade I&apos;ve managed products, programs, and projects across enterprise IT, financial services, SaaS, and AI, led cross-functional teams across every engineering discipline, and built businesses of my own. I started as a developer and data analyst, so I&apos;m as comfortable building hands-on as I am leading a team or briefing executives. I founded CornerStone Labs, teach through TGT Academy, and serve in the Army National Guard. Master&apos;s in AI &amp; Business Analytics from USF.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <a href="/connect"
