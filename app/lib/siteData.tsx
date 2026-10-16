@@ -133,6 +133,15 @@ export const builtLive: Build[] = [
     href: "https://learnwithtgt.com",
     cta: "Visit TGT Academy →",
   },
+  {
+    name: "Loop Timer",
+    type: "App",
+    status: "Live",
+    color: "#f472b6",
+    desc: "An interval timer for workouts. Set your work, rest, and rounds, and it calls out every switch over your music instead of stopping it. Add it to your home screen and it works offline.",
+    href: "https://looptimer.cstonelabs.com",
+    cta: "Open Loop Timer →",
+  },
 ]
 
 export const building: Build[] = [

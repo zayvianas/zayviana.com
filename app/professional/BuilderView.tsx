@@ -241,7 +241,7 @@ export default function BuilderView() {
         <div className="mx-auto max-w-5xl">
           <p className={`mb-2 ${t.kicker}`}>Apps, Products & Ventures</p>
           <h2 className={`mb-10 ${t.h2}`}>What I&apos;ve built</h2>
-          <div className="grid gap-5 sm:grid-cols-2">
+          <div className="grid gap-5 md:grid-cols-3">
             {builtLive.map(b => <BuildCard key={b.name} {...b} />)}
           </div>
 
