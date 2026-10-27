@@ -184,3 +184,18 @@ export async function loadTasksAndClients() {
   cl.forEach((c) => { names[c.id] = c.name })
   return { tasks, names }
 }
+
+/* ---------- HQ (hq.zayviana.com) ----------
+   Same passcode as Life OS, its own cookie and signed value. */
+export const HQ_COOKIE = "hq_session"
+
+export async function hqSessionValue() {
+  const rec = await authRecord()
+  return rec ? sign(rec.secret, "hq:v1") : ""
+}
+
+export async function hqAuthedCookie(value: string | undefined) {
+  if (!value) return false
+  const want = await hqSessionValue()
+  return !!want && safeEqual(value, want)
+}
