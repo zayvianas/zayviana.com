@@ -12,8 +12,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params
   const post = visiblePosts().find(p => p.slug === slug)
   return post
-    ? { title: `${post.title} · Testaments`, description: post.summary }
-    : { title: "Testaments · Zayviana" }
+    ? { title: `${post.title} · Testaments`, description: post.summary, alternates: { canonical: `/testaments/${post.slug}` } }
+    : { title: "Testaments · Zayviana", alternates: { canonical: "/testaments" } }
 }
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {

@@ -1,6 +1,6 @@
 import ComingSoon from "../components/ComingSoon"
 
-export const metadata = { title: "The Educator · Zayviana" }
+export const metadata = { title: "The Educator · Zayviana", alternates: { canonical: "/learner" } }
 
 export default function LearnerPage() {
   return (

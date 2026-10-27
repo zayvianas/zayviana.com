@@ -1,7 +1,7 @@
 import TestamentView from "./TestamentView"
 import { visiblePosts, readingMinutes, formatDate } from "./posts"
 
-export const metadata = { title: "Testaments · Zayviana" }
+export const metadata = { title: "Testaments · Zayviana", alternates: { canonical: "/testaments" } }
 
 export default function TestamentPage() {
   const list = visiblePosts().map(p => ({
