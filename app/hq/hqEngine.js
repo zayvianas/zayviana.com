@@ -298,7 +298,7 @@ function home(q){
     <div class="panel"><div class="phead"><h2>Money</h2><button class="refresh" data-act="refresh" ${LIVE_BUSY?"disabled":""} aria-label="Refresh money">${LIVE_BUSY?"Checking…":"↻ Refresh"}</button></div>
      ${moneyPanel(tgt,csl,paid,owed)}</div>
     <div class="panel"><div class="phead"><h2>Gone quiet</h2><small>14+ days untouched</small></div>
-     ${quiet.length?`<ul class="rows">${quiet.map(k=>`<li class="quiet-row"><a href="#v-${k}" data-go="${k}"><span><b style="font-weight:500">${esc(NODES[k].name)}</b> <span class="st">· ${esc(pathOf(k)[0]||"")}</span></span><span style="color:var(--warn)">${daysAgo(touchedMs(k))}d</span></a></li>`).join("")}</ul>`:`<p class="empty">Everything's been touched in the last two weeks.</p>`}</div>
+     ${quiet.length?`<ul class="rows">${quiet.map(k=>`<li class="quiet-row"><a href="#v-${k}" data-go="${k}"><span><b style="font-weight:500">${esc(NODES[k].name)}</b> <span class="st">· ${esc(pathOf(k)[0]||"")}</span></span><span style="color:var(--warn)">${daysAgo(touchedMs(k))}d</span></a></li>`).join("")}</ul>`:`<p class="empty">${LIVE&&LIVE.github&&LIVE.github.connected?"Everything's been touched in the last two weeks.":"Nothing's gone quiet yet. This fills in as you work, and from GitHub once it's connected."}</p>`}</div>
    </section>
    ${ventures}
    <section class="panel" aria-label="Later" id="sec-later"><div class="phead"><h2>Later</h2><small>Parked so it stops pulling focus</small></div>${taskList("later",{placeholder:"Park an idea"})}</section>
