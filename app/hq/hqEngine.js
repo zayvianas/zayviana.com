@@ -146,12 +146,25 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
 
 function sub(id){const n=NODES[id],out=[id];if(n&&n.children)for(const c of n.children)out.push(...sub(c.id));return out}
 function tasksOf(id){return S.tasks[id]||(S.tasks[id]=[])}
-function openIn(id,deep=true){return (deep?sub(id):[id]).reduce((a,k)=>a+(S.tasks[k]||[]).filter(t=>!t.done).length,0)}
+// Lesson plans: every upcoming TGT booking adds "Make lesson plan" to that student's card,
+// due the day before the session. Cancelled or declined sessions drop off on their own.
+function studentNode(who){const first=String(who||"").trim().split(/\s+/)[0].toLowerCase();const g=NODES["tgt-students"];
+  const kids=(g&&g.children)||[];const hit=kids.find(n=>n.name.trim().split(/\s+/)[0].toLowerCase()===first);return hit?hit.id:"tgt-students"}
+function lessonTasks(){const out={};const t=LIVE&&LIVE.tgt&&LIVE.tgt.ok?LIVE.tgt.data:null;if(!t||!t.upcoming)return out;if(!S.lessonDone)S.lessonDone={};
+  for(const x of t.upcoming){const node=studentNode(x.who);const d=new Date(x.start);const day=new Date(d.toLocaleString("en-US",{timeZone:"America/New_York"}));day.setDate(day.getDate()-1);
+    const due=day.getFullYear()+"-"+String(day.getMonth()+1).padStart(2,"0")+"-"+String(day.getDate()).padStart(2,"0");
+    const when=d.toLocaleString("en-US",{weekday:"short",month:"short",day:"numeric",hour:"numeric",minute:"2-digit",timeZone:"America/New_York"});
+    const label=`Make lesson plan for ${node==="tgt-students"?x.who:x.who.split(/\s+/)[0]} · ${when}${x.subject?" · "+x.subject:""}${x.status==="requested"?" (not approved yet)":""}`;
+    (out[node]||(out[node]=[])).push({id:"lp-"+x.id,sid:x.id,t:label,due,star:false,done:!!S.lessonDone[x.id],auto:true})}
+  return out}
+let LT={};
+function allTasks(id){return (S.tasks[id]||[]).concat(LT[id]||[])}
+function openIn(id,deep=true){return (deep?sub(id):[id]).reduce((a,k)=>a+allTasks(k).filter(t=>!t.done).length,0)}
 function touchedMs(id){let best=0;const gh=(LIVE&&LIVE.github&&LIVE.github.pushed)||{};for(const k of sub(id)){const n=NODES[k];if(n.touched)best=Math.max(best,parseD(n.touched).getTime());if(n.repo&&gh[n.repo])best=Math.max(best,new Date(gh[n.repo]).getTime());if(S.touched[k])best=Math.max(best,S.touched[k])}return best}
 function daysAgo(ms){return Math.max(0,Math.floor((today0()-new Date(new Date(ms).setHours(0,0,0,0)))/DAY))}
 function touchedLabel(id){const ms=touchedMs(id);if(!ms)return{txt:"No activity yet",q:false};const d=daysAgo(ms);const q=d>=14;
   return{txt:q?`Quiet ${d} days`:d===0?"Updated today":d===1?"Updated yesterday":`Updated ${d} days ago`,q}}
-function nextTask(id){for(const k of sub(id)){const t=(S.tasks[k]||[]).find(t=>!t.done);if(t)return{t,k}}return null}
+function nextTask(id){for(const k of sub(id)){const t=allTasks(k).find(t=>!t.done);if(t)return{t,k}}return null}
 function pathOf(id){const p=[];let c=PARENT[id];while(c){p.unshift(NODES[c].name);c=PARENT[c]}return p}
 function quietKids(id){return sub(id).slice(1).filter(k=>!NODES[k].group&&touchedMs(k)&&daysAgo(touchedMs(k))>=14).length}
 
@@ -172,7 +185,7 @@ function card(n){
 }
 
 function taskList(id,{placeholder="Add a task"}={}){
-  const all=tasksOf(id), open=all.filter(t=>!t.done), done=all.filter(t=>t.done), show=S.showDone[id];
+  const all=allTasks(id), open=all.filter(t=>!t.done), done=all.filter(t=>t.done), show=S.showDone[id];
   const rows=[...open,...(show?done:[])].map(t=>taskRow(t,id)).join("");
   return `<ul class="tasks">${rows||`<li class="empty">No tasks here yet.</li>`}</ul>
    ${done.length?`<button class="showdone" data-act="showdone" data-node="${id}">${show?"Hide":"Show"} ${done.length} done</button>`:""}
@@ -184,12 +197,12 @@ function taskRow(t,id,where){
    <button class="box" data-act="toggle" data-node="${id}" data-task="${t.id}" aria-label="${t.done?"Mark not done":"Mark done"}"></button>
    <span class="txt">${esc(t.t)}${where?`<span class="where">${esc(where)}</span>`:""}</span>
    <span class="tools">${t.due?`<span class="due ${late?"late":""}">${late?"Late · ":""}${fmtD(t.due)}</span>`:""}
-    <button class="icon ${t.star?"on":""}" data-act="star" data-node="${id}" data-task="${t.id}" title="${t.star?"Remove from Today":"Add to Today"}" aria-label="Toggle Today">★</button>
-    <button class="icon" data-act="del" data-node="${id}" data-task="${t.id}" title="Delete" aria-label="Delete task">×</button></span></li>`;
+    ${t.auto?`<span class="autotag" title="Added automatically from a TGT booking">Auto</span>`:`<button class="icon ${t.star?"on":""}" data-act="star" data-node="${id}" data-task="${t.id}" title="${t.star?"Remove from Today":"Add to Today"}" aria-label="Toggle Today">★</button>
+    <button class="icon" data-act="del" data-node="${id}" data-task="${t.id}" title="Delete" aria-label="Delete task">×</button>`}</span></li>`;
 }
 
 function todayItems(){const out=[],t0=today0();
-  for(const k in S.tasks){if(!NODES[k])continue;for(const t of S.tasks[k]){if(t.done)continue;const due=t.due&&parseD(t.due)<=t0;if(t.star||due)out.push({t,k})}}
+  const keys=new Set([...Object.keys(S.tasks),...Object.keys(LT)]);for(const k of keys){if(!NODES[k])continue;for(const t of allTasks(k)){if(t.done)continue;const due=t.due&&parseD(t.due)<=t0;if(t.star||due)out.push({t,k})}}
   return out.sort((a,b)=>(a.t.due||"9")<(b.t.due||"9")?-1:1)}
 
 const VERSES=[
@@ -333,6 +346,7 @@ let Q="";
 let ROUTE=(location.hash||"").slice(1);
 function go(id){UI.form=null;ROUTE=id?"v-"+id:"";if(id)Q="";try{history.replaceState(null,"",ROUTE?"#"+ROUTE:location.pathname+location.search)}catch(e){}render();root.scrollTo(0,0)}
 function render(keepFocus){
+  LT=lessonTasks();
   const h=ROUTE, app=root.querySelector("#hq-app");
   app.innerHTML=h.startsWith("v-")?page(h.slice(2)):home(Q);
   paintSync();
@@ -353,6 +367,8 @@ const onClick=e=>{
   if(b.dataset.act==="remove"){const id=b.dataset.target;const gone=new Set(sub(id));S.custom=S.custom.filter(c=>!gone.has(c.id));for(const k of gone){delete S.tasks[k];delete S.edits[k]}
     const par=PARENT[id];UI.form=null;save();buildTree();go(par||"");return}
   const id=b.dataset.node,act=b.dataset.act,list=tasksOf(id),t=list.find(x=>x.id===b.dataset.task);
+  if(act==="toggle"&&!t&&String(b.dataset.task).startsWith("lp-")){const sid=b.dataset.task.slice(3);if(!S.lessonDone)S.lessonDone={};
+    if(S.lessonDone[sid])delete S.lessonDone[sid];else S.lessonDone[sid]=isoToday();touch(id);save();render();return}
   if(act==="toggle"&&t){t.done=!t.done;t.doneAt=t.done?isoToday():"";touch(id)}
   else if(act==="vnext"||act==="vprev"){vOffset+=act==="vnext"?1:-1;render();return}
   else if(act==="star"&&t){t.star=!t.star}
